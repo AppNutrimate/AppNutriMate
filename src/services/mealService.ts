@@ -7,33 +7,33 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type Meal } from "src/entitites/Meal";
-import api from "./api";
-import { Recipe } from "src/entitites/Recipe";
+import { type Meal } from 'src/entitites/Meal'
+import api from './api'
+import { Recipe } from 'src/entitites/Recipe'
 
 const mealService = {
   getMealByUserId: async (userId: string): Promise<Meal[]> => {
     try {
-      const res = await api.get<Meal[]>(`/user/meals/${userId}`);
-      return res.data;
+      const res = await api.get<Meal[]>(`/user/meals/${userId}`)
+      return res.data
     } catch (error: any) {
       console.error(
-        "Error fetching user meal by ID:",
+        'Error fetching user meal by ID:',
         error.response?.data || error.message
-      );
-      throw error;
+      )
+      throw error
     }
   },
   getRecipesByMeal: async (mealId: string): Promise<Recipe[]> => {
     try {
-      const res = await api.get<Recipe[]>(`/user/meals/recipes/${mealId}`);
-      return res.data;
+      const res = await api.get<Recipe[]>(`/user/meals/recipes/${mealId}`)
+      return res.data
     } catch (error: any) {
       console.error(
-        "Error fetching meal recipes by ID:",
+        'Error fetching meal recipes by ID:',
         error.response?.data || error.message
-      );
-      throw error;
+      )
+      throw error
     }
   },
   addMeal: async (
@@ -42,31 +42,40 @@ const mealService = {
     userId: string
   ): Promise<Meal> => {
     try {
-      const res = await api.post<Meal>("/user/meals", {
+      const res = await api.post<Meal>('/user/meals', {
         icon,
         name,
-        userId,
-      });
-      return res.data;
+        userId
+      })
+      return res.data
+    } catch (error: any) {
+      console.error('Error adding meal:', error.response?.data || error.message)
+      throw error
+    }
+  },
+  removeMeal: async (mealId: string): Promise<void> => {
+    try {
+      const response = await api.delete(`/user/meals/${mealId}`)
+      console.log('API response:', response.data)
     } catch (error: any) {
       console.error(
-        "Error adding meal:",
+        'Error removing meal:',
         error.response?.data || error.message
-      );
-      throw error;
+      )
+      throw error
     }
   },
   addRecipeToMeal: async (mealId: string, recipeId: string): Promise<void> => {
     try {
       await api.post(`/user/meals/${mealId}/recipes`, {
-        recipeId,
-      });
+        recipeId
+      })
     } catch (error: any) {
       console.error(
-        "Error adding recipe to meal:",
+        'Error adding recipe to meal:',
         error.response?.data || error.message
-      );
-      throw error;
+      )
+      throw error
     }
   },
 
@@ -76,16 +85,16 @@ const mealService = {
   ): Promise<void> => {
     try {
       await api.delete(`/user/meals/${mealId}/recipes`, {
-        data: { recipeId },
-      });
+        data: { recipeId }
+      })
     } catch (error: any) {
       console.error(
-        "Error removing recipe from meal:",
+        'Error removing recipe from meal:',
         error.response?.data || error.message
-      );
-      throw error;
+      )
+      throw error
     }
-  },
-};
+  }
+}
 
-export default mealService;
+export default mealService
