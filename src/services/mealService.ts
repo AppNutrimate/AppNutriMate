@@ -53,9 +53,9 @@ const mealService = {
       throw error
     }
   },
-  removeMeal: async (mealId: string): Promise<void> => {
+  removeMeal: async (userId: string, mealId: string): Promise<void> => {
     try {
-      const response = await api.delete(`/user/meals/${mealId}`)
+      const response = await api.delete(`/user/${userId}/meals/${mealId}`)
       console.log('API response:', response.data)
     } catch (error: any) {
       console.error(

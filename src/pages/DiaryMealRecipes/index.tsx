@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable no-useless-return */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -12,7 +13,6 @@ import NavBar from '../../components/common/NavBar'
 import { Container } from './styles'
 import DefaultTitle from '../../components/common/DefaultTitle'
 import SearchBar from 'src/components/common/SearchBar'
-import RecipeCard, { type RecipeCardProps } from 'src/components/RecipeCard'
 import { FlatList } from 'react-native'
 import { Recipe } from 'src/entitites/Recipe'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
@@ -20,6 +20,7 @@ import { PropsNavigationStack, PropsStack } from 'src/routes'
 import mealService from 'src/services/mealService'
 import RecipeCardMeal from 'src/components/RecipeCardMeal'
 import DefaultButton from 'src/components/common/DefaultButton'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DiaryMealRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[] | []>([])
@@ -31,22 +32,24 @@ const DiaryMealRecipes = () => {
   const handleNavigate = (recipe: Recipe) => {
     navigation.navigate('RecipePage', { recipe })
   }
-
-  const handleDeleteMeal = () => {
+  const handleDeleteMeal = async () => {
     try {
-      console.log('Meal:', meal)
-      if (!meal.id) {
+      const userId = String(await AsyncStorage.getItem('userId'))
+      const mealId = String(meal.id)
+
+      if (!mealId) {
         console.error('Meal ID is required')
         return
       }
-      mealService
-        .removeMeal(meal.id)
-        .then(() => {
-          console.log('Meal deleted successfully')
-        })
-        .catch((error) => {
-          console.error('Error in service while deleting meal:', error)
-        })
+
+      if (!userId) {
+        console.error('User ID is required')
+        return
+      }
+
+      await mealService.removeMeal(userId, mealId)
+      navigation.navigate('Home')
+      console.log('Meal deleted successfully')
     } catch (error) {
       console.error('Error deleting meal:', error)
     }
