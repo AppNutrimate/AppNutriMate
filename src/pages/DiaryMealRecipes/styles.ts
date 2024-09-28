@@ -52,20 +52,3 @@ export const DescriptionText = styled.Text`
   font-size: 18px;
   color: ${({ theme }) => theme.colors.darkGray};
 `
-export const VideoButton = styled.TouchableOpacity`
-  align-self: center;
-  background-color: ${({ theme }) => theme.colors.darkPurple};
-  padding: 10px 20px;
-  border-radius: 20px;
-  margin-top: 20px;
-  width: 60%;
-  height: 15%;
-`
-export const VideoButtonText = styled.Text`
-  align-self: center;
-  align-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-`

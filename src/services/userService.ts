@@ -44,6 +44,18 @@ const userService = {
       throw error
     }
   },
+  getUserById: async (userId: string): Promise<User> => {
+    try {
+      const res = await api.get<User>(`/user/${userId}`)
+      return res.data
+    } catch (error: any) {
+      console.error(
+        'Error fetching user by ID:',
+        error.response?.data || error.message
+      )
+      throw error
+    }
+  },
 
   list: async (): Promise<User[]> => {
     try {

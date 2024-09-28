@@ -5,7 +5,8 @@
     "esModuleInterop": true,
     "paths": {
       "@icons/*": ["./assets/icons/*"],
-      "@images/*": ["./assets/images/*"]
+      "@images/*": ["./assets/images/*"],
+      "@env*": ["./.env"]
     },
     "jsx": "react",
     "strict": true
