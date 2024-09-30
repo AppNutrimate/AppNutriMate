@@ -31,6 +31,7 @@ const Home = () => {
   // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   const [userName, setUserName] = useState<string>('')
   const [userId, setUserId] = useState<string | null>(null)
+  const [userPhoto, setUserPhoto] = useState<string | null>(null)
   useEffect(() => {
     const fetchUserIdAndDetails = async () => {
       try {
@@ -41,6 +42,7 @@ const Home = () => {
         if (id) {
           const user = await userService.getUserById(id)
           setUserName(user.firstName)
+          setUserPhoto(user.profilePhoto)
         }
       } catch (error) {
         console.error('Failed to fetch user details:', error)
@@ -61,7 +63,16 @@ const Home = () => {
             <Image source={NotifyIcon} style={{ width: 48, height: 48 }} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Image source={PerfilIcon} style={{ width: 48, height: 48 }} />
+            <Image
+              source={userPhoto ? { uri: userPhoto } : PerfilIcon}
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 100,
+                borderColor: '#6161A9',
+                borderWidth: 3
+              }}
+            />
           </TouchableOpacity>
         </View>
       </Greeting>
