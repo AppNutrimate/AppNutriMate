@@ -9,6 +9,14 @@ const recipeService = {
     } catch (error) {
       console.log(error)
     }
+  },
+  getRecipesByMealId: async (mealId: string) => {
+    try {
+      const res = await api.get(`/user/meals/recipes/${mealId}`)
+      return res.data
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 export default recipeService

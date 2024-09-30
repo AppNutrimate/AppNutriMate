@@ -115,25 +115,30 @@ const RecipePage = () => {
       <ContainerDescription>
         <DescriptionText>{recipe.description}</DescriptionText>
         <VideoButton onPress={handleModal}>
-          <VideoButtonText>Add To Meal</VideoButtonText>
+          <VideoButtonText>Add To a Meal</VideoButtonText>
         </VideoButton>
-        <AddMealModal isOpen={modalOpen} onClose={() => { setModalOpen(false) }}>
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: 'bold',
-                color: '#777777',
-                textAlign: 'center',
-                marginVertical: 20
-              }}
-            >
-              Set this Recipe to a Meal
-            </Text>
-            <FlatList
-              data={meals}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
+        <AddMealModal
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false)
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: 'bold',
+              color: '#777777',
+              textAlign: 'center',
+              marginVertical: 20
+            }}
+          >
+            Set this Recipe to a Meal
+          </Text>
+          <FlatList
+            data={meals}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+          />
         </AddMealModal>
       </ContainerDescription>
       <NavBar />

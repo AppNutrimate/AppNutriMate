@@ -37,11 +37,13 @@ import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
 import DefaultButton from 'src/components/common/DefaultButton'
 import AddMealModal from 'src/components/StandardModal'
+import recipeService from 'src/services/recipeService'
 
 const Diary = () => {
   const [meals, setMeals] = useState<Meal[]>([])
   const [userId, setUserId] = useState<string | null>(null)
   const [mealName, setMealName] = useState('')
+  const [calories, setCalories] = useState<string | null>('0')
   const [modalOpen, setModalOpen] = useState(false)
   const navigation = useNavigation<PropsStack>()
 
@@ -56,6 +58,23 @@ const Diary = () => {
         if (id) {
           const response = await mealService.getMealByUserId(id)
           setMeals(response ?? [])
+          const mealsWithRecipes = await Promise.all(
+            response.map(async (meal) => {
+              const recipes = await recipeService.getRecipesByMealId(meal.id)
+              return { ...meal, recipes }
+            })
+          )
+          const totalCalories = mealsWithRecipes.reduce(
+            (i, meal) =>
+              i +
+              meal.recipes.reduce(
+                (j: number, recipe: { calories: number }) =>
+                  j + recipe.calories,
+                0
+              ),
+            0
+          )
+          setCalories(totalCalories.toString())
         } else {
           console.error('User ID not found')
         }
@@ -75,7 +94,9 @@ const Diary = () => {
       onPressContainer={() => {
         navigation.navigate('DiaryMealRecipes', { meal: item })
       }}
-      onPressAdd={() => {}}
+      onPressAdd={() => {
+        navigation.navigate('Recipes')
+      }}
     />
   )
 
@@ -116,7 +137,7 @@ const Diary = () => {
           <SideSubTitle>Eaten</SideSubTitle>
         </Section>
         <Section>
-          <CenterTitle>2300</CenterTitle>
+          <CenterTitle>{calories}</CenterTitle>
           <CenterSubTitle>Total Calories</CenterSubTitle>
         </Section>
         <Section>
