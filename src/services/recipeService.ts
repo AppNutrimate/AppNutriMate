@@ -12,7 +12,7 @@ const recipeService = {
   },
   getRecipesByMealId: async (mealId: string) => {
     try {
-      const res = await api.get(`/user/meals/recipes/${mealId}`)
+      const res = await api.get(`/users/meals/recipes/${mealId}`)
       return res.data
     } catch (error) {
       console.log(error)

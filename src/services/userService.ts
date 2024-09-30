@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { jwtDecode } from 'jwt-decode'
 import api from './api'
 import { type User } from 'src/entitites/User'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const userService = {
   register: async (
@@ -46,7 +48,7 @@ const userService = {
   },
   getUserById: async (userId: string): Promise<User> => {
     try {
-      const res = await api.get<User>(`/user/${userId}`)
+      const res = await api.get<User>(`/users/${userId}`)
       return res.data
     } catch (error: any) {
       console.error(
@@ -72,7 +74,13 @@ const userService = {
 
   login: async (email: string, password: string) => {
     try {
-      const res = await api.post('/login', { email, password })
+      const res = await api.post('auth/login', { email, password })
+
+      const token = res.data.access_token;
+      const jwtDecoded = jwtDecode(token)
+      await AsyncStorage.setItem('jwt', token)
+      await AsyncStorage.setItem('userId', jwtDecoded.sub as string)
+      
       return res.data
     } catch (error: any) {
       console.error('Error logging in:', error.response?.data || error.message)

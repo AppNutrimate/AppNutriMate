@@ -14,19 +14,20 @@ import { Recipe } from 'src/entitites/Recipe'
 const mealService = {
   getMealByUserId: async (userId: string): Promise<Meal[]> => {
     try {
-      const res = await api.get<Meal[]>(`/user/meals/${userId}`)
+      const res = await api.get<Meal[]>(`/users/meals/${userId}`)
       return res.data
     } catch (error: any) {
-      console.error(
+      /* console.error(
         'Error fetching user meal by ID:',
         error.response?.data || error.message
-      )
-      throw error
+      ) */
+      //throw error
+      return []
     }
   },
   getRecipesByMeal: async (mealId: string): Promise<Recipe[]> => {
     try {
-      const res = await api.get<Recipe[]>(`/user/meals/recipes/${mealId}`)
+      const res = await api.get<Recipe[]>(`/users/meals/recipes/${mealId}`)
       return res.data
     } catch (error: any) {
       console.error(
@@ -42,7 +43,7 @@ const mealService = {
     userId: string
   ): Promise<Meal> => {
     try {
-      const res = await api.post<Meal>('/user/meals', {
+      const res = await api.post<Meal>('/users/meals', {
         icon,
         name,
         userId
@@ -67,7 +68,7 @@ const mealService = {
   },
   addRecipeToMeal: async (mealId: string, recipeId: string): Promise<void> => {
     try {
-      await api.post(`/user/meals/${mealId}/recipes`, {
+      await api.post(`/users/meals/${mealId}/recipes`, {
         recipeId
       })
     } catch (error: any) {
@@ -84,7 +85,7 @@ const mealService = {
     recipeId: string
   ): Promise<void> => {
     try {
-      await api.delete(`/user/meals/${mealId}/recipes`, {
+      await api.delete(`/users/meals/${mealId}/recipes`, {
         data: { recipeId }
       })
     } catch (error: any) {

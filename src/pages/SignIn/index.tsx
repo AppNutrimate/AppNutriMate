@@ -47,17 +47,13 @@ const SignIn = () => {
 
     try {
       const res = await userService.login(email, password)
-      if (res.success) {
-        setErrorMessage('')
-        const userId = res.user.id.toString()
-        await AsyncStorage.setItem('userId', userId)
-        navigation.navigate('Home')
-      } else {
-        console.log(errorMessage)
-        setErrorMessage('Invalid email or password.')
-      }
+     
+      setErrorMessage('')      
+      
+      navigation.navigate('Home')
+
     } catch (error) {
-      console.log(errorMessage)
+      console.log(error)
       setErrorMessage('Failed to login. Please try again.')
     }
   }
