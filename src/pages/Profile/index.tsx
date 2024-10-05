@@ -1,9 +1,3 @@
-/* eslint-disable multiline-ternary */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import NavBar from '../../components/common/NavBar'
 import {
@@ -17,75 +11,62 @@ import {
   UserDetailValue
 } from './styles'
 import PerfilIcon from '@icons/perfil.png'
-import DefaultTitle from '../../components/common/DefaultTitle'
 import DefaultButton from 'src/components/common/DefaultButton'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { type User } from 'src/entitites/User'
 
 const Profile = () => {
   const [userId, setUserId] = useState<string | null>(null)
-  const [userName, setUserName] = useState<string>('')
-  const [userLastName, setUserLastName] = useState<string>('')
-  const [userPhoto, setUserPhoto] = useState<string | null>('')
-  const [userEmail, setUserEmail] = useState<string | null>('')
-  const [userBirth, setUserBirth] = useState<string | null>('')
-  const [userPhone, setUserPhone] = useState<string | null>('')
+  const [user, setUser] = useState<User>()
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        let id = userId
-        if (!id) {
-          id = await AsyncStorage.getItem('userId')
-        }
-        const formatDate = (dateString: string) => {
-          return new Date(dateString).toLocaleDateString('pt-BR')
-        }
-
-        if (id) {
+        const id = await AsyncStorage.getItem('userId')
+        if (id != null) {
+          setUserId(id)
           const user = await userService.getUserById(id)
-          setUserName(user.firstName)
-          setUserLastName(user.lastName)
-          setUserPhoto(user.profilePhoto)
-          setUserEmail(user.email)
-          setUserEmail(user.email)
-          setUserBirth(new Date(user.birth).toLocaleDateString('pt-BR'))
-          setUserPhone(user.phone)
+          user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
+          setUser(user)
         }
       } catch (error) {
         console.error('Failed to fetch user details:', error)
       }
     }
-    fetchUserDetails()
+
+    if (userId == null) {
+      void fetchUserDetails()
+    }
   }, [])
   return (
     <Container>
       <TouchableOpacity style={{ marginTop: 70 }}>
-        <ProfileImage source={userPhoto ? { uri: userPhoto } : PerfilIcon} />
+        <ProfileImage source={(user != null) ? { uri: user.profilePhoto } : PerfilIcon} />
       </TouchableOpacity>
-      <ProfileName>{userName + ' ' + userLastName}</ProfileName>
+      <ProfileName>{user?.firstName + ' ' + user?.lastName}</ProfileName>
       <ContainerShaded>
         <ContainerInfo>
           <UserDetail>
             <UserDetailTitle>First Name:</UserDetailTitle>
-            <UserDetailValue>{userName}</UserDetailValue>
+            <UserDetailValue>{user?.firstName}</UserDetailValue>
           </UserDetail>
           <UserDetail>
             <UserDetailTitle>Last Name:</UserDetailTitle>
-            <UserDetailValue>{userLastName}</UserDetailValue>
+            <UserDetailValue>{user?.lastName}</UserDetailValue>
           </UserDetail>
           <UserDetail>
             <UserDetailTitle>E-Mail:</UserDetailTitle>
-            <UserDetailValue>{userEmail}</UserDetailValue>
+            <UserDetailValue>{user?.email}</UserDetailValue>
           </UserDetail>
           <UserDetail>
             <UserDetailTitle>Phone:</UserDetailTitle>
-            <UserDetailValue>{userPhone}</UserDetailValue>
+            <UserDetailValue>{user?.phone}</UserDetailValue>
           </UserDetail>
           <UserDetail>
             <UserDetailTitle>Birth Day:</UserDetailTitle>
-            <UserDetailValue>{userBirth}</UserDetailValue>
+            <UserDetailValue>{user?.birth}</UserDetailValue>
           </UserDetail>
         </ContainerInfo>
         <DefaultButton
