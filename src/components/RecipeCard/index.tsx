@@ -21,7 +21,7 @@ export interface RecipeCardProps {
   title: string
   calories: string
   proteins: string
-  timePrepare: string
+  prepTime: string
   image: ImageSourcePropType
   onPress?: () => void
 }
@@ -45,7 +45,7 @@ const RecipeCard = (props: Partial<RecipeCardProps>) => {
               </ContainerMacro>
               <ContainerMacro>
                 <MacroIcon source={TimeIcon} />
-                <MacroNumber>{props.timePrepare}m</MacroNumber>
+                <MacroNumber>{props.prepTime}m</MacroNumber>
               </ContainerMacro>
             </View>
           </View>

@@ -14,14 +14,14 @@ import { Recipe } from 'src/entitites/Recipe'
 const mealService = {
   getMealByUserId: async (userId: string): Promise<Meal[]> => {
     try {
-      const res = await api.get<Meal[]>(`/users/meals/${userId}`)
+      const res = await api.get<Meal[]>(`/users/meals`)
       return res.data
     } catch (error: any) {
       /* console.error(
         'Error fetching user meal by ID:',
         error.response?.data || error.message
       ) */
-      //throw error
+      // throw error
       return []
     }
   },
@@ -43,12 +43,12 @@ const mealService = {
     userId: string
   ): Promise<Meal> => {
     try {
-      const res = await api.post<Meal>('/users/meals', {
+      const res = await api.post<any>('/users/meals', {
         icon,
         name,
         userId
       })
-      return res.data
+      return res.data.meal
     } catch (error: any) {
       console.error('Error adding meal:', error.response?.data || error.message)
       throw error
@@ -79,7 +79,6 @@ const mealService = {
       throw error
     }
   },
-
   removeRecipeFromMeal: async (
     mealId: string,
     recipeId: string

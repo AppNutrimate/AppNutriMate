@@ -75,7 +75,7 @@ const DiaryMealRecipes = () => {
       title={item.name}
       calories={item.calories}
       proteins={item.proteins}
-      timePrepare={item.timePrepare}
+      prepTime={item.prepTime}
       image={{ uri: item.picture }}
       mealId={meal.id}
       onPress={() => {

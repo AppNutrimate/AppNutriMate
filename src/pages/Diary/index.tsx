@@ -64,19 +64,20 @@ const Diary = () => {
               return { ...meal, recipes }
             })
           )
-          const totalCalories = mealsWithRecipes.reduce(
-            (i, meal) =>
-              i +
-              meal.recipes.reduce(
-                (j: number, recipe: { calories: number }) =>
-                  j + recipe.calories,
-                0
-              ),
-            0
-          )
-          setCalories(totalCalories.toString())
+          // const totalCalories = mealsWithRecipes.reduce(
+          //   (i, meal) =>
+          //     i +
+          //     meal.recipes.reduce(
+          //       (j: number, recipe: { calories: number }) =>
+          //         j + recipe.calories,
+          //       0
+          //     ),
+          //   0
+          // )
+          // setCalories(totalCalories.toString())
         } else {
           console.error('User ID not found')
+          setCalories('0')
         }
       } catch (error) {
         console.error('Error fetching data:', error)

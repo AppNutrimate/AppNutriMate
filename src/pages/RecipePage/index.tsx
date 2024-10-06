@@ -109,7 +109,7 @@ const RecipePage = () => {
         </ContainerMacros>
         <ContainerMacros>
           <MacroIcon source={TimeIcon} />
-          <MacroTitle>{recipe.timePrepare}min</MacroTitle>
+          <MacroTitle>{recipe.prepTime}min</MacroTitle>
         </ContainerMacros>
       </ContainerAllMacros>
       <ContainerDescription>

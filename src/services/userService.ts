@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { jwtDecode } from 'jwt-decode'
@@ -76,11 +77,11 @@ const userService = {
     try {
       const res = await api.post('auth/login', { email, password })
 
-      const token = res.data.access_token;
+      const token = res.data.access_token
       const jwtDecoded = jwtDecode(token)
       await AsyncStorage.setItem('jwt', token)
       await AsyncStorage.setItem('userId', jwtDecoded.sub as string)
-      
+
       return res.data
     } catch (error: any) {
       console.error('Error logging in:', error.response?.data || error.message)
