@@ -47,11 +47,10 @@ const SignIn = () => {
 
     try {
       const res = await userService.login(email, password)
-     
-      setErrorMessage('')      
-      
-      navigation.navigate('Home')
 
+      setErrorMessage('')
+
+      navigation.navigate('Home')
     } catch (error) {
       console.log(error)
       setErrorMessage('Failed to login. Please try again.')

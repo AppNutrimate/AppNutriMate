@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
@@ -16,7 +17,7 @@ const userService = {
     password: string
   ) => {
     try {
-      const res = await api.post<User>('/user', {
+      const res = await api.post<User>('/users', {
         firstName,
         lastName,
         phone,
@@ -36,7 +37,7 @@ const userService = {
 
   update: async (userId: string, updatedFields: Partial<User>) => {
     try {
-      const res = await api.patch<User>(`/user/${userId}`, updatedFields)
+      const res = await api.patch<User>(`/users/${userId}`, updatedFields)
       return res.data
     } catch (error: any) {
       console.log(error.response)

@@ -16,8 +16,11 @@ import { TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type User } from 'src/entitites/User'
+import { useNavigation } from '@react-navigation/native'
+import { type PropsStack } from 'src/routes'
 
 const Profile = () => {
+  const navigation = useNavigation<PropsStack>()
   const [userId, setUserId] = useState<string | null>(null)
   const [user, setUser] = useState<User>()
 
@@ -33,6 +36,7 @@ const Profile = () => {
         }
       } catch (error) {
         console.error('Failed to fetch user details:', error)
+        navigation.navigate('Login')
       }
     }
 
@@ -43,7 +47,9 @@ const Profile = () => {
   return (
     <Container>
       <TouchableOpacity style={{ marginTop: 70 }}>
-        <ProfileImage source={(user != null) ? { uri: user.profilePhoto } : PerfilIcon} />
+        <ProfileImage
+          source={user != null ? { uri: user.profilePhoto } : PerfilIcon}
+        />
       </TouchableOpacity>
       <ProfileName>{user?.firstName + ' ' + user?.lastName}</ProfileName>
       <ContainerShaded>
@@ -73,7 +79,9 @@ const Profile = () => {
           backgroundColor={'#6161A9'}
           text={'Edit Profile'}
           marginVertical={0}
-          buttonHandle={() => {}}
+          buttonHandle={() => {
+            navigation.navigate('EditProfile')
+          }}
         />
       </ContainerShaded>
       <NavBar />
