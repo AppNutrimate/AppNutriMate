@@ -33,7 +33,7 @@ const CreateAccount = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   const handleSignUp = async () => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email || !password || !confirmPassword) {
