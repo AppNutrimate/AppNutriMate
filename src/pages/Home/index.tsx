@@ -14,24 +14,16 @@ import { TouchableOpacity, View, Image } from 'react-native'
 import NotifyIcon from '@icons/notification.png'
 import PerfilIcon from '@icons/perfil.png'
 import userService from 'src/services/userService'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 const Home = () => {
-  // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
   const [userName, setUserName] = useState<string>('')
-  const [userId, setUserId] = useState<string | null>(null)
   const [userPhoto, setUserPhoto] = useState<string | null>(null)
   useEffect(() => {
     const fetchUserIdAndDetails = async () => {
       try {
-        let id = userId
-        if (!id) {
-          id = await AsyncStorage.getItem('userId')
-        }
-        if (id) {
-          const user = await userService.getUserById(id)
-          setUserName(user.firstName)
-          setUserPhoto(user.profilePhoto)
-        }
+        const user = await userService.getUserById()
+        setUserName(user.firstName)
+        setUserPhoto(user.profilePhoto)
+        
       } catch (error) {
         console.error('Failed to fetch user details:', error)
       }

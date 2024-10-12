@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { jwtDecode } from 'jwt-decode'
 import api from './api'
 import { type User } from 'src/entitites/User'
@@ -26,10 +22,10 @@ const userService = {
         password
       })
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error registering user:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -39,23 +35,22 @@ const userService = {
     try {
       const res = await api.patch<User>(`/users/${userId}`, updatedFields)
       return res.data
-    } catch (error: any) {
-      console.log(error.response)
+    } catch (error) {
       console.error(
         'Error updating user:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
   },
-  getUserById: async (userId: string): Promise<User> => {
+  getUserById: async (): Promise<User> => {
     try {
-      const res = await api.get<User>(`/users/${userId}`)
+      const res = await api.get<User>(`/users/user`)
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error fetching user by ID:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -65,10 +60,10 @@ const userService = {
     try {
       const res = await api.get<User[]>('/users')
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error fetching users:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -84,8 +79,8 @@ const userService = {
       await AsyncStorage.setItem('userId', jwtDecoded.sub as string)
 
       return res.data
-    } catch (error: any) {
-      console.error('Error logging in:', error.response?.data || error.message)
+    } catch (error) {
+      console.error('Error logging in:', error)
       throw error
     }
   }
