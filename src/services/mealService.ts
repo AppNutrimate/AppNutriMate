@@ -1,25 +1,15 @@
-/* eslint-disable @typescript-eslint/comma-dangle */
-/* eslint-disable semi */
-/* eslint-disable @typescript-eslint/semi */
-/* eslint-disable quotes */
-/* eslint-disable @typescript-eslint/quotes */
-/* eslint-disable import/no-duplicates */
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Meal } from "src/entitites/Meal";
 import api from "./api";
 import { Recipe } from "src/entitites/Recipe";
 
 const mealService = {
-  getMealByUserId: async (userId: string): Promise<Meal[]> => {
+  getMealByUserId: async (): Promise<Meal[]> => {
     try {
       const res = await api.get<Meal[]>(`/users/meals`);
       return res.data;
-    } catch (error: any) {
+    } catch (error) {
       /* console.error(
-        'Error fetching user meal by ID:',
-        error.response?.data || error.message
+        'Error fetching user meal by ID:',error
       ) */
       // throw error
       return [];
@@ -29,29 +19,26 @@ const mealService = {
     try {
       const res = await api.get<Meal>(`/users/meals/${mealId}`);
       return res.data.recipes;
-    } catch (error: any) {
+    } catch (error) {
       console.error(
-        "Error fetching meal recipes by ID:",
-        error.response?.data || error.message
+        "Error fetching meal recipes by ID:",error
       );
       throw error;
     }
   },
   addMeal: async (
     icon: string,
-    name: string,
-    userId: string
+    name: string
   ): Promise<Meal> => {
     try {
-      const res = await api.post<any>("/users/meals", {
+      const res = await api.post("/users/meals", {
         icon,
         name,
       });
       return res.data.meal;
-    } catch (error: any) {
+    } catch (error) {
       console.error(
-        "Error adding meal:",
-        error.response?.data || error.message
+        "Error adding meal:",error
       );
       throw error;
     }
@@ -60,11 +47,9 @@ const mealService = {
     try {
       const response = await api.delete(`/users/meals/${mealId}`);
       console.log("API response:", response.data);
-    } catch (error: any) {
+    } catch (error) {
       console.error(
-        "Error removing meal:",
-        error.response?.data || error.message
-      );
+        "Error removing meal:", error);
       throw error;
     }
   },
@@ -73,11 +58,9 @@ const mealService = {
       await api.post(`/users/meals/${mealId}/recipe`, {
         recipeId,
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error(
-        "Error adding recipe to meal:",
-        error.response?.data || error.message
-      );
+        "Error adding recipe to meal:", error);
       throw error;
     }
   },
@@ -87,11 +70,9 @@ const mealService = {
   ): Promise<void> => {
     try {
       await api.delete(`/users/meals/${mealId}/recipe/${recipeId}`);
-    } catch (error: any) {
+    } catch (error) {
       console.error(
-        "Error removing recipe from meal:",
-        error.response?.data || error.message
-      );
+        "Error removing recipe from meal:",  error);
       throw error;
     }
   },

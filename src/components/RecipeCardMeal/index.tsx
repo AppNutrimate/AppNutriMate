@@ -1,15 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/comma-dangle */
-/* eslint-disable @typescript-eslint/member-delimiter-style */
-/* eslint-disable quotes */
-/* eslint-disable @typescript-eslint/quotes */
-/* eslint-disable semi */
-/* eslint-disable @typescript-eslint/semi */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import React, { useState, type ReactNode } from 'react'
 import CaloriesIcon from '@icons/fire-p.png'
 import ProteinIcon from '@icons/muscle-p.png'

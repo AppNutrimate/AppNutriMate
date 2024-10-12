@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/space-before-function-paren */
-/* eslint-disable multiline-ternary */
 import React, { useEffect, useState } from 'react'
 import NavBar from '../../components/common/NavBar'
 import {
@@ -29,13 +27,11 @@ const Recipes = () => {
     const fetchData = async () => {
       try {
         const response = await recipeService.getRecipes()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setRecipes(response?.data ?? [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData()
   }, [])
 

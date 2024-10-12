@@ -1,8 +1,3 @@
-/* eslint-disable semi */
-/* eslint-disable quotes */
-/* eslint-disable @typescript-eslint/quotes */
-/* eslint-disable @typescript-eslint/semi */
-/* eslint-disable @typescript-eslint/member-delimiter-style */
 import { type Recipe } from "./Recipe";
 
 export interface Meal {

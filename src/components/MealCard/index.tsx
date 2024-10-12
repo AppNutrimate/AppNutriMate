@@ -13,7 +13,7 @@ export interface MealCardProps {
   onPressContainer?: () => void
   onPressAdd?: () => void
 }
-const addIcon = require('@icons/plusCircle.png')
+import addIcon from '@icons/plusCircle.png'
 const MealCard = (props: Partial<MealCardProps>) => {
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={props.onPressContainer}>
