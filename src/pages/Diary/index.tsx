@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../../components/common/NavBar";
+
 import {
   ActionButton,
   ActionButtonText,
@@ -22,18 +22,15 @@ import MealCard from "src/components/MealCard";
 import mealService from "src/services/mealService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Meal } from "src/entitites/Meal";
-import { useNavigation } from "@react-navigation/native";
-import { type PropsStack } from "src/routes";
 import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
 
-const Diary = () => {
+const Diary = ({ navigation }) => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [mealName, setMealName] = useState("");
   const [calories, setCalories] = useState<string | null>("0");
   const [modalOpen, setModalOpen] = useState(false);
-  const navigation = useNavigation<PropsStack>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +75,7 @@ const Diary = () => {
         navigation.navigate("DiaryMealRecipes", { meal: item });
       }}
       onPressAdd={() => {
-        navigation.navigate("Recipes");
+        navigation.navigate('recipes', {screen: "Recipes"});
       }}
     />
   );
@@ -157,7 +154,7 @@ const Diary = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-      <NavBar />
+      
     </Container>
   );
 };

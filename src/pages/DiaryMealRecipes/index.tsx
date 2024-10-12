@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import { Container } from './styles'
 import DefaultTitle from '../../components/common/DefaultTitle'
 import SearchBar from 'src/components/common/SearchBar'
@@ -90,7 +89,7 @@ const DiaryMealRecipes = () => {
         marginVertical={100}
         buttonHandle={handleDeleteMeal}
       />
-      <NavBar />
+      
     </Container>
   )
 }

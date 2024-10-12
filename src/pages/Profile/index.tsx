@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import {
   Container,
   ContainerInfo,
@@ -84,7 +83,7 @@ const Profile = () => {
           }}
         />
       </ContainerShaded>
-      <NavBar />
+      
     </Container>
   )
 }

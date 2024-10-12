@@ -23,6 +23,7 @@ import DiaryMealRecipes from 'src/pages/DiaryMealRecipes'
 
 export type PropsNavigationStack = {
   Login: undefined
+  TabRoutes: undefined
   CreateAccount: undefined
   SignIn: undefined
   Home: undefined

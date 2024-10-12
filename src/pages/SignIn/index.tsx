@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import {
   ButtonContainer,
@@ -21,7 +16,6 @@ import NutrimateIconName from '@icons/nutrimate-type.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import { View } from 'react-native'
 import userService from 'src/services/userService'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SignIn = () => {
   const navigation = useNavigation<PropsStack>()
@@ -50,7 +44,7 @@ const SignIn = () => {
 
       setErrorMessage('')
 
-      navigation.navigate('Home')
+      navigation.replace('TabRoutes')
     } catch (error) {
       console.log(error)
       setErrorMessage('Failed to login. Please try again.')
