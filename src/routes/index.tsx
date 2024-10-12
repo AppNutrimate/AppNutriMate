@@ -21,7 +21,6 @@ import SignIn from 'src/pages/SignIn'
 import { type Meal } from 'src/entitites/Meal'
 import DiaryMealRecipes from 'src/pages/DiaryMealRecipes'
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type PropsNavigationStack = {
   Login: undefined
   CreateAccount: undefined
