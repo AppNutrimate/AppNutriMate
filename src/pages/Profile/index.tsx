@@ -30,7 +30,7 @@ const Profile = () => {
         const id = await AsyncStorage.getItem('userId')
         if (id != null) {
           setUserId(id)
-          const user = await userService.getUserById(id)
+          const user = await userService.getUserById()
           user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
           setUser(user)
         }
