@@ -67,6 +67,9 @@ const DiaryMealRecipes = () => {
       prepTime={item.prepTime}
       image={{ uri: item.picture }}
       mealId={meal.id}
+      onLongPressContainer={() => {
+        console.log("receba");
+      }}
       onPress={() => {
         handleNavigate(item)
       }}
