@@ -18,6 +18,7 @@ import DiaryIcon from "@icons/diary-icon-p.png";
 import RecipesIcon from "@icons/recipes-icon-p.png";
 import ProfileIcon from "@icons/profile-icon-p.png";
 import { Icon } from "src/components/common/NavBar/styles";
+import { ImageSourcePropType, View } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -83,35 +84,64 @@ function ProfileStackScreen() {
   );
 }
 
+type TabIconProps = {
+  icon: ImageSourcePropType
+  focused: boolean
+}
+
+const TabIcon = ({focused, icon}: TabIconProps) => {
+  return (
+    <View style={{
+      borderTopWidth: focused ? 2 : 0,
+      borderColor: focused ? "#7265E3" : "transparent",
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '100%'
+    }}>
+      <Icon source={icon} />
+    </View>
+  )
+}
+  
+
 export default function TabRoutes() {
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { height: 60, backgroundColor: "#EDF1F7" },
+        tabBarStyle: { 
+          height: 55,
+          backgroundColor: "#EDF1F7",
+         },
         tabBarInactiveTintColor: "#7265E3",
         tabBarActiveTintColor: "#41379A",
+        tabBarShowLabel: false,
       }}
+      initialRouteName="home"
     >
       <Tab.Screen
         name="home"
         component={HomeStackScreen}
-        options={{ tabBarIcon: () => <Icon source={HomeIcon} /> }}
+        options={{ 
+          tabBarIcon: ({focused}) => <TabIcon icon={HomeIcon} focused={focused} />,
+        }}
       />
       <Tab.Screen
         name="diary"
         component={DiaryStackScreen}
-        options={{ tabBarIcon: () => <Icon source={DiaryIcon} /> }}
+        options={{ tabBarIcon: ({focused}) => (<TabIcon icon={DiaryIcon} focused={focused} />) }}
       />
       <Tab.Screen
         name="recipes"
         component={RecipeStackScreen}
-        options={{ tabBarIcon: () => <Icon source={RecipesIcon} /> }}
+        options={{ tabBarIcon: ({focused}) => <TabIcon icon={RecipesIcon} focused={focused} /> }}
       />
       <Tab.Screen
         name="profile"
         component={ProfileStackScreen}
-        options={{ tabBarIcon: () => <Icon source={ProfileIcon} /> }}
+        options={{ tabBarIcon: ({focused}) => <TabIcon icon={ProfileIcon} focused={focused} /> }}
       />
     </Tab.Navigator>
   );
