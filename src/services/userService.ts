@@ -23,23 +23,23 @@ const userService = {
       })
       return res.data
     } catch (error) {
-      console.error(
-        'Error registering user:',
-        error
-      )
+      console.error('Error registering user:', error)
       throw error
     }
   },
 
-  update: async (userId: string, updatedFields: Partial<User>) => {
+  update: async (updatedFields: Partial<User>) => {
+    const token = await AsyncStorage.getItem('jwt')
+    const userId = await AsyncStorage.getItem('userId')
     try {
-      const res = await api.patch<User>(`/users/${userId}`, updatedFields)
+      const res = await api.patch<User>(`/users/${userId}`, updatedFields, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       return res.data
     } catch (error) {
-      console.error(
-        'Error updating user:',
-        error
-      )
+      console.error('Error updating user:', error)
       throw error
     }
   },
@@ -48,10 +48,7 @@ const userService = {
       const res = await api.get<User>(`/users/user`)
       return res.data
     } catch (error) {
-      console.error(
-        'Error fetching user by ID:',
-        error
-      )
+      console.error('Error fetching user by ID:', error)
       throw error
     }
   },
@@ -61,10 +58,7 @@ const userService = {
       const res = await api.get<User[]>('/users')
       return res.data
     } catch (error) {
-      console.error(
-        'Error fetching users:',
-        error
-      )
+      console.error('Error fetching users:', error)
       throw error
     }
   },

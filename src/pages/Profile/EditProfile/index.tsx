@@ -16,11 +16,25 @@ import userService from 'src/services/userService'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
 import BackButton from 'src/components/common/BackButton'
+import { Alert } from 'react-native'
 
 const EditProfile = () => {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User>({
+    id: '',
+    firstName: '',
+    lastName: '',
+    profilePhoto: '',
+    phone: '',
+    birth: '',
+    email: '',
+    password: '',
+    createdAt: '',
+    updatedAt: ''
+  })
+
   const [userId, setUserId] = useState<string | null>(null)
   const navigation = useNavigation<PropsStack>()
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -40,23 +54,38 @@ const EditProfile = () => {
     if (userId == null) {
       void fetchUserDetails()
     }
-  }, [])
-
-  const handleInputChange = () => {}
+  }, [userId])
 
   const handleSaveChanges = async () => {
     try {
-      if (userId !== null && user !== undefined) {
-        await userService.update(userId, user)
-        console.log('User updated:', user.firstName)
+      if (userId && user) {
+        const updatedFields: Partial<User> = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          email: user.email
+        }
+
+        console.log('Updating user:', updatedFields)
+        await userService.update(updatedFields)
+        console.log('User updated:', updatedFields)
+        Alert.alert('User updated successfully!')
+        navigation.navigate('Home')
       } else {
-        console.error('User ID is null')
+        console.error('User ID is null or user is undefined')
       }
-      navigation.goBack()
     } catch (error) {
       console.error('Failed to update user:', error)
     }
   }
+
+  const handleInputChange = (field: keyof User, value: string) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      [field]: value
+    }))
+  }
+
   return (
     <MainContainer>
       <BackButton />
@@ -64,25 +93,40 @@ const EditProfile = () => {
         <NameContainer>
           <FlexContainer style={{ width: '48%' }}>
             <InfoTitle>First Name</InfoTitle>
-            <NameInput value={user?.firstName} />
+            <NameInput
+              value={user.firstName}
+              onChangeText={(text) => handleInputChange('firstName', text)}
+            />
           </FlexContainer>
           <FlexContainer style={{ width: '48%' }}>
             <InfoTitle>Last Name</InfoTitle>
-            <NameInput value={user?.lastName} />
+            <NameInput
+              value={user.lastName}
+              onChangeText={(text) => handleInputChange('lastName', text)}
+            />
           </FlexContainer>
         </NameContainer>
         <FlexContainer>
           <InfoTitle>E-mail</InfoTitle>
-          <Input value={user?.email} />
+          <Input
+            value={user.email}
+            onChangeText={(text) => handleInputChange('email', text)}
+          />
         </FlexContainer>
         <FlexContainer>
           <InfoTitle>Phone Number</InfoTitle>
-          <Input value={user?.phone} />
+          <Input
+            value={user.phone}
+            onChangeText={(text) => handleInputChange('phone', text)}
+          />
         </FlexContainer>
-        <FlexContainer>
+        {/* <FlexContainer>
           <InfoTitle>Birth</InfoTitle>
-          <Input value={user?.birth} />
-        </FlexContainer>
+          <Input
+            value={user.birth}
+            onChangeText={(text) => handleInputChange('birth', text)}
+          />
+        </FlexContainer> */}
         <SaveButton onPress={handleSaveChanges}>
           <TextButton>Save Changes</TextButton>
         </SaveButton>
