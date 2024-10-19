@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import DefaultTitle from 'src/components/common/DefaultTitle'
 import DefaultButton from 'src/components/common/DefaultButton'
 import userService from 'src/services/userService'
-import {
-  type RouteProp,
-  useNavigation,
-  useRoute
-} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { type PropsNavigationStack } from 'src/routes'
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack'
 import DateTimePicker from 'react-native-modal-datetime-picker'
@@ -14,19 +10,13 @@ import moment from 'moment'
 import { TextInputMask } from 'react-native-masked-text'
 import { Container, InputContainer, Subtitle, TitleInput } from './styles'
 
-type SetBirthDatePageRouteProp = RouteProp<
-  PropsNavigationStack,
-  'SetBirthDatePage'
->
 type NavigationProp = NativeStackNavigationProp<
   PropsNavigationStack,
   'SetBirthDatePage'
 >
 
 const SetBirthDatePage = () => {
-  const route = useRoute<SetBirthDatePageRouteProp>()
   const navigation = useNavigation<NavigationProp>()
-  const { userId } = route.params
   const [birth, setBirth] = useState('')
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -40,7 +30,7 @@ const SetBirthDatePage = () => {
       birth: moment(birth, 'DD/MM/YYYY').toISOString()
     }
     try {
-      const res = await userService.update(userId, updatedField)
+      const res = await userService.update(updatedField)
       console.log('Birth date set:', { res })
       navigation.navigate('SignIn')
     } catch (error) {
