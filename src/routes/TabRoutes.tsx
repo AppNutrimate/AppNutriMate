@@ -102,7 +102,7 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
       justifyContent: 'center',
       alignItems: 'center',
       width: '80%',
-      height: '100%'
+      height: '100%',
     }}>
       <Icon source={icon} />
     </View>
@@ -115,9 +115,8 @@ export default function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        
-        tabBarStyle: { 
-          height: 55,
+        //unmountOnBlur: true,
+        tabBarStyle: {
           backgroundColor: "#EDF1F7",
          },
         tabBarInactiveTintColor: "#7265E3",

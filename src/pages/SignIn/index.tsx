@@ -9,7 +9,7 @@ import {
   Input
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
-import { useNavigation } from '@react-navigation/native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
 import NutrimateIcon from '@icons/nutrimate-icon.png'
 import NutrimateIconName from '@icons/nutrimate-type.png'
@@ -44,7 +44,12 @@ const SignIn = () => {
 
       setErrorMessage('')
 
-      navigation.replace('TabRoutes')
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0, // Set index to 0
+          routes: [{ name: 'TabRoutes' }], // Replace with TabRoutes
+        })
+      );
     } catch (error) {
       console.log(error)
       setErrorMessage('Failed to login. Please try again.')
