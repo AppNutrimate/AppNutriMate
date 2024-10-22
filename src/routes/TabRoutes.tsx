@@ -21,8 +21,7 @@ import RecipesIcon from "@icons/recipes-icon-p.png";
 import RecipesIconSolid from "@icons/recipes-icon-solid.png";
 import ProfileIcon from "@icons/profile-icon-p.png";
 import ProfileIconSolid from "@icons/profile-icon-solid.png";
-import { Icon } from "src/components/common/NavBar/styles";
-import { ImageSourcePropType, View } from "react-native";
+import { ImageSourcePropType, View, Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -104,7 +103,7 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
       width: '80%',
       height: '100%',
     }}>
-      <Icon source={icon} />
+      <Image source={icon} resizeMode="contain" style={{width: 35, height: 35}} />
     </View>
   )
 }
@@ -118,6 +117,7 @@ export default function TabRoutes() {
         //unmountOnBlur: true,
         tabBarStyle: {
           backgroundColor: "#EDF1F7",
+          height: 55
          },
         tabBarInactiveTintColor: "#7265E3",
         tabBarActiveTintColor: "#41379A",
