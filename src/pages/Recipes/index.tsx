@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
-import { Container, ContainerTabRecipes, TabButton, TabButtonText, TabRecipes } from './styles'
+import {
+  Container,
+  ContainerTabRecipes,
+  TabButton,
+  TabButtonText,
+  TabRecipes
+} from './styles'
 import DefaultTitle from '../../components/common/DefaultTitle'
 import SearchBar from 'src/components/common/SearchBar'
 import RecipeCard from 'src/components/RecipeCard'
@@ -21,13 +26,11 @@ const Recipes = () => {
     const fetchData = async () => {
       try {
         const response = await recipeService.getRecipes()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setRecipes(response?.data ?? [])
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData()
   }, [])
 
@@ -38,7 +41,7 @@ const Recipes = () => {
       title={item.name}
       calories={item.calories}
       proteins={item.proteins}
-      timePrepare={item.timePrepare}
+      prepTime={item.prepTime}
       image={{ uri: item.picture }}
       onPress={() => {
         handleNavigate(item)
@@ -48,7 +51,7 @@ const Recipes = () => {
 
   const [tabActive, setTabActive] = useState<string>('recipes')
 
-  function isActive (name: string) {
+  function isActive(name: string) {
     return tabActive === name
   }
 
@@ -58,27 +61,40 @@ const Recipes = () => {
       <SearchBar />
       <ContainerTabRecipes>
         <TabRecipes>
-          <TabButton active={isActive('recipes')} onPress={() => { setTabActive('recipes') }}>
+          <TabButton
+            active={isActive('recipes')}
+            onPress={() => {
+              setTabActive('recipes')
+            }}
+          >
             <TabButtonText active={isActive('recipes')}>Recipes</TabButtonText>
           </TabButton>
-          <TabButton active={isActive('myrecipes')} onPress={() => { setTabActive('myrecipes') }}>
-            <TabButtonText active={isActive('myrecipes')}>My recipes</TabButtonText>
+          <TabButton
+            active={isActive('myrecipes')}
+            onPress={() => {
+              setTabActive('myrecipes')
+            }}
+          >
+            <TabButtonText active={isActive('myrecipes')}>
+              My recipes
+            </TabButtonText>
           </TabButton>
         </TabRecipes>
       </ContainerTabRecipes>
-      {
-        isActive('recipes')
-          ? <FlatList
-        data={recipes}
-        keyExtractor={(item: Recipe) => item.id}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 70 }}
-      />
-          : <View><Text>Nenhuma receita.</Text></View>
-
-      }
-      <NavBar />
+      {isActive('recipes') ? (
+        <FlatList
+          data={recipes}
+          keyExtractor={(item: Recipe) => item.id}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 70 }}
+        />
+      ) : (
+        <View>
+          <Text>Nenhuma receita.</Text>
+        </View>
+      )}
+      
     </Container>
   )
 }

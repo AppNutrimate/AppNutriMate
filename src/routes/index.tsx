@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import Login from '../pages/Login'
 import Home from '../pages/Home'
 import Profile from '../pages/Profile'
+import EditProfile from '../pages/Profile/EditProfile'
 import Recipes from '../pages/Recipes'
 import Diary from '../pages/Diary'
 import RecipePage from '../pages/RecipePage'
@@ -20,15 +21,16 @@ import SignIn from 'src/pages/SignIn'
 import { type Meal } from 'src/entitites/Meal'
 import DiaryMealRecipes from 'src/pages/DiaryMealRecipes'
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type PropsNavigationStack = {
   Login: undefined
+  TabRoutes: undefined
   CreateAccount: undefined
   SignIn: undefined
   Home: undefined
   Diary: undefined
   Recipes: undefined
   Profile: undefined
+  EditProfile: undefined
   RecipePage: { recipe: Recipe }
   DiaryMealRecipes: { meal: Meal }
   SetNamePage: { userId: string }
@@ -61,6 +63,7 @@ const Routes = () => {
         <Stack.Screen name="Recipes" component={Recipes} />
         <Stack.Screen name="RecipePage" component={RecipePage} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   )

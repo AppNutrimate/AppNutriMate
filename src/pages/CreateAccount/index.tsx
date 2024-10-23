@@ -1,10 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable multiline-ternary */
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from 'react'
 import {
   Container,
@@ -33,7 +26,7 @@ const CreateAccount = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   const handleSignUp = async () => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email || !password || !confirmPassword) {
@@ -59,7 +52,7 @@ const CreateAccount = () => {
 
     try {
       const users: User[] = await userService.list()
-      const emailExists = users.some((user: any) => user.email === email)
+      const emailExists = users.some((user: User) => user.email === email)
 
       if (emailExists) {
         setErrorMessage('Email already exists!')
@@ -80,7 +73,7 @@ const CreateAccount = () => {
       } else {
         setErrorMessage('Failed to retrieve user ID. Please try again.')
       }
-    } catch (error) {
+    } catch (_error) {
       setErrorMessage('Failed to create account. Please try again.')
     }
   }

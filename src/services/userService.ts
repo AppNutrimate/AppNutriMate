@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { jwtDecode } from 'jwt-decode'
 import api from './api'
 import { type User } from 'src/entitites/User'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const userService = {
   register: async (
@@ -13,7 +13,7 @@ const userService = {
     password: string
   ) => {
     try {
-      const res = await api.post<User>('/user', {
+      const res = await api.post<User>('/users', {
         firstName,
         lastName,
         phone,
@@ -22,10 +22,10 @@ const userService = {
         password
       })
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error registering user:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -33,25 +33,24 @@ const userService = {
 
   update: async (userId: string, updatedFields: Partial<User>) => {
     try {
-      const res = await api.patch<User>(`/user/${userId}`, updatedFields)
+      const res = await api.patch<User>(`/users/${userId}`, updatedFields)
       return res.data
-    } catch (error: any) {
-      console.log(error.response)
+    } catch (error) {
       console.error(
         'Error updating user:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
   },
-  getUserById: async (userId: string): Promise<User> => {
+  getUserById: async (): Promise<User> => {
     try {
-      const res = await api.get<User>(`/user/${userId}`)
+      const res = await api.get<User>(`/users/user`)
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error fetching user by ID:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -61,10 +60,10 @@ const userService = {
     try {
       const res = await api.get<User[]>('/users')
       return res.data
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         'Error fetching users:',
-        error.response?.data || error.message
+        error
       )
       throw error
     }
@@ -72,10 +71,16 @@ const userService = {
 
   login: async (email: string, password: string) => {
     try {
-      const res = await api.post('/login', { email, password })
+      const res = await api.post('auth/login', { email, password })
+
+      const token = res.data.access_token
+      const jwtDecoded = jwtDecode(token)
+      await AsyncStorage.setItem('jwt', token)
+      await AsyncStorage.setItem('userId', jwtDecoded.sub as string)
+
       return res.data
-    } catch (error: any) {
-      console.error('Error logging in:', error.response?.data || error.message)
+    } catch (error) {
+      console.error('Error logging in:', error)
       throw error
     }
   }

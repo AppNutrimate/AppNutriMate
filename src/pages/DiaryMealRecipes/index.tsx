@@ -1,15 +1,4 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable no-useless-return */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable quotes */
-/* eslint-disable @typescript-eslint/quotes */
-/* eslint-disable semi */
-/* eslint-disable @typescript-eslint/semi */
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import { Container } from './styles'
 import DefaultTitle from '../../components/common/DefaultTitle'
 import SearchBar from 'src/components/common/SearchBar'
@@ -75,9 +64,12 @@ const DiaryMealRecipes = () => {
       title={item.name}
       calories={item.calories}
       proteins={item.proteins}
-      timePrepare={item.timePrepare}
+      prepTime={item.prepTime}
       image={{ uri: item.picture }}
       mealId={meal.id}
+      onLongPressContainer={() => {
+        console.log("receba");
+      }}
       onPress={() => {
         handleNavigate(item)
       }}
@@ -100,7 +92,7 @@ const DiaryMealRecipes = () => {
         marginVertical={100}
         buttonHandle={handleDeleteMeal}
       />
-      <NavBar />
+      
     </Container>
   )
 }

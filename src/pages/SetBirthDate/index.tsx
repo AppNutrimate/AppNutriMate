@@ -1,11 +1,3 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable @typescript-eslint/indent */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable multiline-ternary */
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from 'react'
 import DefaultTitle from 'src/components/common/DefaultTitle'
 import DefaultButton from 'src/components/common/DefaultButton'

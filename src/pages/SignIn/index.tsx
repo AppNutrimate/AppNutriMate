@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import {
   ButtonContainer,
@@ -14,14 +9,13 @@ import {
   Input
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
-import { useNavigation } from '@react-navigation/native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
 import NutrimateIcon from '@icons/nutrimate-icon.png'
 import NutrimateIconName from '@icons/nutrimate-type.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import { View } from 'react-native'
 import userService from 'src/services/userService'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SignIn = () => {
   const navigation = useNavigation<PropsStack>()
@@ -47,17 +41,17 @@ const SignIn = () => {
 
     try {
       const res = await userService.login(email, password)
-      if (res.success) {
-        setErrorMessage('')
-        const userId = res.user.id.toString()
-        await AsyncStorage.setItem('userId', userId)
-        navigation.navigate('Home')
-      } else {
-        console.log(errorMessage)
-        setErrorMessage('Invalid email or password.')
-      }
+
+      setErrorMessage('')
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0, // Set index to 0
+          routes: [{ name: 'TabRoutes' }], // Replace with TabRoutes
+        })
+      );
     } catch (error) {
-      console.log(errorMessage)
+      console.log(error)
       setErrorMessage('Failed to login. Please try again.')
     }
   }

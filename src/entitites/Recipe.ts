@@ -7,7 +7,7 @@ export interface Recipe {
   proteins: string
   carbos: string
   fat: string
-  timePrepare: string
+  prepTime: string
   createdAt: string
   updatedAt: string
 }

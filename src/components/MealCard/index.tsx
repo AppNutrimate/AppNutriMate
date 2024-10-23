@@ -11,12 +11,13 @@ export interface MealCardProps {
   name: string
   icon: ImageSourcePropType
   onPressContainer?: () => void
+  onLongPressContainer?: () => void
   onPressAdd?: () => void
 }
-const addIcon = require('@icons/plusCircle.png')
+import addIcon from '@icons/plusCircle.png'
 const MealCard = (props: Partial<MealCardProps>) => {
   return (
-    <TouchableOpacity activeOpacity={0.85} onPress={props.onPressContainer}>
+    <TouchableOpacity activeOpacity={0.85} onPress={props.onPressContainer} onLongPress={props.onLongPressContainer}>
       <Container isLast={props.isLast}>
         <Card height={props.height}>
           <MealPhoto source={props.icon} />

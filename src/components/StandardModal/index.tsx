@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable multiline-ternary */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-no-undef */
 import React from "react";
 import {
   KeyboardAvoidingView,
@@ -14,9 +10,9 @@ import {
 import { Container } from "./styles";
 
 interface StandardModalProps extends ModalProps {
-  isOpen: boolean;
-  withInput?: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  withInput?: boolean
+  onClose: () => void
 }
 
 const StandardModal = ({
