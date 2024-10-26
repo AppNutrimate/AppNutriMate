@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
@@ -16,7 +18,9 @@ import userService from 'src/services/userService'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
 import BackButton from 'src/components/common/BackButton'
-import { Alert } from 'react-native'
+import { Alert, Modal } from 'react-native'
+import { TextInputMask } from 'react-native-masked-text'
+import DateTimePicker from 'react-native-modal-datetime-picker'
 
 const EditProfile = () => {
   const [user, setUser] = useState<User>({
@@ -34,6 +38,8 @@ const EditProfile = () => {
 
   const [userId, setUserId] = useState<string | null>(null)
   const navigation = useNavigation<PropsStack>()
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -42,7 +48,6 @@ const EditProfile = () => {
         if (id != null) {
           setUserId(id)
           const user = await userService.getUserById()
-          user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
           setUser(user)
         }
       } catch (error) {
@@ -62,8 +67,9 @@ const EditProfile = () => {
         const updatedFields: Partial<User> = {
           firstName: user.firstName,
           lastName: user.lastName,
+          email: user.email,
           phone: user.phone,
-          email: user.email
+          birth: user.birth
         }
 
         console.log('Updating user:', updatedFields)
@@ -84,6 +90,41 @@ const EditProfile = () => {
       ...prevUser,
       [field]: value
     }))
+  }
+
+  const formatPhoneNumber = (phone: string) => {
+    const cleaned = phone.replace(/\D/g, '')
+
+    const formatted = cleaned.replace(
+      /^(\d{2})(\d{2})(\d{1})(\d{4})(\d{4})$/,
+      '+$1 ($2) $3 $4-$5'
+    )
+
+    return formatted
+  }
+
+  const handleDateModal = () => {
+    setOpenModal(!openModal)
+    setDatePickerVisibility(!isDatePickerVisible)
+  }
+
+  const formatDateToDisplay = (isoDate: string) => {
+    if (!isoDate) return ''
+    const datePart = isoDate.split('T')[0]
+    const [year, month, day] = datePart.split('-')
+    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`
+  }
+
+  const handleConfirmDateModal = (date: Date) => {
+    const isoDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    ).toISOString()
+    setUser((prevUser) => ({
+      ...prevUser,
+      birth: isoDate
+    }))
+    setOpenModal(!openModal)
+    setDatePickerVisibility(false)
   }
 
   return (
@@ -115,18 +156,48 @@ const EditProfile = () => {
         </FlexContainer>
         <FlexContainer>
           <InfoTitle>Phone Number</InfoTitle>
-          <Input
-            value={user.phone}
-            onChangeText={(text) => handleInputChange('phone', text)}
+          <TextInputMask
+            type="cel-phone"
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '+ 55 (99) '
+            }}
+            value={formatPhoneNumber(user.phone)}
+            onChangeText={(text) =>
+              handleInputChange('phone', formatPhoneNumber(text))
+            }
+            keyboardType="phone-pad"
+            style={{
+              borderWidth: 2,
+              padding: 10,
+              borderColor: '#D9D9D9',
+              borderRadius: 30,
+              backgroundColor: '#fff',
+              fontSize: 16,
+              paddingLeft: 15,
+              height: 40,
+              width: '100%'
+            }}
           />
         </FlexContainer>
-        {/* <FlexContainer>
+        <FlexContainer>
           <InfoTitle>Birth</InfoTitle>
           <Input
-            value={user.birth}
+            value={formatDateToDisplay(user.birth)}
+            onFocus={handleDateModal}
             onChangeText={(text) => handleInputChange('birth', text)}
           />
-        </FlexContainer> */}
+        </FlexContainer>
+        <Modal visible={openModal} transparent={true}>
+          <DateTimePicker
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirmDateModal}
+            onCancel={handleDateModal}
+          />
+        </Modal>
+
         <SaveButton onPress={handleSaveChanges}>
           <TextButton>Save Changes</TextButton>
         </SaveButton>

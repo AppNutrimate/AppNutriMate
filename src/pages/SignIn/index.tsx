@@ -21,7 +21,6 @@ import NutrimateIconName from '@icons/nutrimate-type.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import { View } from 'react-native'
 import userService from 'src/services/userService'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SignIn = () => {
   const navigation = useNavigation<PropsStack>()
