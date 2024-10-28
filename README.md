@@ -18,8 +18,11 @@ Aplicação feita durante o desenvolvimento do Grupo de Estudos, como temática 
 
 ## Funcionalidades implementadas
 
-- ❌ Registro e login de usuários
-- ❌ Autenticação com JWT
+- ✔️ Registro e login de usuários
+- ✔️ Autenticação com JWT
+- ✔️ Serviço de Recipe
+- ✔️ Vinculo de Meal(N):Recipe(N)
+- ✔️
 
 ## Rotas da API
 
