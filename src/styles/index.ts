@@ -7,6 +7,7 @@ const myTheme: DefaultTheme = {
     lightGray: '#D9D9D9',
     darkGray: '#777777',
     background: '#FFFFFF',
+    black: '#000000',
     lightBackground: '#EDF1F7'
   }
 }

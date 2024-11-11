@@ -6,7 +6,7 @@ export const Container = styled.TouchableOpacity`
   left: 0;
   padding: 10px;
   z-index: 1;
-  background-color: ${({ theme }) => theme.colors.darkPurple};
+  background-color: ${({ theme }) => theme.colors.purple};
   border-radius: 7px;
   margin-top: 50px;
   margin-left: 30px;
