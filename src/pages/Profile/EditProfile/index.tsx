@@ -10,17 +10,20 @@ import {
   NameInput,
   ContentContainer,
   SaveButton,
-  TextButton
+  TextButton,
+  EditHeaderContent,
+  EditTitle
 } from './styles'
 import { type User } from 'src/entitites/User'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import userService from 'src/services/userService'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
-import BackButton from 'src/components/common/BackButton'
-import { Alert, Modal } from 'react-native'
+import ArrowBack from '@icons/arrow-back-w.png'
+import { Alert, Modal, TouchableOpacity } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import DateTimePicker from 'react-native-modal-datetime-picker'
+import { ArrowBackButton, Header } from '../styles'
 
 const EditProfile = () => {
   const [user, setUser] = useState<User>({
@@ -129,7 +132,14 @@ const EditProfile = () => {
 
   return (
     <MainContainer>
-      <BackButton />
+      <Header>
+        <EditHeaderContent>
+          <TouchableOpacity onPress={()=>{navigation.goBack()}}>
+          <ArrowBackButton source={ArrowBack}/>
+          </TouchableOpacity>
+          <EditTitle>Edit Profile</EditTitle>   
+        </EditHeaderContent>
+      </Header>
       <ContentContainer>
         <NameContainer>
           <FlexContainer style={{ width: '48%' }}>

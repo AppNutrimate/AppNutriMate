@@ -60,6 +60,22 @@ export const SaveButton = styled.TouchableOpacity`
   margin: 20px auto;
   border-radius: 25px;
 `
+export const EditHeaderContent = styled.View`
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 60px;
+`
+
+export const EditTitle = styled.Text`
+  flex: 1;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.background};
+`
+
 export const TextButton = styled.Text`
   font-size: 18px;
   font-weight: bold;
