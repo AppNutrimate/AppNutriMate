@@ -3,6 +3,9 @@ import { TextInputMask } from 'react-native-masked-text'
 import styled from 'styled-components/native'
 
 export const InputContainer = styled.View`
+  display:flex;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
   height: 51px;
   border: 2px solid ${({ theme }) => theme.colors.darkPurple};
@@ -88,14 +91,35 @@ export const LoginButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 50px;
+  ${Platform.select({
+    ios: `
+      shadow-color: rgba(0, 0, 0, 0.25);
+      shadow-offset: { width: 0, height: 4 };
+      shadow-opacity: 0.25;
+      shadow-radius: 4px;
+    `,
+    android: `
+      elevation: 7;
+    `,
+  })}
+`
+
+export const FormHeaderContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `
 
 export const ConnectText = styled.Text`
   font-size: 25px;
   font-weight: 600;
-  padding-top: 25px;
-  padding-bottom: 25px;
   color: #ffffff;
+  flex: 1;
+  padding-left: 30px;
+  justify-content: center;
 `
 
 export const FormContainer = styled.View`
@@ -112,5 +136,4 @@ export const FormContainer = styled.View`
 export const ButtonContainer = styled.View`
   flex:1;
   width: 85%;
-  
 `

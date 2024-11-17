@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "nutrimate",
     "slug": "nutrimate",
     "version": "1.0.0",

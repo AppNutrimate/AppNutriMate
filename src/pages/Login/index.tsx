@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import {
   ButtonContainer,
-  IconContainer,
-  LogoIcon,
   TypeIcon,
   CallIcon
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
-import NutrimateIcon from '@icons/nutrimate-icon.png'
 import NutrimateIconName from '@icons/nutrimate-type.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { View, Text, TextInput, Button, StyleSheet, BackHandler } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { View, BackHandler } from 'react-native';
+import Animated, { SlideInDown, SlideOutDown, useSharedValue, withTiming } from 'react-native-reanimated';
 import SignIn from '../SignIn'
 
 
@@ -44,12 +41,12 @@ const Login = () => {
 
   const handleBackPress = () => {
     if (showForm) {
-      buttonOpacity.value = withTiming(1, { duration: 300 });
-      formTranslateY.value = withTiming(100, { duration: 500 });
       setShowForm(false);
-      return true; // Bloqueia o evento padrão de voltar
+      return true;
     }
-    return false; // Permite o comportamento padrão
+    console.log('asfasdasdasdasd');
+    
+    return false;
   };
 
   useEffect(() => {
@@ -57,21 +54,16 @@ const Login = () => {
     return () => backHandler.remove();
   }, [showForm]);
 
-  const buttonStyle = useAnimatedStyle(() => ({
-    opacity: buttonOpacity.value,
-  }));
-
-  const formStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: formTranslateY.value }],
-  }));
-
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
       <View style={{ position: 'absolute', height: '100%', zIndex: 100, width:"100%" }}>
         
         <ButtonContainer style={{bottom: 0, position: "absolute"}}>
           {!showForm && (
-          <Animated.View style={[buttonStyle, {height: 400, width: "100%", display: 'flex', alignItems: 'center', }]}>
+          <Animated.View 
+          entering={SlideInDown.springify().damping(16)}
+          exiting={SlideOutDown.duration(500)}
+          style={[ {height: 400, width: "100%", display: 'flex', alignItems: 'center', }]}>
             <TypeIcon source={NutrimateIconName} />
             <CallIcon source={CallToActionIcon} />
             <DefaultButton
@@ -92,8 +84,11 @@ const Login = () => {
       )}
 
       {showForm && (
-        <Animated.View style={[formStyle, {width: "100%"}]}>
-          <SignIn></SignIn>
+        <Animated.View style={[{width: "100%" , position: 'absolute', bottom: -15}]}
+         entering={SlideInDown.springify().damping(16)}
+         exiting={SlideOutDown.duration(500)}
+         >
+          <SignIn goback={handleBackPress}></SignIn>
         </Animated.View>
       )}
         </ButtonContainer>

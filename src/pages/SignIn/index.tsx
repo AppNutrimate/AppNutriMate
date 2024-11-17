@@ -1,30 +1,26 @@
 import React, { useState } from "react";
 import {
   ButtonContainer,
-  IconContainer,
-  LogoIcon,
-  TypeIcon,
-  CallIcon,
   InputContainer,
   Input,
   LoginButton,
   FormContainer,
   ConnectText,
+  FormHeaderContainer,
 } from "./styles";
-import DefaultButton from "../../components/common/DefaultButton";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { type PropsStack } from "../../routes";
-import NutrimateIcon from "@icons/nutrimate-icon.png";
-import NutrimateIconName from "@icons/nutrimate-type.png";
-import CallToActionIcon from "@icons/motto-text.png";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import userService from "src/services/userService";
 import { Title } from "src/components/common/DefaultButton/styles";
+import Entypo from "@expo/vector-icons/Entypo";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const SignIn = () => {
+const SignIn = ({ goback }) => {
   const navigation = useNavigation<PropsStack>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState("");
 
   const validateEmail = (email: string) => {
@@ -62,8 +58,13 @@ const SignIn = () => {
   return (
     <View>
       <FormContainer>
-        <ConnectText>Connect with us</ConnectText>
         <ButtonContainer>
+        <FormHeaderContainer>
+          <TouchableOpacity onPress={() => {goback()}} style={styles.button}>
+            <Entypo name="chevron-thin-left" size={25} color="white" />
+          </TouchableOpacity>
+          <ConnectText>Connect with us</ConnectText>
+        </FormHeaderContainer>
           <InputContainer>
             <Input
               placeholder="Email address"
@@ -76,16 +77,27 @@ const SignIn = () => {
             <Input
               placeholder="Password"
               placeholderTextColor="#C0C0C1"
-              secureTextEntry={true}
+              secureTextEntry={showPassword}
               value={password}
               onChangeText={setPassword}
             />
+            <TouchableOpacity onPress={() => {
+              setShowPassword(!showPassword)
+            }} style={styles.button}>
+              <Ionicons name={ showPassword ? "eye-outline" : "eye-off-outline"  } size={25} color="#7265E3" />
+            </TouchableOpacity>
+            
           </InputContainer>
           <View style={{ paddingBottom: 10 }}>
-            <TouchableOpacity style={{
-              display: "flex",alignItems: 'flex-end',
-            }}>
-              <Text style={{paddingVertical: 10, color: "#ffff", fontSize: 12 }}>
+            <TouchableOpacity
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+              }}
+            >
+              <Text
+                style={{ paddingVertical: 10, color: "#ffff", fontSize: 12 }}
+              >
                 Forgot your password?
               </Text>
             </TouchableOpacity>
@@ -98,5 +110,15 @@ const SignIn = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default SignIn;
