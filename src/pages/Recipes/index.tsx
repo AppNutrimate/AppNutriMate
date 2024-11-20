@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import {
   Container,
   ContainerTabRecipes,
@@ -95,7 +94,7 @@ const Recipes = () => {
           <Text>Nenhuma receita.</Text>
         </View>
       )}
-      <NavBar />
+      
     </Container>
   )
 }

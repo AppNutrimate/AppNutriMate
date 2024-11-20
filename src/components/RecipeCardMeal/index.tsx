@@ -38,6 +38,7 @@ export interface RecipeCardProps {
   image: ImageSourcePropType
   mealId: string
   onPress?: () => void
+  onLongPressContainer?: () => void
 }
 
 const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
@@ -67,7 +68,7 @@ const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.85} onPress={props.onPress}>
+    <TouchableOpacity activeOpacity={0.85} onPress={props.onPress} onLongPress={toggleModal}>
       <Container isLast={props.isLast}>
         <Card height={props.height}>
           <MealPhoto source={props.image} />

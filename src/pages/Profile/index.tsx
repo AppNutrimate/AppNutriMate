@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import {
   ArrowBackButton,
   BarLimit,
@@ -123,7 +122,8 @@ const Profile = () => {
           marginVertical={0}
           buttonHandle={handleSignOut}
         />
-      <NavBar />
+
+      </ContainerShaded>
     </Container>
   )
 }

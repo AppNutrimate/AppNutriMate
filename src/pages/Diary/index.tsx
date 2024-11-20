@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
+import React, { useEffect, useState } from "react";
 import {
   ActionButton,
   ActionButtonText,
@@ -13,27 +12,24 @@ import {
   ModalLabel,
   Section,
   SideSubTitle,
-  SideTitle
-} from './styles'
-import DefaultTitle from '../../components/common/DefaultTitle'
-import SearchBar from 'src/components/common/SearchBar'
-import { FlatList } from 'react-native'
-import MealCard from 'src/components/MealCard'
-import mealService from 'src/services/mealService'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { type Meal } from 'src/entitites/Meal'
-import { useNavigation } from '@react-navigation/native'
-import { type PropsStack } from 'src/routes'
-import DefaultButton from 'src/components/common/DefaultButton'
-import AddMealModal from 'src/components/StandardModal'
+  SideTitle,
+} from "./styles";
+import DefaultTitle from "../../components/common/DefaultTitle";
+import SearchBar from "src/components/common/SearchBar";
+import { FlatList } from "react-native";
+import MealCard from "src/components/MealCard";
+import mealService from "src/services/mealService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { type Meal } from "src/entitites/Meal";
+import DefaultButton from "src/components/common/DefaultButton";
+import AddMealModal from "src/components/StandardModal";
 
-const Diary = () => {
-  const [meals, setMeals] = useState<Meal[]>([])
-  const [userId, setUserId] = useState<string | null>(null)
-  const [mealName, setMealName] = useState('')
-  const [calories, setCalories] = useState<string | null>('0')
-  const [modalOpen, setModalOpen] = useState(false)
-  const navigation = useNavigation<PropsStack>()
+const Diary = ({ navigation }) => {
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [mealName, setMealName] = useState("");
+  const [calories, setCalories] = useState<string | null>("0");
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +77,7 @@ const Diary = () => {
         navigation.navigate('DiaryMealRecipes', { meal: item })
       }}
       onPressAdd={() => {
-        navigation.navigate('Recipes')
+        navigation.navigate('recipes', {screen: "Recipes"});
       }}
     />
   )
@@ -160,7 +156,7 @@ const Diary = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-      <NavBar />
+      
     </Container>
   )
 }

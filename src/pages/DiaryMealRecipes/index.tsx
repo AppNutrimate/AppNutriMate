@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import { Container } from './styles'
 import DefaultTitle from '../../components/common/DefaultTitle'
 import SearchBar from 'src/components/common/SearchBar'
@@ -68,6 +67,9 @@ const DiaryMealRecipes = () => {
       prepTime={item.prepTime}
       image={{ uri: item.picture }}
       mealId={meal.id}
+      onLongPressContainer={() => {
+        console.log("receba");
+      }}
       onPress={() => {
         handleNavigate(item)
       }}
@@ -90,7 +92,7 @@ const DiaryMealRecipes = () => {
         marginVertical={100}
         buttonHandle={handleDeleteMeal}
       />
-      <NavBar />
+      
     </Container>
   )
 }

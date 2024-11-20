@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import {
   Container,
   ContainerAllMacros,
@@ -126,7 +125,7 @@ const RecipePage = () => {
           />
         </AddMealModal>
       </ContainerDescription>
-      <NavBar />
+      
     </Container>
   )
 }

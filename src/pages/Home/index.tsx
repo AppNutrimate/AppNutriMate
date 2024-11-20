@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../../components/common/NavBar'
 import {
   Container,
   Greeting,
@@ -63,7 +62,7 @@ const Home = () => {
         </NutritionTipContent>
       </NutritionTip>
       <NutritionTipList />
-      <NavBar />
+      
     </Container>
   )
 }
