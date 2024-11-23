@@ -8,10 +8,12 @@ import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
 import NutrimateIconName from '@icons/nutrimate-type.png'
+import NutrimateLogoName  from '@icons/nutrimate-logo-name.png'
+import NutrimateLogo from '@icons/nutrimate-logo-p.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { View, BackHandler } from 'react-native';
-import Animated, { SlideInDown, SlideOutDown, useSharedValue, withTiming } from 'react-native-reanimated';
+import { View, BackHandler, Image } from 'react-native';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import SignIn from '../SignIn'
 
 
@@ -29,22 +31,18 @@ const images = [
 
 const Login = () => {
   const navigation = useNavigation<PropsStack>()
-  const [showForm, setShowForm] = useState(false);
-  const buttonOpacity = useSharedValue(1); // Opacidade do botão
-  const formTranslateY = useSharedValue(100); // Posição inicial do formulário (fora da tela)
+  const [showLoginForm, setshowLoginForm] = useState(false);
+
 
   const handleLoginPress = () => {
-    buttonOpacity.value = withTiming(0, { duration: 300 });
-    formTranslateY.value = withTiming(0, { duration: 500 });
-    setShowForm(true);
+    setshowLoginForm(true);
   };
 
   const handleBackPress = () => {
-    if (showForm) {
-      setShowForm(false);
+    if (showLoginForm) {
+      setshowLoginForm(false);
       return true;
     }
-    console.log('asfasdasdasdasd');
     
     return false;
   };
@@ -52,14 +50,25 @@ const Login = () => {
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () => backHandler.remove();
-  }, [showForm]);
+  }, [showLoginForm]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
-      <View style={{ position: 'absolute', height: '100%', zIndex: 100, width:"100%" }}>
+    <View style={{ flex: 1 }}>
+        <View 
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
+          zIndex: 1,
+          width: "100%",
+          top: '20%'
+        }}>
+          <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
+        </View>
         
-        <ButtonContainer style={{bottom: 0, position: "absolute"}}>
-          {!showForm && (
+        <ButtonContainer style={{bottom: 0, position: "absolute", zIndex: 1}}>
+          {!showLoginForm && (
           <Animated.View 
           entering={SlideInDown.springify().damping(16)}
           exiting={SlideOutDown.duration(500)}
@@ -83,7 +92,7 @@ const Login = () => {
         </Animated.View>
       )}
 
-      {showForm && (
+      {showLoginForm && (
         <Animated.View style={[{width: "100%" , position: 'absolute', bottom: -15}]}
          entering={SlideInDown.springify().damping(16)}
          exiting={SlideOutDown.duration(500)}
@@ -92,7 +101,6 @@ const Login = () => {
         </Animated.View>
       )}
         </ButtonContainer>
-      </View>
       <Carousel images={images}></Carousel>
     </View>
   );

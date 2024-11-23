@@ -88,6 +88,7 @@ export const LoginButton = styled.TouchableOpacity`
   background-color: rgba(65, 55, 154, 0.8);
   width: 100%;
   height: 51px;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   border-radius: 50px;
@@ -105,24 +106,22 @@ export const LoginButton = styled.TouchableOpacity`
 `
 
 export const FormHeaderContainer = styled.View`
-  flex-direction: row;
+  display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 60px;
   margin-top: 10px;
   margin-bottom: 10px;
 `
 
-export const ConnectText = styled.Text`
+export const FormHeaderTitle = styled.Text`
   font-size: 25px;
   font-weight: 600;
   color: #ffffff;
-  flex: 1;
-  padding-left: 30px;
-  justify-content: center;
 `
 
-export const FormContainer = styled.View`
+export const SignInContainer = styled.View`
   display: flex;
   justify-content: center;
   background-color: rgba(114, 101, 227, 0.9);;

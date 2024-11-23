@@ -4,8 +4,8 @@ import {
   InputContainer,
   Input,
   LoginButton,
-  FormContainer,
-  ConnectText,
+  SignInContainer,
+  FormHeaderTitle,
   FormHeaderContainer,
 } from "./styles";
 import { CommonActions, useNavigation } from "@react-navigation/native";
@@ -14,14 +14,17 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import userService from "src/services/userService";
 import { Title } from "src/components/common/DefaultButton/styles";
 import Entypo from "@expo/vector-icons/Entypo";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 
 const SignIn = ({ goback }) => {
   const navigation = useNavigation<PropsStack>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showSignIn, setShowSignIn] = useState(true)
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,58 +59,93 @@ const SignIn = ({ goback }) => {
     }
   };
   return (
-    <View>
-      <FormContainer>
-        <ButtonContainer>
+    <SignInContainer>
+      <ButtonContainer>
         <FormHeaderContainer>
-          <TouchableOpacity onPress={() => {goback()}} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => {
+              if(showSignIn) {
+                goback();
+              } else {
+                setShowSignIn(true);
+              }
+            }}
+            style={{...styles.button, ...styles.buttonLeft}}
+          >
             <Entypo name="chevron-thin-left" size={25} color="white" />
           </TouchableOpacity>
-          <ConnectText>Connect with us</ConnectText>
+          <FormHeaderTitle>{showSignIn ? 'Sign In' :  'Connect with us'}</FormHeaderTitle>
         </FormHeaderContainer>
-          <InputContainer>
-            <Input
-              placeholder="Email address"
-              placeholderTextColor="#C0C0C1"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              placeholder="Password"
-              placeholderTextColor="#C0C0C1"
-              secureTextEntry={showPassword}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TouchableOpacity onPress={() => {
-              setShowPassword(!showPassword)
-            }} style={styles.button}>
-              <Ionicons name={ showPassword ? "eye-outline" : "eye-off-outline"  } size={25} color="#7265E3" />
-            </TouchableOpacity>
-            
-          </InputContainer>
-          <View style={{ paddingBottom: 10 }}>
-            <TouchableOpacity
-              style={{
-                display: "flex",
-                alignItems: "flex-end",
-              }}
+        { !showSignIn &&
+          (
+            <Animated.View 
+            entering={SlideInLeft.springify().damping(16)}
+            exiting={SlideOutRight.springify().damping(16)}
             >
-              <Text
-                style={{ paddingVertical: 10, color: "#ffff", fontSize: 12 }}
+            <InputContainer>
+              <Input
+                placeholder="Email Address"
+                placeholderTextColor="#C0C0C1"
+                value={email}
+                onChangeText={setEmail}
+              />
+            </InputContainer>
+            <InputContainer>
+              <Input
+                placeholder="Password"
+                placeholderTextColor="#C0C0C1"
+                secureTextEntry={showPassword}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setShowPassword(!showPassword);
+                }}
+                style={styles.button}
               >
-                Forgot your password?
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <LoginButton onPress={handleLogin}>
-            <Title>Connect</Title>
-          </LoginButton>
-        </ButtonContainer>
-      </FormContainer>
-    </View>
+                <Ionicons
+                  name={showPassword ? "eye-outline" : "eye-off-outline"}
+                  size={25}
+                  color="#7265E3"
+                />
+              </TouchableOpacity>
+            </InputContainer>
+            <View style={{ paddingBottom: 10 }}>
+              <TouchableOpacity
+                style={{
+                  display: "flex",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Text
+                  style={{ paddingVertical: 10, color: "#ffff", fontSize: 12 }}
+                >
+                  Forgot your password?
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <LoginButton onPress={handleLogin}>
+              <Title>Login</Title>
+            </LoginButton>
+            </Animated.View>
+          )
+        }
+        { showSignIn &&
+          (
+            <Animated.View 
+            entering={SlideInLeft.springify().damping(16)}
+            >
+            <LoginButton style={{backgroundColor: "white"}} onPress={() => setShowSignIn(false)}>
+              <MaterialCommunityIcons name="email-outline" size={24} color="black" />
+              <Title style={{color: 'black', paddingLeft: 5}}>Connect with email</Title>
+            </LoginButton>
+         </Animated.View>
+            
+          )
+        }
+      </ButtonContainer>
+    </SignInContainer>
   );
 };
 
@@ -116,9 +154,14 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
+
+  buttonLeft: {
+    position: "absolute",
+    left: 0,
+  }
 });
 
 export default SignIn;
