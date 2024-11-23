@@ -10,7 +10,7 @@ import {
 } from "./styles";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { type PropsStack } from "../../routes";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from "react-native";
 import userService from "src/services/userService";
 import { Title } from "src/components/common/DefaultButton/styles";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -78,7 +78,8 @@ const SignIn = ({ goback }) => {
         </FormHeaderContainer>
         { !showSignIn &&
           (
-            <Animated.View 
+            <KeyboardAvoidingView behavior="padding">
+              <Animated.View 
             entering={SlideInLeft.springify().damping(16)}
             exiting={SlideOutRight.springify().damping(16)}
             >
@@ -129,16 +130,22 @@ const SignIn = ({ goback }) => {
               <Title>Login</Title>
             </LoginButton>
             </Animated.View>
+            </KeyboardAvoidingView>
           )
         }
         { showSignIn &&
           (
             <Animated.View 
             entering={SlideInLeft.springify().damping(16)}
+            style={{paddingTop: 10}}
             >
             <LoginButton style={{backgroundColor: "white"}} onPress={() => setShowSignIn(false)}>
-              <MaterialCommunityIcons name="email-outline" size={24} color="black" />
-              <Title style={{color: 'black', paddingLeft: 5}}>Connect with email</Title>
+              <MaterialCommunityIcons name="email-outline" size={30} color="black" />
+              <Title style={{color: 'black', paddingLeft: 10}}>Continue with Email</Title>
+            </LoginButton>
+            <LoginButton style={{backgroundColor: "white", marginTop: 15}} onPress={() => setShowSignIn(false)}>
+              <Ionicons name="logo-google" size={30} color="black" />
+              <Title style={{color: 'black', paddingLeft: 10}}>Continue with0Google</Title>
             </LoginButton>
          </Animated.View>
             
