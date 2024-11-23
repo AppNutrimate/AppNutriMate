@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import {
   MainContainer,

@@ -122,8 +122,6 @@ const Profile = () => {
           marginVertical={0}
           buttonHandle={handleSignOut}
         />
-
-      </ContainerShaded>
     </Container>
   )
 }
