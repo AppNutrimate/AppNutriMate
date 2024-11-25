@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import {
+  ArrowBackButton,
+  BarLimit,
   Container,
   ContainerInfo,
   ContainerShaded,
+  ContainerTitle,
+  EditIcon,
+  Header,
+  HeaderContent,
   ProfileImage,
   ProfileName,
+  ProfileTitle,
+  SectionTitle,
   UserDetail,
   UserDetailTitle,
   UserDetailValue
 } from './styles'
 import PerfilIcon from '@icons/perfil.png'
+import PencilIcon from '@icons/pencil-edit-w.png'
+import ArrowBack from '@icons/arrow-back-w.png'
 import DefaultButton from 'src/components/common/DefaultButton'
 import { TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
@@ -29,7 +39,7 @@ const Profile = () => {
         const id = await AsyncStorage.getItem('userId')
         if (id != null) {
           setUserId(id)
-          const user = await userService.getUserById(id)
+          const user = await userService.getUserById()
           user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
           setUser(user)
         }
@@ -42,9 +52,35 @@ const Profile = () => {
     if (userId == null) {
       void fetchUserDetails()
     }
+
   }, [])
+
+  const handleSignOut = async () => {
+    await AsyncStorage.removeItem('userId')
+    navigation.navigate('Login')
+  }
+
   return (
     <Container>
+      <Header>
+        <HeaderContent>
+        <TouchableOpacity onPress={
+            () => {
+              navigation.goBack()
+            }
+          }>
+          <ArrowBackButton source={ArrowBack}/>
+          </TouchableOpacity>
+          <ProfileTitle>Profile</ProfileTitle>
+          <TouchableOpacity onPress={
+            () => {
+              navigation.navigate('EditProfile')
+            }
+          }>
+          <EditIcon source={PencilIcon}/>
+          </TouchableOpacity>
+        </HeaderContent>
+      </Header>
       <TouchableOpacity style={{ marginTop: 70 }}>
         <ProfileImage
           source={user != null ? { uri: user.profilePhoto } : PerfilIcon}
@@ -53,6 +89,11 @@ const Profile = () => {
       <ProfileName>{user?.firstName + ' ' + user?.lastName}</ProfileName>
       <ContainerShaded>
         <ContainerInfo>
+          <ContainerTitle>
+          <SectionTitle>Main Information</SectionTitle>
+          </ContainerTitle>
+          <BarLimit>
+          </BarLimit>
           <UserDetail>
             <UserDetailTitle>First Name:</UserDetailTitle>
             <UserDetailValue>{user?.firstName}</UserDetailValue>
@@ -74,16 +115,13 @@ const Profile = () => {
             <UserDetailValue>{user?.birth}</UserDetailValue>
           </UserDetail>
         </ContainerInfo>
+      </ContainerShaded>
         <DefaultButton
           backgroundColor={'#6161A9'}
-          text={'Edit Profile'}
+          text={'Sign Out'}
           marginVertical={0}
-          buttonHandle={() => {
-            navigation.navigate('EditProfile')
-          }}
+          buttonHandle={handleSignOut}
         />
-      </ContainerShaded>
-      
     </Container>
   )
 }

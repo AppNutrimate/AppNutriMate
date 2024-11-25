@@ -41,7 +41,7 @@ const SetPhonePage = () => {
       phone
     }
     try {
-      const res = await userService.update(userId, updatedField)
+      const res = await userService.update(updatedField)
       console.log('Phone setted:', res)
       navigation.navigate('SetBirthDatePage', { userId })
     } catch (error) {

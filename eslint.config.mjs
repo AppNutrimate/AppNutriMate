@@ -13,6 +13,8 @@ export default [
         "error",
         {
           caughtErrors: "none",
+          singleQuote: true,
+          semi: false,
         },
       ],
     },
