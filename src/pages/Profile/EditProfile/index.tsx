@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
@@ -66,13 +68,20 @@ const EditProfile = () => {
     try {
       if (userId && user) {
         const updatedFields: Partial<User> = {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
+          firstName: user.firstName?.trim(),
+          lastName: user.lastName?.trim(),
+          email: user.email?.trim(),
           phone: user.phone,
           birth: user.birth
         }
-
+        const isAnyFieldEmpty = Object.values(updatedFields).some(
+          (value) => !value || value.toString().trim() === ''
+        );
+  
+        if (isAnyFieldEmpty) {
+          Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+          return;
+        }
         console.log('Updating user:', updatedFields)
         await userService.update(updatedFields)
         console.log('User updated:', updatedFields)
@@ -191,11 +200,14 @@ const EditProfile = () => {
         </FlexContainer>
         <FlexContainer>
           <InfoTitle>Birth</InfoTitle>
-          <Input
-            value={formatDateToDisplay(user.birth)}
-            onFocus={handleDateModal}
-            onChangeText={(text) => handleInputChange('birth', text)}
-          />
+          <TouchableOpacity onPress={()=>handleDateModal()}>
+            <Input
+              value={formatDateToDisplay(user.birth)}
+              onChangeText={(text) => handleInputChange('birth', text)}
+              pointerEvents='none'
+              editable={false}
+            />
+          </TouchableOpacity>
         </FlexContainer>
         <Modal visible={openModal} transparent={true}>
           <DateTimePicker
