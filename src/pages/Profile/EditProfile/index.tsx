@@ -209,14 +209,14 @@ const EditProfile = () => {
             />
           </TouchableOpacity>
         </FlexContainer>
-        <Modal visible={openModal} transparent={true}>
+        {/* <Modal visible={openModal} transparent={true}> */}
           <DateTimePicker
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirmDateModal}
             onCancel={handleDateModal}
           />
-        </Modal>
+        {/* </Modal> */}
 
         <SaveButton onPress={handleSaveChanges}>
           <TextButton>Save Changes</TextButton>
