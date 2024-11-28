@@ -1,14 +1,15 @@
 import styled from 'styled-components/native'
 import { type RecipeCardProps } from '.'
+import { Platform } from 'react-native'
 
 export const Container = styled.View<Partial<RecipeCardProps>>`
   align-items: center;
   justify-content: center;
   margin: 0 20px
     ${(props) => {
-      // se for o ultimo item adiciona a altura da navbar ao margin-bottom
-      return props.isLast ?? false ? 60 + 20 : 20
-    }}px
+    // se for o ultimo item adiciona a altura da navbar ao margin-bottom
+    return props.isLast ?? false ? 60 + 20 : 20
+  }}px
     20px;
 `
 export const Card = styled.View<Partial<RecipeCardProps>>`
@@ -43,9 +44,10 @@ export const ContainerMacro = styled.View`
   padding-left: 10px;
   gap: 3px;
 `
-export const MacroIcon = styled.Image.attrs({})`
-  height: 15px;
-  width: 15px;
+
+export const MacroIcon = styled.Image.attrs({ resizeMode: 'contain' })`
+  height: 20px;
+  width: 20px;
   padding-right: 5px;
 `
 export const MacroNumber = styled.Text``

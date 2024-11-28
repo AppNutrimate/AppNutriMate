@@ -42,12 +42,12 @@ export const ProfileName = styled.Text`
   margin-top: 5px;
   margin-bottom: -10px;
 `
-export const EditIcon = styled.Image.attrs({resize: 'contain'})`
+export const EditIcon = styled.Image.attrs({ resize: 'contain' })`
   width: 20px;
   height: 20px;
   margin-left: 10px;
 `
-export const ArrowBackButton = styled.Image.attrs({resize: 'contain'})`
+export const ArrowBackButton = styled.Image.attrs({ resize: 'contain' })`
 width: 20px;
 height: 20px;
 margin-right: 10px;

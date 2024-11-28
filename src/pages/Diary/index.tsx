@@ -107,7 +107,7 @@ const Diary = ({ navigation }) => {
       <SearchBar />
       <IndicatorContainer>
         <Section>
-          <SideTitle>300</SideTitle>
+          <SideTitle>1250</SideTitle>
           <SideSubTitle>Eaten</SideSubTitle>
         </Section>
         <Section>
@@ -115,7 +115,7 @@ const Diary = ({ navigation }) => {
           <CenterSubTitle>Total Calories</CenterSubTitle>
         </Section>
         <Section>
-          <SideTitle>2000</SideTitle>
+          <SideTitle>550</SideTitle>
           <SideSubTitle>Remaining</SideSubTitle>
         </Section>
       </IndicatorContainer>

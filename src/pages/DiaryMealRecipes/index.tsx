@@ -10,6 +10,7 @@ import mealService from 'src/services/mealService'
 import RecipeCardMeal from 'src/components/RecipeCardMeal'
 import DefaultButton from 'src/components/common/DefaultButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import BackButton from 'src/components/common/BackButton'
 
 const DiaryMealRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[] | []>([])
@@ -77,6 +78,7 @@ const DiaryMealRecipes = () => {
   )
   return (
     <Container>
+      <BackButton/>
       <DefaultTitle fontSize={20} title={`${meal.name}`} />
       <SearchBar />
       <FlatList
