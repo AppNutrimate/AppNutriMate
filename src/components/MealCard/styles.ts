@@ -6,9 +6,9 @@ export const Container = styled.View<Partial<MealCardProps>>`
   justify-content: center;
   margin: 0 20px
     ${(props) => {
-      // se for o ultimo item adiciona a altura da navbar ao margin-bottom
-      return props.isLast ?? false ? 60 + 20 : 20
-    }}px
+    // se for o ultimo item adiciona a altura da navbar ao margin-bottom
+    return props.isLast ?? false ? 60 + 20 : 20
+  }}px
     20px;
 `
 export const Card = styled.View<Partial<MealCardProps>>`
@@ -23,10 +23,10 @@ export const Card = styled.View<Partial<MealCardProps>>`
   padding-top: 3px;
 `
 export const MealPhoto = styled.Image.attrs({
-  resizeMode: 'cover'
+  resizeMode: 'contain'
 })`
   width: 90px; // Ajusta a largura para compensar a margem
-  height: 100%;
+  height: 90px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   margin-left: 10px; // Adiciona margem apenas à esquerda
@@ -38,6 +38,7 @@ export const TitleCard = styled.Text`
   text-transform: capitalize;
 `
 export const AddButtonIcon = styled.Image.attrs({})`
-  width: 30px;
-  height: 30px;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
 `

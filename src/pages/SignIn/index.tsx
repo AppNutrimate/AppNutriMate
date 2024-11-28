@@ -145,7 +145,7 @@ const SignIn = ({ goback }) => {
             </LoginButton>
             <LoginButton style={{backgroundColor: "white", marginTop: 15}} onPress={() => setShowSignIn(false)}>
               <Ionicons name="logo-google" size={30} color="black" />
-              <Title style={{color: 'black', paddingLeft: 10}}>Continue with0Google</Title>
+              <Title style={{color: 'black', paddingLeft: 10}}>Continue with Google</Title>
             </LoginButton>
          </Animated.View>
             
