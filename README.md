@@ -1,6 +1,6 @@
 # NutriMate
 
-Aplicação feita durante o desenvolvimento do Grupo de Estudos, como temática o "Criando o Primeiro Software" ministrado pelo Prof. Maurício Moreira Neto. Nesta aplicação realiza a administração de uma dieta no cotidiano
+Veja o Projeto no Figma: https://www.figma.com/design/bzMM3Vv7iuVbOz0Zet4vNS/NutriMate?node-id=0-1&p=f
 
 ## Como usar em desenvolvimento
 
