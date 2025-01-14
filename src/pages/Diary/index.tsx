@@ -23,13 +23,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Meal } from "src/entitites/Meal";
 import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+type RootStackParamList = {
+  DiaryMealRecipes: { meal: Meal };
+  recipes: { screen: string };
+};
 
-const Diary = ({ navigation }) => {
+const Diary = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [mealName, setMealName] = useState("");
   const [calories, setCalories] = useState<string | null>("0");
   const [modalOpen, setModalOpen] = useState(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const fetchData = async () => {
