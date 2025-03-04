@@ -11,7 +11,6 @@ import {
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { type PropsStack } from "../../routes";
 import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from "react-native";
-import userService from "src/services/userService";
 import { Title } from "src/components/common/DefaultButton/styles";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -22,7 +21,7 @@ const SignIn = ({ goback }) => {
   const navigation = useNavigation<PropsStack>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [showSignIn, setShowSignIn] = useState(true)
 
@@ -43,10 +42,7 @@ const SignIn = ({ goback }) => {
     }
 
     try {
-      const res = await userService.login(email, password);
-
       setErrorMessage("");
-
       navigation.dispatch(
         CommonActions.reset({
           index: 0, // Set index to 0

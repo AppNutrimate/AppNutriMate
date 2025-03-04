@@ -31,12 +31,18 @@ const images = [
 
 const Login = () => {
   const navigation = useNavigation<PropsStack>()
-  const [showLoginForm, setshowLoginForm] = useState(false);
+  const [showLoginForm, setshowLoginForm] = useState<boolean | null>(false);
 
 
   const handleLoginPress = () => {
     setshowLoginForm(true);
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setshowLoginForm(true);
+    }, 100);
+  }, []);
 
   const handleBackPress = () => {
     if (showLoginForm) {
