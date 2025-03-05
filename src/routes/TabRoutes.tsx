@@ -103,7 +103,7 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
       width: '80%',
       height: '100%',
     }}>
-      <Image source={icon} resizeMode="contain" style={{width: 35, height: 35}} />
+      <Image source={icon} resizeMode="contain" style={{width: '70%', height: '70%'}} />
     </View>
   )
 }
@@ -117,7 +117,7 @@ export default function TabRoutes() {
         //unmountOnBlur: true,
         tabBarStyle: {
           backgroundColor: "#EDF1F7",
-          height: 55
+          height: '10%'
          },
         tabBarInactiveTintColor: "#7265E3",
         tabBarActiveTintColor: "#41379A",

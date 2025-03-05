@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import {
   ButtonContainer,
@@ -7,6 +8,7 @@ import {
   SignInContainer,
   FormHeaderTitle,
   FormHeaderContainer,
+  ErrorMessageText,
 } from "./styles";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { type PropsStack } from "../../routes";
@@ -16,6 +18,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
+import userService from "src/services/userService";
 
 const SignIn = ({ goback }) => {
   const navigation = useNavigation<PropsStack>();
@@ -42,11 +45,12 @@ const SignIn = ({ goback }) => {
     }
 
     try {
+      await userService.login(email, password);
       setErrorMessage("");
       navigation.dispatch(
         CommonActions.reset({
-          index: 0, // Set index to 0
-          routes: [{ name: "TabRoutes" }], // Replace with TabRoutes
+          index: 0,
+          routes: [{ name: "TabRoutes" }],
         })
       );
     } catch (error) {
@@ -79,6 +83,7 @@ const SignIn = ({ goback }) => {
             entering={SlideInLeft.springify().damping(16)}
             exiting={SlideOutRight.springify().damping(16)}
             >
+            <ErrorMessageText>{errorMessage}</ErrorMessageText>
             <InputContainer>
               <Input
                 placeholder="Email Address"

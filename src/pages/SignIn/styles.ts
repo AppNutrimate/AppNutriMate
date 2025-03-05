@@ -136,3 +136,9 @@ export const ButtonContainer = styled.View`
   flex:1;
   width: 85%;
 `
+export const ErrorMessageText = styled.Text`
+  color: white;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 10px;
+`
