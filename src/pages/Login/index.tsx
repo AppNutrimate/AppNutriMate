@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {
   ButtonContainer,
   TypeIcon,
-  CallIcon
+  CallIcon,
+  MainContainer,
+  LogoContainer
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
@@ -12,7 +14,7 @@ import NutrimateLogoName  from '@icons/nutrimate-logo-name.png'
 import NutrimateLogo from '@icons/nutrimate-logo-p.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { View, BackHandler, Image } from 'react-native';
+import { BackHandler, Image } from 'react-native';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import SignIn from '../SignIn'
 
@@ -53,19 +55,10 @@ const Login = () => {
   }, [showLoginForm]);
 
   return (
-    <View style={{ flex: 1 }}>
-        <View 
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          zIndex: 1,
-          width: "100%",
-          top: '20%'
-        }}>
+    <MainContainer>
+        <LogoContainer>
           <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
-        </View>
+        </LogoContainer>
         
         <ButtonContainer style={{bottom: 0, position: "absolute", zIndex: 1}}>
           {!showLoginForm && (
@@ -102,7 +95,7 @@ const Login = () => {
       )}
         </ButtonContainer>
       <Carousel images={images}></Carousel>
-    </View>
+    </MainContainer>
   );
 }
 
