@@ -38,12 +38,6 @@ const Login = () => {
     setshowLoginForm(true);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setshowLoginForm(true);
-    }, 100);
-  }, []);
-
   const handleBackPress = () => {
     if (showLoginForm) {
       setshowLoginForm(false);
@@ -76,7 +70,7 @@ const Login = () => {
         <ButtonContainer style={{bottom: 0, position: "absolute", zIndex: 1}}>
           {!showLoginForm && (
           <Animated.View 
-          entering={SlideInDown.springify().damping(16)}
+          entering={SlideInDown.springify().damping(16).delay(100)}
           exiting={SlideOutDown.duration(500)}
           style={[ {height: 400, width: "100%", display: 'flex', alignItems: 'center', }]}>
             <TypeIcon source={NutrimateIconName} />
