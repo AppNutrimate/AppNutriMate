@@ -23,10 +23,10 @@ export const Card = styled.View<Partial<MealCardProps>>`
   padding-top: 3px;
 `
 export const MealPhoto = styled.Image.attrs({
-  resizeMode: 'cover'
+  resizeMode: 'contain'
 })`
   width: 90px; // Ajusta a largura para compensar a margem
-  height: 100%;
+  height: 90px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   margin-left: 10px; // Adiciona margem apenas à esquerda

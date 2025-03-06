@@ -8,7 +8,9 @@ export interface Image {
 }
 
 export interface CarouselProps {
-  images: Image[]
+  images: {
+    url: string
+  }[]
 }
 
 const Carousel = ({ images }: CarouselProps) => {
@@ -42,7 +44,7 @@ const Carousel = ({ images }: CarouselProps) => {
 
   return (
     <>
-      <Container>
+      <Container style={{position: 'absolute', zIndex:0}}>
         <FlatList
           ref={flatListRef}
           data={images}

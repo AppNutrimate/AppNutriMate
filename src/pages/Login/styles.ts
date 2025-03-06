@@ -32,6 +32,21 @@ export const CallIcon = styled.Image.attrs({
 `
 
 export const ButtonContainer = styled.View`
-  flex: 1;
+  bottom: 0; 
+  position: "absolute";
   align-items: center;
+  width: 100%;
+`
+export const LogoContainer = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: 20%;
+`
+
+export const MainContainer = styled.View`
+  flex: 1;
 `

@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ButtonContainer,
-  IconContainer,
-  LogoIcon,
   TypeIcon,
-  CallIcon
+  CallIcon,
+  MainContainer,
+  LogoContainer
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
-import NutrimateIcon from '@icons/nutrimate-icon.png'
 import NutrimateIconName from '@icons/nutrimate-type.png'
+import NutrimateLogoName  from '@icons/nutrimate-logo-name.png'
+import NutrimateLogo from '@icons/nutrimate-logo-p.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { View } from 'react-native'
+import { BackHandler, Image } from 'react-native';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import SignIn from '../SignIn'
+
 
 const images = [
   {
@@ -29,36 +33,70 @@ const images = [
 
 const Login = () => {
   const navigation = useNavigation<PropsStack>()
+  const [showLoginForm, setshowLoginForm] = useState<boolean | null>(false);
+
+
+  const handleLoginPress = () => {
+    setshowLoginForm(true);
+  };
+
+  const handleBackPress = () => {
+    if (showLoginForm) {
+      setshowLoginForm(false);
+      return true;
+    }
+    
+    return false;
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => backHandler.remove();
+  }, [showLoginForm]);
+
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
-      <View style={{ position: 'absolute', height: '100%', zIndex: 100 }}>
-        <IconContainer>
-          <LogoIcon source={NutrimateIcon} />
-        </IconContainer>
-        <ButtonContainer>
-          <TypeIcon source={NutrimateIconName} />
-          <CallIcon source={CallToActionIcon} />
-          <DefaultButton
-            backgroundColor={'#777777'}
-            text={'Create Account'}
-            marginVertical={15}
-            buttonHandle={() => {
-              navigation.navigate('CreateAccount')
-            }}
-          />
-          <DefaultButton
-            backgroundColor={'#7265E3'}
-            text={'Sign In'}
-            marginVertical={8}
-            buttonHandle={() => {
-              navigation.navigate('SignIn')
-            }}
-          />
+    <MainContainer>
+        <LogoContainer>
+          <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
+        </LogoContainer>
+        
+        <ButtonContainer style={{height: 400, bottom: 0, position: "absolute", zIndex: 1}}>
+          {!showLoginForm && (
+          <Animated.View 
+          entering={SlideInDown.springify().damping(16).delay(100)}
+          exiting={SlideOutDown.duration(500)}
+          style={[ {width: "100%", display: 'flex', alignItems: 'center' }]}>
+            <TypeIcon source={NutrimateIconName} />
+            <CallIcon source={CallToActionIcon} />
+            <DefaultButton
+              backgroundColor={'#777777'}
+              text={'Create Account'}
+              marginVertical={15}
+              buttonHandle={() => {
+                navigation.navigate('CreateAccount')
+              }}
+            />
+            <DefaultButton
+              backgroundColor={'#7265E3'}
+              text={'Sign In'}
+              marginVertical={8}
+              buttonHandle={handleLoginPress}
+            />
+        </Animated.View>
+      )}
+
+      {showLoginForm && (
+        <Animated.View style={[{width: "100%" , position: 'absolute', bottom: -15}]}
+         entering={SlideInDown.springify().damping(16)}
+         exiting={SlideOutDown.duration(500)}
+         >
+          <SignIn goback={handleBackPress}></SignIn>
+        </Animated.View>
+      )}
         </ButtonContainer>
-      </View>
       <Carousel images={images}></Carousel>
-    </View>
-  )
+    </MainContainer>
+  );
 }
 
 export default Login
