@@ -60,12 +60,12 @@ const Login = () => {
           <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
         </LogoContainer>
         
-        <ButtonContainer style={{bottom: 0, position: "absolute", zIndex: 1}}>
+        <ButtonContainer style={{height: 400, bottom: 0, position: "absolute", zIndex: 1}}>
           {!showLoginForm && (
           <Animated.View 
           entering={SlideInDown.springify().damping(16).delay(100)}
           exiting={SlideOutDown.duration(500)}
-          style={[ {height: 400, width: "100%", display: 'flex', alignItems: 'center', }]}>
+          style={[ {width: "100%", display: 'flex', alignItems: 'center' }]}>
             <TypeIcon source={NutrimateIconName} />
             <CallIcon source={CallToActionIcon} />
             <DefaultButton
