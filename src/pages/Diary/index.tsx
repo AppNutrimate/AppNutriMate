@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
   ActionButton,
   ActionButtonText,
@@ -24,46 +23,55 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Meal } from "src/entitites/Meal";
 import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+type RootStackParamList = {
+  DiaryMealRecipes: { meal: Meal };
+  recipes: { screen: string };
+};
 
-const Diary = ({ navigation }) => {
+const Diary = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [mealName, setMealName] = useState("");
   const [calories, setCalories] = useState<string | null>("0");
   const [modalOpen, setModalOpen] = useState(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let id = userId;
+        let id = userId
         if (!id) {
-          id = await AsyncStorage.getItem("userId");
-          setUserId(id);
+          id = await AsyncStorage.getItem('userId')
+          setUserId(id)
         }
         if (id) {
-          const response = await mealService.getMealByUserId();
-          setMeals(response ?? []);
-          // const totalCalories = mealsWithRecipes.reduce(
-          //   (i, meal) =>
-          //     i +
-          //     meal.recipes.reduce(
-          //       (j: number, recipe: { calories: number }) =>
-          //         j + recipe.calories,
-          //       0
-          //     ),
-          //   0
-          // )
-          // setCalories(totalCalories.toString())
+          const response = await mealService.getMealByUserId()
+          setMeals(response ?? [])
+          const mealsWithRecipes = response.filter(
+            (meal) => meal.recipes.length > 0
+          )
+          const totalCalories = mealsWithRecipes.reduce(
+            (acc, meal) =>
+              acc +
+              meal.recipes
+                .map((recipe) => recipe.calories)
+                .reduce(
+                  (acc, recipe) => acc + parseFloat(recipe.toString()),
+                  0
+                ),
+            0
+          )
+          setCalories(totalCalories.toString())
         } else {
-          console.error("User ID not found");
-          setCalories("0");
+          setCalories('0')
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error)
       }
-    };
-    fetchData();
-  }, [userId]);
+    }
+    fetchData()
+  }, [userId])
 
   const renderItem = ({ item, index }: { item: Meal; index: number }) => (
     <MealCard
@@ -72,32 +80,32 @@ const Diary = ({ navigation }) => {
       name={item.name}
       icon={{ uri: item.icon }}
       onPressContainer={() => {
-        navigation.navigate("DiaryMealRecipes", { meal: item });
+        navigation.navigate('DiaryMealRecipes', { meal: item })
       }}
       onPressAdd={() => {
         navigation.navigate('recipes', {screen: "Recipes"});
       }}
     />
-  );
+  )
 
   const handleAddMeal = async () => {
     try {
       if (!mealName) {
-        console.error("Meal name is required");
-        return;
+        console.error('Meal name is required')
+        return
       }
       const createdMeal = await mealService.addMeal(
-        "https://cdn-icons-png.flaticon.com/512/3595/3595881.png",
+        'https://cdn-icons-png.flaticon.com/512/3595/3595881.png',
         mealName
-      );
-      console.log("Meal created:", createdMeal);
-      setMeals((prevMeals) => [...prevMeals, createdMeal]);
-      setMealName("");
-      setModalOpen(false);
+      )
+      console.log('Meal created:', createdMeal)
+      setMeals((prevMeals) => [...prevMeals, createdMeal])
+      setMealName('')
+      setModalOpen(false)
     } catch (error) {
-      console.error("Error creating meal:", error);
+      console.error('Error creating meal:', error)
     }
-  };
+  }
 
   return (
     <Container>
@@ -105,7 +113,7 @@ const Diary = ({ navigation }) => {
       <SearchBar />
       <IndicatorContainer>
         <Section>
-          <SideTitle>300</SideTitle>
+          <SideTitle>1250</SideTitle>
           <SideSubTitle>Eaten</SideSubTitle>
         </Section>
         <Section>
@@ -113,22 +121,22 @@ const Diary = ({ navigation }) => {
           <CenterSubTitle>Total Calories</CenterSubTitle>
         </Section>
         <Section>
-          <SideTitle>2000</SideTitle>
+          <SideTitle>550</SideTitle>
           <SideSubTitle>Remaining</SideSubTitle>
         </Section>
       </IndicatorContainer>
       <DefaultButton
-        backgroundColor={"#6161A9"}
-        text={"Add New Meal"}
+        backgroundColor={'#6161A9'}
+        text={'Add New Meal'}
         marginVertical={20}
         buttonHandle={() => {
-          setModalOpen(true);
+          setModalOpen(true)
         }}
       />
       <AddMealModal
         isOpen={modalOpen}
         onClose={() => {
-          setModalOpen(false);
+          setModalOpen(false)
         }}
       >
         <FormContainer>
@@ -142,7 +150,7 @@ const Diary = ({ navigation }) => {
         <ButtonContainer>
           <ActionButton
             onPress={() => {
-              handleAddMeal();
+              handleAddMeal()
             }}
           >
             <ActionButtonText>Create Meal</ActionButtonText>
@@ -156,7 +164,7 @@ const Diary = ({ navigation }) => {
       />
       
     </Container>
-  );
-};
+  )
+}
 
-export default Diary;
+export default Diary

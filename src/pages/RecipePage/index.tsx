@@ -23,6 +23,7 @@ import AddMealModal from 'src/components/StandardModal'
 import { type Meal } from 'src/entitites/Meal'
 import mealService from 'src/services/mealService'
 import MealList from 'src/components/MealList'
+import BackButton from 'src/components/common/BackButton'
 
 const RecipePage = () => {
   const route = useRoute<RouteProp<PropsNavigationStack, 'RecipePage'>>()
@@ -74,6 +75,7 @@ const RecipePage = () => {
   )
   return (
     <Container>
+      <BackButton />
       <CoverPhoto source={{ uri: recipe.picture }} />
       <Title>{recipe.name}</Title>
       <ContainerAllMacros>

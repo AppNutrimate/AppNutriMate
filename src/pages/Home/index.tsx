@@ -22,7 +22,6 @@ const Home = () => {
         const user = await userService.getUserById()
         setUserName(user.firstName)
         setUserPhoto(user.profilePhoto)
-        
       } catch (error) {
         console.error('Failed to fetch user details:', error)
       }

@@ -91,7 +91,7 @@ const Recipes = () => {
         />
       ) : (
         <View>
-          <Text>Nenhuma receita.</Text>
+          <Text style={{ paddingLeft:30}}>Nenhuma receita.</Text>
         </View>
       )}
       

@@ -43,7 +43,7 @@ const SetNamePage = () => {
     try {
       console.log(userId)
       console.log(updatedFields)
-      const res = await userService.update(userId, updatedFields)
+      const res = await userService.update(updatedFields)
       console.log('Name setted:', { res })
       navigation.navigate('SetPhonePage', { userId })
     } catch (error) {

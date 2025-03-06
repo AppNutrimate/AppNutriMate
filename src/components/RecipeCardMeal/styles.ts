@@ -78,9 +78,9 @@ export const ContainerMacro = styled.View`
   padding-left: 10px;
   gap: 3px;
 `
-export const MacroIcon = styled.Image.attrs({})`
-  height: 15px;
-  width: 15px;
+export const MacroIcon = styled.Image.attrs({ resizeMode: 'contain' })`
+  height: 20px;
+  width: 20px;
   padding-right: 5px;
 `
 export const MacroNumber = styled.Text`

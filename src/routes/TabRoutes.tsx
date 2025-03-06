@@ -12,7 +12,7 @@ import SetBirthDatePage from "src/pages/SetBirthDate";
 import SetNamePage from "src/pages/SetName";
 import SetPhonePage from "src/pages/SetPhone";
 import SuccessPage from "src/pages/Success";
-
+import { Platform } from "react-native";
 import HomeIcon from "@icons/home-icon-p.png";
 import HomeIconSolid from "@icons/home-icon-solid.png";
 import DiaryIcon from "@icons/diary-icon-p.png";
@@ -101,7 +101,6 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
       justifyContent: 'center',
       alignItems: 'center',
       width: '80%',
-      height: '100%',
     }}>
       <Image source={icon} resizeMode="contain" style={{width: '70%', height: '70%'}} />
     </View>
@@ -110,6 +109,7 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
   
 
 export default function TabRoutes() {
+  const heightSize = Platform.OS === "ios" ? 90 : 60;
   return (
     <Tab.Navigator
       screenOptions={{
