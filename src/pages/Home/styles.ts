@@ -41,3 +41,10 @@ export const NutritionTipContent = styled.Text`
   line-height: 25px;
   padding-top: 10px;
 `
+export const ProfileImage = styled.Image`
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  border-color: ${(props) => props.theme.colors.purple};
+  border-width: 3px;
+`
