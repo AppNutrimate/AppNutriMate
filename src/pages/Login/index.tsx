@@ -60,7 +60,7 @@ const Login = () => {
           <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
         </LogoContainer>
         
-        <ButtonContainer style={{height: 400, bottom: 0, position: "absolute", zIndex: 1}}>
+        <ButtonContainer>
           {!showLoginForm && (
           <Animated.View 
           entering={SlideInDown.springify().damping(16).delay(100)}

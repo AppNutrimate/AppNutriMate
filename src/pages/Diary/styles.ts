@@ -73,3 +73,26 @@ export const ActionButtonText = styled.Text`
   font-weight: bold;
   font-size: 16px;
 `
+
+export const PresetImagesContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 10px;
+`
+export const PresetImageCard = styled.Pressable`
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid ${({ theme }) => theme.colors.darkPurple};
+  padding: 3px;
+  margin-top: 5px;
+`
+export const PresetImage = styled.Image`
+  width: 90%;
+  aspect-ratio: 1;
+`

@@ -1,5 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const dailyTips = [
     "Stay hydrated! Drink at least 2 liters of water daily for better energy and focus.",
     "Eat the rainbow! More colorful fruits and veggies mean more diverse nutrients.",

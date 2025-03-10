@@ -100,3 +100,7 @@ const DiaryMealRecipes = () => {
 }
 
 export default DiaryMealRecipes
+function setMeals(arg0: (prevMeals: any) => any) {
+  throw new Error('Function not implemented.')
+}
+
