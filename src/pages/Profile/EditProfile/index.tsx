@@ -86,6 +86,7 @@ const EditProfile = () => {
         await userService.update(updatedFields)
         console.log('User updated:', updatedFields)
         Alert.alert('User updated successfully!')
+        navigation.goBack()
         navigation.navigate('Home')
       } else {
         console.error('User ID is null or user is undefined')

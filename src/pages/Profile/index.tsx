@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   ArrowBackButton,
   BarLimit,
@@ -25,7 +25,7 @@ import { TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type User } from 'src/entitites/User'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
 
 const Profile = () => {
@@ -33,27 +33,29 @@ const Profile = () => {
   const [userId, setUserId] = useState<string | null>(null)
   const [user, setUser] = useState<User>()
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const id = await AsyncStorage.getItem('userId')
-        if (id != null) {
-          setUserId(id)
-          const user = await userService.getUserById()
-          user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
-          setUser(user)
+  useFocusEffect(
+    useCallback(() => {
+      const fetchUserDetails = async () => {
+        try {
+          const id = await AsyncStorage.getItem('userId')
+          if (id != null) {
+            setUserId(id)
+            const user = await userService.getUserById()
+            user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
+            setUser(user)
+          }
+        } catch (error) {
+          console.error('Failed to fetch user details:', error)
+          navigation.navigate('Login')
         }
-      } catch (error) {
-        console.error('Failed to fetch user details:', error)
-        navigation.navigate('Login')
       }
-    }
 
-    if (userId == null) {
-      void fetchUserDetails()
-    }
+      if (userId == null) {
+        void fetchUserDetails()
+      }
 
-  }, [])
+    }, [])
+  )
 
   const handleSignOut = async () => {
     await AsyncStorage.removeItem('userId')

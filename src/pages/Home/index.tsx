@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   Container,
   Greeting,
@@ -15,13 +15,15 @@ import NotifyIcon from '@icons/notification.png'
 import PerfilIcon from '@icons/perfil.png'
 import userService from 'src/services/userService'
 import dailyTipsService from 'src/services/dailyTipsService'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Home = () => {
   const [userName, setUserName] = useState<string>('')
   const [userPhoto, setUserPhoto] = useState<string | null>(null)
   const [dailyTip, setDailyTip] = useState<string | null>(null)
 
-  useEffect(() => {
+  useFocusEffect(
+  useCallback(() => {
     const fetchUserIdAndDetails = async () => {
       try {
         const user = await userService.getUserById()
@@ -34,7 +36,7 @@ const Home = () => {
       }
     }
     fetchUserIdAndDetails()
-  }, [])
+  }, []))
 
   return (
     <Container>

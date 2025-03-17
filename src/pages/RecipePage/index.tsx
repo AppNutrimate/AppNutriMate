@@ -43,9 +43,8 @@ const RecipePage = () => {
 
   useEffect(() => {
     if (modalOpen) {
-      //setLoadingMeals(true)
       fetchData()
-      //.finally(() => setLoadingMeals(false))
+      
     }
   }, [modalOpen])
 
