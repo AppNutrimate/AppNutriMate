@@ -19,7 +19,10 @@ import {
   ContainerButtons,
   ShareButton,
   ShareButtonIcon,
-  AnimatedContainer
+  AnimatedContainer,
+  pickerSelectStyles,
+  ContainerDropDown,
+  ArrowDown,
 } from './styles'
 import { type PropsNavigationStack } from 'src/routes'
 import { type RouteProp, useRoute } from '@react-navigation/native'
@@ -36,6 +39,7 @@ import MealList from 'src/components/MealList'
 import BackButton from 'src/components/common/BackButton'
 import CarbsIcon from '@icons/carbs-icon-p.png'
 import { SlideInDown, SlideOutDown } from 'react-native-reanimated'
+import RNPickerSelect from 'react-native-picker-select'
 
 const RecipePage = () => {
   const route = useRoute<RouteProp<PropsNavigationStack, 'RecipePage'>>()
@@ -142,6 +146,22 @@ const RecipePage = () => {
           </ContentMacros>
         </ContainerAllMacros>
           <DescriptionText>{recipe.description}</DescriptionText>
+            <ContainerDropDown>
+              <RNPickerSelect
+                onValueChange={() => {}}
+                value={ 'opcao1' }
+                placeholder={{}}
+                items={[
+                  { label: '1 Portion | Serving (300g)', value: '1portion' },
+                ]}
+                style={pickerSelectStyles}
+                Icon={() => {
+                  return (
+                    <ArrowDown>▼</ArrowDown>
+                  );
+                }}
+                />
+            </ContainerDropDown>
         <ContainerButtons>
           <ShareButton>
             <ShareButtonIcon source={ShareIcon}/>

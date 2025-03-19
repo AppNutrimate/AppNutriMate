@@ -20,7 +20,7 @@ const DiaryMealRecipes = () => {
   const navigation = useNavigation<PropsStack>()
 
   const handleNavigate = (recipe: Recipe) => {
-    navigation.navigate('RecipePage', { recipe })
+      navigation.navigate('RecipePage', { recipe })
   }
   const handleDeleteMeal = async () => {
     try {

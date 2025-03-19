@@ -10,7 +10,7 @@ export const CoverPhoto = styled.Image.attrs({
   resizeMode: 'cover'
 })`
   width: 100%;
-  height: 40%;
+  height: 50%;
 `
 export const ContainerText = styled.View`
   flex: 1;
@@ -22,7 +22,7 @@ export const AnimatedContainer = styled(Animated.View)`
   background-color: white;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  top: 37%;
+  top: 47%;
   width: 100%;
   height: 100%;
 `;
@@ -97,12 +97,49 @@ export const BarLimit = styled.View`
   margin-top: 20px;
   margin-bottom: 20px;
 `
-export const ContainerDescription = styled.View`
-  flex: 1;
-  padding: 20px 30px;
-`
+export const ContainerDropDown = styled.View`
+  margin-bottom: 5px;
+  margin-left: 5%;
+  margin-right: 5%;
+  background-color: #d9d9d9;
+  border-radius: 8px;
+  padding: 0;
+  elevation: 5;
+  shadow-color: #000;
+  shadow-offset: 0px 3px;
+  shadow-opacity: 0.3;
+  shadow-radius: 3px;  
+`;
+
+export const pickerSelectStyles = {
+  inputIOS: {
+    fontSize: 17,
+    padding: 16,
+    borderColor: 'gray',
+    borderRadius: 8,
+    color: 'black',
+    backgroundColor: '#d9d9d9',
+  },
+  inputAndroid: {
+    fontSize: 17,
+    padding: 16,
+    borderColor: 'gray',
+    borderRadius: 8,
+    color: 'black',
+    backgroundColor: '#d9d9d9',
+  },
+};
+
+export const ArrowDown = styled.Text`
+  font-size: 18px;
+  color: ${({ theme }) => theme.colors.purple};
+  position: absolute;
+  right: 10px;
+  top: 15px;
+`;
+
 export const DescriptionText = styled.Text`
-  padding: 20px 30px;
+  padding: 14px 30px;
   font-size: 18px;
   text-align: center-left;
   color: ${({ theme }) => theme.colors.darkGray};
@@ -111,9 +148,7 @@ export const ContainerButtons = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 30%;
-  padding: 10px;
-  margin-top: 20px;
+  height: 10%;
   margin-left: 15%;
   margin-right: 15%;
   align-items: center;
@@ -124,7 +159,6 @@ export const ContainerButtons = styled.View`
 export const AddButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.darkPurple};
   border-radius: 50px;
-  margin-top: 20px;
   width: 70%;
   height: 50px;
   justify-content: center;
@@ -144,7 +178,6 @@ export const AddButtonText = styled.Text`
 export const ShareButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.darkPurple};
   border-radius: 10px;
-  margin-top: 20px;
   width: 50px; 
   height: 50px;
   justify-content: center;
