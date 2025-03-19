@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
@@ -16,6 +17,16 @@ export const ContainerText = styled.View`
   justify-content: center;
   align-items: center;
 `
+export const AnimatedContainer = styled(Animated.View)`
+  position: absolute;
+  background-color: white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  top: 37%;
+  width: 100%;
+  height: 100%;
+`;
+
 export const Title = styled.Text`
   color: black;
   font-weight: bold;
@@ -119,7 +130,7 @@ export const AddButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   shadow-elevation: 5px;
-  shadowColor: black;
+  shadow-color: black;
   shadow-offset: 0px 4px;
   shadow-opacity: 0.3;
   shadow-radius: 4px;

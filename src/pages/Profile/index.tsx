@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   ArrowBackButton,
   BarLimit,
@@ -21,7 +21,7 @@ import PerfilIcon from '@icons/perfil.png'
 import PencilIcon from '@icons/pencil-edit-w.png'
 import ArrowBack from '@icons/arrow-back-w.png'
 import DefaultButton from 'src/components/common/DefaultButton'
-import { TouchableOpacity } from 'react-native'
+import { StatusBar, TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type User } from 'src/entitites/User'
@@ -53,7 +53,6 @@ const Profile = () => {
       if (userId == null) {
         void fetchUserDetails()
       }
-
     }, [])
   )
 

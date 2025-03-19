@@ -10,7 +10,7 @@ import {
   ProfileImage
 } from './styles'
 import NutritionTipList from '../../components/NutritionTipList'
-import { TouchableOpacity, View, Image } from 'react-native'
+import { TouchableOpacity, View, Image, StatusBar } from 'react-native'
 import NotifyIcon from '@icons/notification.png'
 import PerfilIcon from '@icons/perfil.png'
 import userService from 'src/services/userService'
@@ -24,6 +24,8 @@ const Home = () => {
 
   useFocusEffect(
   useCallback(() => {
+    StatusBar.setBarStyle('dark-content');
+    StatusBar.setBackgroundColor('black');
     const fetchUserIdAndDetails = async () => {
       try {
         const user = await userService.getUserById()

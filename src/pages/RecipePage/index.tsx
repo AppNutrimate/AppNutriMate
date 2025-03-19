@@ -3,7 +3,6 @@ import {
   BarLimit,
   Container,
   ContainerAllMacros,
-  ContainerDescription,
   ContentMacros,
   ContainerTimeAndCalories,
   ContentTimeAndCalories,
@@ -19,23 +18,24 @@ import {
   AddButtonText,
   ContainerButtons,
   ShareButton,
-  ShareButtonIcon
+  ShareButtonIcon,
+  AnimatedContainer
 } from './styles'
 import { type PropsNavigationStack } from 'src/routes'
 import { type RouteProp, useRoute } from '@react-navigation/native'
 import CaloriesIcon from '@icons/fire-p.png'
-import ProteinIcon from '@icons/protein-icon-p.png'
+import ProteinIcon from '@icons/protein-p-icon.png'
 import TimeIcon from '@icons/time-p.png'
 import FatIcon from '@icons/fat-icon-p.png'
 import ShareIcon from '@icons/share-icon-w.png'
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, StatusBar } from 'react-native'
 import AddMealModal from 'src/components/StandardModal'
 import { type Meal } from 'src/entitites/Meal'
 import mealService from 'src/services/mealService'
 import MealList from 'src/components/MealList'
 import BackButton from 'src/components/common/BackButton'
 import CarbsIcon from '@icons/carbs-icon-p.png'
-
+import { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 const RecipePage = () => {
   const route = useRoute<RouteProp<PropsNavigationStack, 'RecipePage'>>()
@@ -85,7 +85,6 @@ const RecipePage = () => {
   return (
     <Container>
       <BackButton />
-      <CoverPhoto source={{ uri: recipe.picture }} />
       <AddMealModal
           isOpen={modalOpen}
           onClose={() => {
@@ -109,45 +108,49 @@ const RecipePage = () => {
             keyExtractor={(item) => item.id.toString()}
           />
         </AddMealModal>
-      {/* MENU */}
-      <Title>{recipe.name}</Title>
-      <ContainerTimeAndCalories>
-        <ContentTimeAndCalories>
-          <MacroIcon source={CaloriesIcon} />
-          <MacroTitle>{recipe.calories}kcal</MacroTitle>
-        </ContentTimeAndCalories>
-        <ContentTimeAndCalories>
-          <MacroIcon source={TimeIcon} />
-          <MacroTitle>{recipe.prepTime}min</MacroTitle>
-        </ContentTimeAndCalories>
-      </ContainerTimeAndCalories>
-      <BarLimit></BarLimit>
-      <ContainerAllMacros>
-        <ContentMacros>
-          <MiniMacroIcon source={ProteinIcon} />
-          <StyledMacroUnit>{recipe.proteins}g</StyledMacroUnit>
-          <StyledMacroTitle>Proteins</StyledMacroTitle>          
-        </ContentMacros>
-        <ContentMacros>
-          <MiniMacroIcon source={CarbsIcon} />
-          <StyledMacroUnit>{recipe.carbos}g</StyledMacroUnit>
-          <StyledMacroTitle>Carbs</StyledMacroTitle>          
-        </ContentMacros>
-        <ContentMacros>
-          <MiniMacroIcon source={FatIcon} />
-          <StyledMacroUnit>{recipe.fat}g</StyledMacroUnit>
-          <StyledMacroTitle>Fat</StyledMacroTitle>          
-        </ContentMacros>
-      </ContainerAllMacros>
-        <DescriptionText>{recipe.description}</DescriptionText>
-      <ContainerButtons>
-        <ShareButton>
-          <ShareButtonIcon source={ShareIcon}/>
-        </ShareButton>
-        <AddButton onPress={handleModal}>
-          <AddButtonText>Cooking Recipe</AddButtonText>
-        </AddButton>
-      </ContainerButtons>
+      <CoverPhoto source={{ uri: recipe.picture }} />
+      <AnimatedContainer
+        entering={SlideInDown.springify().damping(16)}
+        exiting={SlideOutDown.duration(500)}>
+        <Title>{recipe.name}</Title>
+        <ContainerTimeAndCalories>
+          <ContentTimeAndCalories>
+            <MacroIcon source={CaloriesIcon} />
+            <MacroTitle>{recipe.calories}kcal</MacroTitle>
+          </ContentTimeAndCalories>
+          <ContentTimeAndCalories>
+            <MacroIcon source={TimeIcon} />
+            <MacroTitle>{recipe.prepTime}min</MacroTitle>
+          </ContentTimeAndCalories>
+        </ContainerTimeAndCalories>
+        <BarLimit></BarLimit>
+        <ContainerAllMacros>
+          <ContentMacros>
+            <MiniMacroIcon source={ProteinIcon} />
+            <StyledMacroUnit>{recipe.proteins}g</StyledMacroUnit>
+            <StyledMacroTitle>Proteins</StyledMacroTitle>          
+          </ContentMacros>
+          <ContentMacros>
+            <MiniMacroIcon source={CarbsIcon} />
+            <StyledMacroUnit>{recipe.carbos}g</StyledMacroUnit>
+            <StyledMacroTitle>Carbs</StyledMacroTitle>          
+          </ContentMacros>
+          <ContentMacros>
+            <MiniMacroIcon source={FatIcon} />
+            <StyledMacroUnit>{recipe.fat}g</StyledMacroUnit>
+            <StyledMacroTitle>Fat</StyledMacroTitle>          
+          </ContentMacros>
+        </ContainerAllMacros>
+          <DescriptionText>{recipe.description}</DescriptionText>
+        <ContainerButtons>
+          <ShareButton>
+            <ShareButtonIcon source={ShareIcon}/>
+          </ShareButton>
+          <AddButton onPress={handleModal}>
+            <AddButtonText>Cooking Recipe</AddButtonText>
+          </AddButton>
+        </ContainerButtons>
+      </AnimatedContainer>
     </Container>
   )
 }
