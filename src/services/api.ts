@@ -4,9 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
 import { API_URL } from '@env'
 
-const baseURL = __DEV__ ? API_URL : 'localhost:3000'
 const api = axios.create({
-  baseURL,
+  baseURL: API_URL,
+  //   'http://' +
+  //   Constants.expoConfig?.hostUri?.split(':').shift()?.concat(':3000'),
   headers: {
     'Content-Type': 'application/json'
   }

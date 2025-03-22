@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   ArrowBackButton,
   BarLimit,
@@ -21,7 +21,7 @@ import PerfilIcon from '@icons/perfil.png'
 import PencilIcon from '@icons/pencil-edit-w.png'
 import ArrowBack from '@icons/arrow-back-w.png'
 import DefaultButton from 'src/components/common/DefaultButton'
-import { StatusBar, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import userService from 'src/services/userService'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type User } from 'src/entitites/User'
@@ -84,7 +84,7 @@ const Profile = () => {
       </Header>
       <TouchableOpacity style={{ marginTop: 70 }}>
         <ProfileImage
-          source={user != null ? { uri: user.profilePhoto } : PerfilIcon}
+          source={user?.profilePhoto ? { uri: user.profilePhoto } : PerfilIcon}
         />
       </TouchableOpacity>
       <ProfileName>{user?.firstName + ' ' + user?.lastName}</ProfileName>

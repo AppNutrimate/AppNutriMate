@@ -20,10 +20,13 @@ import SetBirthDatePage from 'src/pages/SetBirthDate'
 import SignIn from 'src/pages/SignIn'
 import { type Meal } from 'src/entitites/Meal'
 import DiaryMealRecipes from 'src/pages/DiaryMealRecipes'
+import CreateAccountPage from 'src/pages/CreateAccountPages'
+import CreateAccountForm from 'src/pages/CreateAccountPages/CreateAccountForm'
 
 export type PropsNavigationStack = {
   Login: undefined
   TabRoutes: undefined
+  CreateAccountPage: undefined
   CreateAccount: undefined
   SignIn: undefined
   Home: undefined
@@ -51,6 +54,7 @@ const Routes = () => {
         }}
       >
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="CreateAccountPage" component={CreateAccountPage} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SetNamePage" component={SetNamePage} />

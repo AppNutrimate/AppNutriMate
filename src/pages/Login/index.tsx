@@ -74,7 +74,7 @@ const Login = () => {
               text={'Create Account'}
               marginVertical={15}
               buttonHandle={() => {
-                navigation.navigate('CreateAccount')
+                navigation.navigate('CreateAccountPage')
               }}
             />
             <DefaultButton

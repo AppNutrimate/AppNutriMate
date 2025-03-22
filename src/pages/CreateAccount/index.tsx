@@ -13,7 +13,6 @@ import { useNavigation } from '@react-navigation/native'
 import { type PropsNavigationStack } from 'src/routes'
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { type User } from 'src/entitites/User'
-
 type CreateAccountScreenNavigationProp = NativeStackNavigationProp<
   PropsNavigationStack,
   'CreateAccount'
@@ -27,56 +26,63 @@ const CreateAccount = () => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  
   const handleSignUp = async () => {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email || !password || !confirmPassword) {
       setErrorMessage('All fields are required!')
       return
     }
-
+  
     if (!emailRegex.test(email)) {
       setErrorMessage('Invalid email format!')
       return
     }
-
+  
     if (!passwordRegex.test(password)) {
       setErrorMessage(
         'Password must be at least 6 characters long and contain letter and number!'
       )
       return
     }
-
+  
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match!')
+      return
     }
-
+  
     try {
-      const users: User[] = await userService.list()
+      const usersResponse = await userService.list()  
+      const users: User[] = usersResponse
       const emailExists = users.some((user: User) => user.email === email)
-
+  
       if (emailExists) {
         setErrorMessage('Email already exists!')
         return
       }
+  
       const res = await userService.register(
         email,
         email,
-        '+5585987654321',
-        new Date().toISOString(),
+        '5585987654321',
+        "1997-08-04",
         email,
-        password
+        password,
+        ""
       )
-      console.log('Account created:', { res })
-      const userId = res.id
+      console.log('Register Response:', res)
+  
+      const userId = res.user?.id
       if (userId) {
-        navigation.navigate('SetNamePage', { userId })
+        navigation.navigate('SetNamePage',  {userId} )
       } else {
         setErrorMessage('Failed to retrieve user ID. Please try again.')
       }
-    } catch (_error) {
+    } catch (error) {
+      console.error('Signup error:', error)
       setErrorMessage('Failed to create account. Please try again.')
     }
   }
+  
   return (
     <>
       <Container>
