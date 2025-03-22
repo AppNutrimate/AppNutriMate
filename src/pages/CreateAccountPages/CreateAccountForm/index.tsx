@@ -1,13 +1,84 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { MainContainer } from '../styles';
+import React, { useState } from 'react';
+import { ArrowIcon, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, MainContainer, NextButton, TextButton } from '../styles';
 import BackButton from 'src/components/common/BackButton';
+import ArrowBack from '@icons/arrow-back-p.png';
+
+type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'mainGoals';
+
+interface FormDataType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  birthDate: string;
+  mainGoals: string;
+}
 
 const CreateAccountForm = () => {
+    const [currentData, setCurrentData] = useState(0);
+    const [isFocused, setIsFocused] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [formData, setFormData] = useState<FormDataType>({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        birthDate: '',
+        mainGoals: '',
+    });
+
+    const formQuestions: { name: FormFields; label: string; placeholder: string }[] = [
+        { name: 'firstName', label: 'Primeiro Nome', placeholder: 'Conta pra gente seu lindo nome...' },
+        { name: 'lastName', label: 'Sobrenome', placeholder: 'Vamos completar sua identidade...' },
+        { name: 'email', label: 'Email', placeholder: 'Juro nada de spam. Mas talvez...' },
+        { name: 'password', label: 'Senha', placeholder: 'Shhh... é o nosso segredinho.' },
+        { name: 'confirmPassword', label: 'Confirmar Senha', placeholder: 'Só pra ter certeza...' },
+        { name: 'birthDate', label: 'Data de Nascimento', placeholder: 'Quando começou sua aventura?' },
+        { name: 'mainGoals', label: 'Principais Objetivos', placeholder: 'O que te trouxe até aqui?' },
+    ];
+
+    const handleInputChange = (text: string) => {
+        const fieldName = formQuestions[currentData].name;
+        setFormData((prev) => ({ ...prev, [fieldName]: text }));
+    };
+
+    const handleNext = () => {
+        if (!formData[formQuestions[currentData].name]) {
+            setErrorMessage('Por favor, preencha o campo!');
+            return;
+        }
+
+        if (currentData === formQuestions.length - 1) {
+            console.log('Cadastro finalizado:', formData);
+        } else {
+            console.log('Dados atuais:', formData);
+            setErrorMessage('');
+            setCurrentData(currentData + 1);
+        }
+    };
+
     return (
         <MainContainer>
-            <BackButton></BackButton>
-            <Text>Teste</Text>
+            <BackButton />
+            <FormLabel>{formQuestions[currentData].label}:</FormLabel>
+            <FormInput
+                isFocused={isFocused}
+                style={isFocused ? { borderColor: '#7265E3' } : {}}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                secureTextEntry={formQuestions[currentData].name === 'password' || formQuestions[currentData].name === 'confirmPassword'}
+                placeholder={formQuestions[currentData].placeholder}
+                value={formData[formQuestions[currentData].name]}
+                onChangeText={handleInputChange}
+            />
+            <ErrorMessageContainer>
+                {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
+            </ErrorMessageContainer>
+            <NextButton onPress={handleNext}>
+                <ArrowIcon source={ArrowBack} />
+            </NextButton>
         </MainContainer>
     );
 };

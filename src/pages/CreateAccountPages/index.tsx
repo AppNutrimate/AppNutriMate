@@ -12,16 +12,19 @@ const slideShow = [
         phrase: 'Por aqui a comida é leve, o papo também.',
         callToAction: 'Bora começar?',
         image: Onboarding2,
+        delay: 2000,
     },
     {
         phrase: 'Receitas, dicas e aquele empurrãozinho pra sua melhor versão!',
         callToAction: 'Eu quero!',
         image: Onboarding1,
+        delay: 1000,
     },
     {
         phrase: 'Seu próximo prato pode ser o começo da sua melhor fase!',
         callToAction: 'Começar agora!',
         image: Onboarding3,
+        delay: 2000,
     }, 
 ];
 
@@ -46,8 +49,8 @@ const CreateAccountPage = () => {
                 </ContainerPhrases>           
                 <SkipButton
                     animation={'fadeIn'}
-                    duration={2000}
-                    delay={2000}
+                    duration={1800}
+                    delay={slideShow[currentSlide].delay}
                     onPress={() => {
                         if (currentSlide === slideShow.length - 1) {
                             navigation.navigate('CreateAccountForm');

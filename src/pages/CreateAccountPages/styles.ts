@@ -1,6 +1,10 @@
 import styled from "styled-components/native";
 import * as Animatable from 'react-native-animatable';
 
+interface FormInputProps {
+  isFocused: boolean;
+}
+
 export const MainContainer = styled.View`
   flex: 1;
   background-color: #fff;
@@ -17,7 +21,7 @@ export const AnimatedSlideContainer = Animatable.createAnimatableComponent(style
   `);
 
 export const Image = styled.Image.attrs({
-    resizeMode: 'contain',
+  resizeMode: 'contain',
 })`
   width: 260px;
   height: 260px;
@@ -55,3 +59,57 @@ export const SkipButton = Animatable.createAnimatableComponent(styled.TouchableO
   shadow-opacity: 0.3;
   shadow-radius: 2px;  
 `);
+
+export const FormLabel = styled.Text`
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  align-self: flex-start;
+  margin-bottom: 8px;
+`;
+
+export const FormInput = styled.TextInput<FormInputProps>`
+  width: 100%;
+  height: 50px;
+  background-color:rgba(245, 245, 245, 0.71);
+  border-radius: 7px;
+  padding: 0 16px;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 24px;
+  border-width: ${({ isFocused }) => (isFocused ? '2px' : '1px')};
+  border-color: ${({ isFocused, theme }) => (isFocused ? theme.colors.purple : '#ccc')};
+`;
+
+export const ErrorMessageContainer = styled.View`
+  width: 100%;
+  align-items: flex-end;
+  height: 24px;
+  margin-top: -16px;
+`;
+export const ErrorMessage = styled.Text`
+  font-size: 16px;
+  color: red;
+`;
+
+export const NextButton = styled.TouchableOpacity`
+  background-color: #fff;
+  padding-right: 20px;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ArrowIcon = styled.Image.attrs({
+  resizeMode: 'contain',
+})`
+  width: 36px;
+  height: 36px;
+  transform: rotate(180deg);
+`;
+
+export const TextButton = styled.Text`
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffffff;
+`;
