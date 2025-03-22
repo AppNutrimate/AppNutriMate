@@ -21,7 +21,7 @@ import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import userService from "src/services/userService";
 
 interface SignInProps {
-  goback: () => void;
+  goback?: () => void;
 }
 
 const SignIn: React.FC<SignInProps> = ({ goback }) => {
@@ -69,7 +69,7 @@ const SignIn: React.FC<SignInProps> = ({ goback }) => {
           <TouchableOpacity
             onPress={() => {
               if(showSignIn) {
-                goback();
+                goback?.();
               } else {
                 setShowSignIn(true);
               }
