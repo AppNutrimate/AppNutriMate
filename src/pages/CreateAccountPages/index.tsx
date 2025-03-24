@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StatusBar, Image } from 'react-native';
+import { StatusBar, Image, Touchable, TouchableOpacity } from 'react-native';
 import BackButton from 'src/components/common/BackButton';
-import { AnimatedSlideContainer, CallToAction, ContainerPhrases, MainContainer, Phrase, SkipButton } from './styles';
+import { AnimatedSlideContainer, CallToAction, ContainerPhrases, MainContainer, Phrase, SkipAllButton, SkipAllText, SkipButton } from './styles';
 import Onboarding1 from '@images/Petting.png'
 import Onboarding2 from '@images/Plant.png'
 import Onboarding3 from '@images/Rolling.png'
@@ -61,7 +61,12 @@ const CreateAccountPage = () => {
                     <CallToAction>
                         {slideShow[currentSlide].callToAction}
                     </CallToAction>
-                </SkipButton>              
+                </SkipButton>
+                <SkipAllButton onPress={() => navigation.navigate('CreateAccountForm')}>
+                    <SkipAllText>
+                        Pular tudo
+                    </SkipAllText>
+                </SkipAllButton>              
             </AnimatedSlideContainer>
         </MainContainer>
     );

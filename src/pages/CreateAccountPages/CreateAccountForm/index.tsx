@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { ArrowIcon, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, MainContainer, NextButton, TextButton } from '../styles';
+import { ArrowIcon, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, MainContainer, NextButton } from '../styles';
 import BackButton from 'src/components/common/BackButton';
 import ArrowBack from '@icons/arrow-back-p.png';
+import { TextInput } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { format } from 'date-fns/format';
 
 type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'mainGoals';
 
@@ -19,6 +22,8 @@ const CreateAccountForm = () => {
     const [currentData, setCurrentData] = useState(0);
     const [isFocused, setIsFocused] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
     const [formData, setFormData] = useState<FormDataType>({
         firstName: '',
         lastName: '',
@@ -44,6 +49,13 @@ const CreateAccountForm = () => {
         setFormData((prev) => ({ ...prev, [fieldName]: text }));
     };
 
+    const handleDateChange = (date: Date) => {
+        const formattedDate = format(date, 'dd/MM/yyyy'); // Formatar a data antes de armazenar
+        setFormData((prev) => ({ ...prev, birthDate: formattedDate })); // Atualiza a birthDate no formData
+        setDatePickerVisibility(false); // Fecha o DatePicker após escolher a data
+    };
+
+
     const handleNext = () => {
         if (!formData[formQuestions[currentData].name]) {
             setErrorMessage('Por favor, preencha o campo!');
@@ -63,16 +75,47 @@ const CreateAccountForm = () => {
         <MainContainer>
             <BackButton />
             <FormLabel>{formQuestions[currentData].label}:</FormLabel>
-            <FormInput
-                isFocused={isFocused}
-                style={isFocused ? { borderColor: '#7265E3' } : {}}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                secureTextEntry={formQuestions[currentData].name === 'password' || formQuestions[currentData].name === 'confirmPassword'}
-                placeholder={formQuestions[currentData].placeholder}
-                value={formData[formQuestions[currentData].name]}
-                onChangeText={handleInputChange}
-            />
+            {formQuestions[currentData].name === 'birthDate' ? (
+                <>
+                    <TextInput
+                        style={{
+                            borderColor: isFocused ? '#7265E3' : '#ccc',
+                            borderWidth: isFocused ? 2 : 1,
+                            borderRadius: 7,
+                            padding: 16,
+                            width: '100%',
+                            height: 50,
+                            fontSize: 18,
+                            color: '#333',
+                        }}
+                        placeholder={formQuestions[currentData].placeholder}
+                        value={formData.birthDate}
+                        onFocus={() => {
+                            setIsFocused(true);
+                            setDatePickerVisibility(true);
+                        }}
+                        onBlur={() => setIsFocused(false)}
+                    />
+                    <DateTimePicker
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        date={new Date(formData.birthDate || Date.now())}
+                        onConfirm={handleDateChange}
+                        onCancel={() => setDatePickerVisibility(false)}
+                    />
+                </>
+            ) : (
+                <FormInput
+                    isFocused={isFocused}
+                    style={isFocused ? { borderColor: '#7265E3' } : {}}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    secureTextEntry={formQuestions[currentData].name === 'password' || formQuestions[currentData].name === 'confirmPassword'}
+                    placeholder={formQuestions[currentData].placeholder}
+                    value={formData[formQuestions[currentData].name]}
+                    onChangeText={handleInputChange}
+                />
+            )}
             <ErrorMessageContainer>
                 {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
             </ErrorMessageContainer>

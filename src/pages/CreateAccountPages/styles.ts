@@ -60,6 +60,16 @@ export const SkipButton = Animatable.createAnimatableComponent(styled.TouchableO
   shadow-radius: 2px;  
 `);
 
+export const SkipAllButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const SkipAllText = styled.Text`
+  color: #333;
+  font-size: 16px;
+`;
+
 export const FormLabel = styled.Text`
   font-size: 28px;
   color: #333;
