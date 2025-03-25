@@ -102,15 +102,34 @@ export const ErrorMessage = styled.Text`
   color: red;
 `;
 
-export const NextButton = styled.TouchableOpacity`
+export const ContainerButtons = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+`;
+
+export const PrevButton = styled.TouchableOpacity`
   background-color: #fff;
-  padding-right: 20px;
-  align-self: flex-end;
   align-items: center;
   justify-content: center;
 `;
 
-export const ArrowIcon = styled.Image.attrs({
+export const NextButton = styled.TouchableOpacity`
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const LArrowIcon = styled.Image.attrs({
+  resizeMode: 'contain',
+})`
+  width: 36px;
+  height: 36px;
+`;
+
+export const RArrowIcon = styled.Image.attrs({
   resizeMode: 'contain',
 })`
   width: 36px;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowIcon, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, MainContainer, NextButton } from '../styles';
+import { ContainerButtons, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, LArrowIcon, MainContainer, NextButton, PrevButton, RArrowIcon } from '../styles';
 import BackButton from 'src/components/common/BackButton';
 import ArrowBack from '@icons/arrow-back-p.png';
 import { TextInput } from 'react-native';
@@ -50,16 +50,23 @@ const CreateAccountForm = () => {
     };
 
     const handleDateChange = (date: Date) => {
-        const formattedDate = format(date, 'dd/MM/yyyy'); // Formatar a data antes de armazenar
-        setFormData((prev) => ({ ...prev, birthDate: formattedDate })); // Atualiza a birthDate no formData
-        setDatePickerVisibility(false); // Fecha o DatePicker após escolher a data
+        const formattedDate = format(date, 'dd/MM/yyyy'); 
+        setFormData((prev) => ({ ...prev, birthDate: formattedDate }));
+        setDatePickerVisibility(false);
     };
-
 
     const handleNext = () => {
         if (!formData[formQuestions[currentData].name]) {
             setErrorMessage('Por favor, preencha o campo!');
             return;
+        }
+
+        if(formQuestions[currentData].name === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                setErrorMessage('Por favor, insira um email válido!');
+                return;
+            }
         }
 
         if (currentData === formQuestions.length - 1) {
@@ -82,11 +89,13 @@ const CreateAccountForm = () => {
                             borderColor: isFocused ? '#7265E3' : '#ccc',
                             borderWidth: isFocused ? 2 : 1,
                             borderRadius: 7,
-                            padding: 16,
+                            padding: 0,
+                            paddingHorizontal: 16,
                             width: '100%',
                             height: 50,
                             fontSize: 18,
                             color: '#333',
+                            marginBottom: 24,
                         }}
                         placeholder={formQuestions[currentData].placeholder}
                         value={formData.birthDate}
@@ -119,9 +128,18 @@ const CreateAccountForm = () => {
             <ErrorMessageContainer>
                 {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
             </ErrorMessageContainer>
-            <NextButton onPress={handleNext}>
-                <ArrowIcon source={ArrowBack} />
-            </NextButton>
+            <ContainerButtons style={{ justifyContent: currentData === 0 ? 'flex-end' : 'space-between' }}>
+                {currentData > 0 && (
+                    <PrevButton onPress={() => setCurrentData(currentData - 1)}>
+                    <LArrowIcon source={ArrowBack} />
+                    </PrevButton>
+                )}
+
+                <NextButton onPress={handleNext}>
+                    <RArrowIcon source={ArrowBack} />
+                </NextButton>
+                </ContainerButtons>
+
         </MainContainer>
     );
 };
