@@ -29,9 +29,13 @@ const userService = {
         profilePhoto
       })
       return res.data
-    } catch (error) {
-      console.error('Error registering user:', error)
-      throw error
+    } catch (error: any) {
+      if (error?.response?.status === 409) {
+        throw new Error('Email já cadastrado')
+      } else {
+        console.error('Error registering user:', error)
+        throw error
+      }
     }
   },
 

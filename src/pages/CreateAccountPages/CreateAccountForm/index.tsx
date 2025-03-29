@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
-import { ContainerButtons, ErrorMessage, ErrorMessageContainer, FormInput, FormLabel, LArrowIcon, MainContainer, NextButton, PrevButton, RArrowIcon } from '../styles';
+import {
+ContainerButtons,
+ErrorMessage,
+ErrorMessageContainer,
+FormInput,
+FormLabel,
+LArrowIcon,
+MainContainer,
+NextButton,
+PrevButton,
+RArrowIcon } from '../styles';
 import BackButton from 'src/components/common/BackButton';
 import ArrowBack from '@icons/arrow-back-p.png';
-import { TextInput } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns/format';
-
-type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'mainGoals';
+import { TextInputMask } from 'react-native-masked-text';
+import userService from 'src/services/userService';
+import { useNavigation } from '@react-navigation/native';
+type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'phone';
 
 interface FormDataType {
   firstName: string;
@@ -15,7 +27,7 @@ interface FormDataType {
   password: string;
   confirmPassword: string;
   birthDate: string;
-  mainGoals: string;
+  phone: string;
 }
 
 const CreateAccountForm = () => {
@@ -23,6 +35,7 @@ const CreateAccountForm = () => {
     const [isFocused, setIsFocused] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const navigation = useNavigation();
 
     const [formData, setFormData] = useState<FormDataType>({
         firstName: '',
@@ -31,7 +44,7 @@ const CreateAccountForm = () => {
         password: '',
         confirmPassword: '',
         birthDate: '',
-        mainGoals: '',
+        phone: '',
     });
 
     const formQuestions: { name: FormFields; label: string; placeholder: string }[] = [
@@ -41,7 +54,7 @@ const CreateAccountForm = () => {
         { name: 'password', label: 'Senha', placeholder: 'Shhh... é o nosso segredinho.' },
         { name: 'confirmPassword', label: 'Confirmar Senha', placeholder: 'Só pra ter certeza...' },
         { name: 'birthDate', label: 'Data de Nascimento', placeholder: 'Quando começou sua aventura?' },
-        { name: 'mainGoals', label: 'Principais Objetivos', placeholder: 'O que te trouxe até aqui?' },
+        { name: 'phone', label: 'Telefone', placeholder: 'É só pro caso da saudade bater...' },
     ];
 
     const handleInputChange = (text: string) => {
@@ -49,30 +62,73 @@ const CreateAccountForm = () => {
         setFormData((prev) => ({ ...prev, [fieldName]: text }));
     };
 
-    const handleDateChange = (date: Date) => {
-        const formattedDate = format(date, 'dd/MM/yyyy'); 
-        setFormData((prev) => ({ ...prev, birthDate: formattedDate }));
+    const handleDateChange = (date: string | number | Date) => {
+        const formattedDate = format(date, 'yyyy-MM-dd');
+        setFormData({
+            ...formData,
+            birthDate: formattedDate,
+        });
         setDatePickerVisibility(false);
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (!formData[formQuestions[currentData].name]) {
             setErrorMessage('Por favor, preencha o campo!');
             return;
         }
 
         if(formQuestions[currentData].name === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
             if (!emailRegex.test(formData.email)) {
                 setErrorMessage('Por favor, insira um email válido!');
                 return;
             }
         }
 
+        if(formQuestions[currentData].name === 'password') {
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
+            if(formData.password.length < 6) {
+                setErrorMessage('A senha deve ter pelo menos 6 caracteres!');
+                return;
+            }
+
+            if (!passwordRegex.test(formData.password)) {
+                setErrorMessage('Um caractere especial, maiúsculo e número!');
+                return;
+            }
+        }
+
+        if(formQuestions[currentData].name === 'confirmPassword') {
+            if (formData.confirmPassword !== formData.password) {
+                setErrorMessage('As senhas não coincidem!');
+                return;
+            }
+        }
+
         if (currentData === formQuestions.length - 1) {
-            console.log('Cadastro finalizado:', formData);
+            try {
+            const res = await userService.register(
+                formData.firstName.trim(),
+                formData.lastName.trim(),
+                formData.phone.trim(),
+                formData.birthDate,
+                formData.email.trim(),
+                formData.password,
+                'https://media.licdn.com/dms/image/v2/D4D03AQGsqhom3mWYsA/profile-displayphoto-shrink_800_800/B4DZTXVAOLHIAc-/0/1738779395394?e=1748476800&v=beta&t=xRaMX3WWA4jONqXOhXAxrmy-5L_UYtT8_-4exIFHdM4'
+            );
+            Alert.alert('Cadastro realizado com sucesso!')           
+            setErrorMessage('');
+            }
+            catch (error) {
+                if (error instanceof Error && (error as any).response?.status === 409) {
+                    setErrorMessage('Email já cadastrado!');
+                    Alert.alert('Email já cadastrado!');
+                } else {
+                    setErrorMessage('Erro ao cadastrar, tente novamente mais tarde.');
+                    Alert.alert('Email já cadastrado!');
+                }
+            }
         } else {
-            console.log('Dados atuais:', formData);
             setErrorMessage('');
             setCurrentData(currentData + 1);
         }
@@ -98,7 +154,7 @@ const CreateAccountForm = () => {
                             marginBottom: 24,
                         }}
                         placeholder={formQuestions[currentData].placeholder}
-                        value={formData.birthDate}
+                        value={formData.birthDate ? format(new Date(formData.birthDate), 'dd/MM/yyyy') : ''}
                         onFocus={() => {
                             setIsFocused(true);
                             setDatePickerVisibility(true);
@@ -113,7 +169,31 @@ const CreateAccountForm = () => {
                         onCancel={() => setDatePickerVisibility(false)}
                     />
                 </>
-            ) : (
+            ) : formQuestions[currentData].name === 'phone' ? (
+                <TextInputMask
+                    type={'custom'}
+                    options={{
+                        mask: '+55 (99) 9 9999-9999',
+                    }}
+                    style={{
+                        borderColor: isFocused ? '#7265E3' : '#ccc',
+                        borderWidth: isFocused ? 2 : 1,
+                        borderRadius: 7,
+                        padding: 0,
+                        paddingHorizontal: 16,
+                        width: '100%',
+                        height: 50,
+                        fontSize: 18,
+                        color: '#333',
+                        marginBottom: 24,
+                    }}
+                    placeholder={formQuestions[currentData].placeholder}
+                    value={formData.phone}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    onChangeText={handleInputChange}
+                />
+            ):(
                 <FormInput
                     isFocused={isFocused}
                     style={isFocused ? { borderColor: '#7265E3' } : {}}
