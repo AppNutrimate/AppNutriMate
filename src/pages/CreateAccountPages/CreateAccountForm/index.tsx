@@ -17,7 +17,9 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns/format';
 import { TextInputMask } from 'react-native-masked-text';
 import userService from 'src/services/userService';
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { PropsStack } from 'src/routes';
+
 type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'phone';
 
 interface FormDataType {
@@ -31,12 +33,11 @@ interface FormDataType {
 }
 
 const CreateAccountForm = () => {
+    const navigation = useNavigation<PropsStack>();
     const [currentData, setCurrentData] = useState(0);
     const [isFocused, setIsFocused] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const navigation = useNavigation();
-
     const [formData, setFormData] = useState<FormDataType>({
         firstName: '',
         lastName: '',
@@ -106,7 +107,17 @@ const CreateAccountForm = () => {
         }
 
         if (currentData === formQuestions.length - 1) {
-            try {
+            handleRegister().then(() => {
+                return handleLogin();           
+            });
+        } else {
+            setErrorMessage('');
+            setCurrentData(currentData + 1);
+        }
+    };
+
+    const handleRegister = async () => {
+        try {
             const res = await userService.register(
                 formData.firstName.trim(),
                 formData.lastName.trim(),
@@ -128,11 +139,43 @@ const CreateAccountForm = () => {
                     Alert.alert('Email já cadastrado!');
                 }
             }
-        } else {
-            setErrorMessage('');
-            setCurrentData(currentData + 1);
+    }
+
+    const handleLogin = async () => {
+        try {
+            console.log('Login:', formData.email, formData.password);
+            await userService.login(formData.email, formData.password);
+            Alert.alert('Login realizado com sucesso!');
+            setErrorMessage("");
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{ name: "TabRoutes" }],
+                    })
+                  );
+            resetDataForm();
+        } catch (error) {
+            if (error instanceof Error && (error as any).response?.status === 401) {
+                setErrorMessage('Email ou senha inválidos!');
+                Alert.alert('Email ou senha inválidos!');
+            } else {
+                setErrorMessage('Erro ao realizar login, tente novamente mais tarde.');
+                Alert.alert('Erro ao realizar login, tente novamente mais tarde.');
+            }                
         }
-    };
+    }
+
+    const resetDataForm = () => {
+        setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            birthDate: '',
+            phone: '',
+        });
+    }
 
     return (
         <MainContainer>
