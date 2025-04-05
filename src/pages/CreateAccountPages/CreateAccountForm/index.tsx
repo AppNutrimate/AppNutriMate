@@ -143,7 +143,6 @@ const CreateAccountForm = () => {
 
     const handleLogin = async () => {
         try {
-            console.log('Login:', formData.email, formData.password);
             await userService.login(formData.email, formData.password);
             Alert.alert('Login realizado com sucesso!');
             setErrorMessage("");
