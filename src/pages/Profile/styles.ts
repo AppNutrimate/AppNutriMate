@@ -57,7 +57,7 @@ export const ContainerShaded = styled.View`
   flex: 1;
   justify-content: center;
   width: 75%;
-  max-height: 240px;
+  max-height: 280px;
   border-radius: 5px;
   margin-top: 20px;
   margin-bottom: 10px;

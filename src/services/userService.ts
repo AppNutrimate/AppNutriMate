@@ -16,6 +16,7 @@ const userService = {
     birth: string,
     email: string,
     password: string,
+    height: string,
     profilePhoto: string
   ) => {
     try {
@@ -26,6 +27,7 @@ const userService = {
         birth,
         email,
         password,
+        height,
         profilePhoto
       })
       return res.data

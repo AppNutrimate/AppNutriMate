@@ -5,9 +5,10 @@ import Constants from 'expo-constants'
 import { API_URL } from '@env'
 
 const api = axios.create({
-  baseURL: API_URL,
-  //   'http://' +
-  //   Constants.expoConfig?.hostUri?.split(':').shift()?.concat(':3000'),
+  baseURL:
+    'http://' +
+    Constants.expoConfig?.hostUri?.split(':').shift()?.concat(':3000'),
+  // API_URL,
   headers: {
     'Content-Type': 'application/json'
   }

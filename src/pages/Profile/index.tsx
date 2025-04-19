@@ -115,6 +115,10 @@ const Profile = () => {
             <UserDetailTitle>Birth Day:</UserDetailTitle>
             <UserDetailValue>{user?.birth}</UserDetailValue>
           </UserDetail>
+          <UserDetail>
+            <UserDetailTitle>Height:</UserDetailTitle>
+            <UserDetailValue>{user?.height}cm</UserDetailValue>
+          </UserDetail>
         </ContainerInfo>
       </ContainerShaded>
         <DefaultButton
