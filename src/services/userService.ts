@@ -16,7 +16,7 @@ const userService = {
     birth: string,
     email: string,
     password: string,
-    height: string,
+    height: number,
     profilePhoto: string
   ) => {
     try {

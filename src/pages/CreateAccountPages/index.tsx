@@ -73,4 +73,3 @@ const CreateAccountPage = () => {
 };
 
 export default CreateAccountPage;
-//vi aqui e aquela outra pagina já ta refatorada

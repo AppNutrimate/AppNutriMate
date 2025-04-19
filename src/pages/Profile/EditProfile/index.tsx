@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
@@ -85,9 +83,7 @@ const EditProfile = () => {
           Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
           return;
         }
-        console.log('Updating user:', updatedFields)
         await userService.update(updatedFields)
-        console.log('User updated:', updatedFields)
         Alert.alert('User updated successfully!')
         navigation.goBack()
         navigation.navigate('Home')

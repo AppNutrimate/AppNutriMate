@@ -20,7 +20,7 @@ import userService from 'src/services/userService';
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { PropsStack } from 'src/routes';
 
-type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'phone';
+type FormFields = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'birthDate' | 'phone' | 'height';
 
 interface FormDataType {
   firstName: string;
@@ -29,6 +29,7 @@ interface FormDataType {
   password: string;
   confirmPassword: string;
   birthDate: string;
+  height: number;
   phone: string;
 }
 
@@ -45,6 +46,7 @@ const CreateAccountForm = () => {
         password: '',
         confirmPassword: '',
         birthDate: '',
+        height: 0,
         phone: '',
     });
 
@@ -55,12 +57,14 @@ const CreateAccountForm = () => {
         { name: 'password', label: 'Senha', placeholder: 'Shhh... é o nosso segredinho.' },
         { name: 'confirmPassword', label: 'Confirmar Senha', placeholder: 'Só pra ter certeza...' },
         { name: 'birthDate', label: 'Data de Nascimento', placeholder: 'Quando começou sua aventura?' },
+        {name : 'height', label: 'Altura', placeholder: 'Qual o tamanho da sua beleza?'},
         { name: 'phone', label: 'Telefone', placeholder: 'É só pro caso da saudade bater...' },
     ];
 
     const handleInputChange = (text: string) => {
         const fieldName = formQuestions[currentData].name;
-        setFormData((prev) => ({ ...prev, [fieldName]: text }));
+        const value = fieldName === 'height' ? Number(text.replace(/\D/g, '')) : text;
+        setFormData((prev) => ({ ...prev, [fieldName]: value }));
     };
 
     const handleDateChange = (date: string | number | Date) => {
@@ -106,6 +110,14 @@ const CreateAccountForm = () => {
             }
         }
 
+        if(formQuestions[currentData].name === 'height') {
+            const heightRegex = /^\d+$/;
+            if (!heightRegex.test(String(formData.height))) {
+                setErrorMessage('Insira uma altura válida! Ex: 180');
+                return;
+            }
+        }
+
         if (currentData === formQuestions.length - 1) {
             handleRegister().then(() => {
                 return handleLogin();           
@@ -125,7 +137,8 @@ const CreateAccountForm = () => {
                 formData.birthDate,
                 formData.email.trim(),
                 formData.password,
-                'https://media.licdn.com/dms/image/v2/D4D03AQGsqhom3mWYsA/profile-displayphoto-shrink_800_800/B4DZTXVAOLHIAc-/0/1738779395394?e=1748476800&v=beta&t=xRaMX3WWA4jONqXOhXAxrmy-5L_UYtT8_-4exIFHdM4'
+                formData.height,
+                'https://img.freepik.com/vetores-premium/ilustracao-de-icone-de-vetor-de-usuario-minimalista_547110-2552.jpg?semt=ais_hybrid&w=740'
             );
             Alert.alert('Cadastro realizado com sucesso!')           
             setErrorMessage('');
@@ -173,6 +186,7 @@ const CreateAccountForm = () => {
             confirmPassword: '',
             birthDate: '',
             phone: '',
+            height: 0,
         });
     }
 
@@ -243,7 +257,7 @@ const CreateAccountForm = () => {
                     onBlur={() => setIsFocused(false)}
                     secureTextEntry={formQuestions[currentData].name === 'password' || formQuestions[currentData].name === 'confirmPassword'}
                     placeholder={formQuestions[currentData].placeholder}
-                    value={formData[formQuestions[currentData].name]}
+                    value={String(formData[formQuestions[currentData].name] || '')}
                     onChangeText={handleInputChange}
                 />
             )}
