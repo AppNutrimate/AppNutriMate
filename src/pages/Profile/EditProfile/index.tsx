@@ -22,7 +22,7 @@ import { Alert, Modal, TouchableOpacity } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { ArrowBackButton, Header } from '../styles'
-import { number } from 'prop-types'
+
 
 const EditProfile = () => {
   const [user, setUser] = useState<User>({
