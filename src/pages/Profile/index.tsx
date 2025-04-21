@@ -27,11 +27,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type User } from 'src/entitites/User'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
+import weightService from 'src/services/weightService'
+import { Weight } from 'src/entitites/Weight'
 
 const Profile = () => {
   const navigation = useNavigation<PropsStack>()
   const [userId, setUserId] = useState<string | null>(null)
   const [user, setUser] = useState<User>()
+  const [weight, setWeight] = useState<Weight | null>(null)
 
   useFocusEffect(
     useCallback(() => {
@@ -43,13 +46,21 @@ const Profile = () => {
             const user = await userService.getUserById()
             user.birth = new Date(user.birth).toLocaleDateString('pt-BR')
             setUser(user)
+
+            const weight = await weightService.getWeightByUserId(id)
+            console.log('Weight:', weight[0])
+            if (weight) {
+              setWeight(weight[0])
+            } else {
+              console.log('Failed to fetch weight data')
+              setWeight(null)
+            }
           }
         } catch (error) {
           console.error('Failed to fetch user details:', error)
           navigation.navigate('Login')
         }
       }
-
       if (userId == null) {
         void fetchUserDetails()
       }
@@ -116,8 +127,12 @@ const Profile = () => {
             <UserDetailValue>{user?.birth}</UserDetailValue>
           </UserDetail>
           <UserDetail>
-            <UserDetailTitle>Height:</UserDetailTitle>
+            <UserDetailTitle>Height</UserDetailTitle>
             <UserDetailValue>{user?.height}cm</UserDetailValue>
+          </UserDetail>
+          <UserDetail>
+            <UserDetailTitle>Weight:</UserDetailTitle>
+            <UserDetailValue>{weight?.value.toString().slice(0, -2)}kg</UserDetailValue>
           </UserDetail>
         </ContainerInfo>
       </ContainerShaded>
