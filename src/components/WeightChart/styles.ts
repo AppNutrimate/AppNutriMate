@@ -45,3 +45,41 @@ export const TextButton = styled.Text`
   text-align: center;
   line-height: 22px;
 `;
+
+export const NoDataContainer = styled.TouchableOpacity`
+    flex-direction: row;
+    margin: 20px;
+    background-color: #6161a9;
+    padding: 20px;
+    border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    `;
+
+export const NoDataText = styled.Text`
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+`;
+
+export const TooltipContainer = styled.View`
+  position: absolute;
+  background-color: #fff;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 6px;
+  border-width: 1px;
+  border-color: #ccc;
+  z-index: 10;
+`;
+
+export const TooltipText = styled.Text`
+  font-size: 12px;
+  color: #333;
+  font-weight: bold;
+`;

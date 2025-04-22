@@ -48,7 +48,7 @@ const Profile = () => {
             setUser(user)
 
             const weight = await weightService.getWeightByUserId(id)
-            console.log('Weight:', weight[0])
+            
             if (weight) {
               setWeight(weight[0])
             } else {

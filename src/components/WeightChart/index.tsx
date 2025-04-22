@@ -1,8 +1,11 @@
-import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions, TouchableWithoutFeedback, View, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { Weight } from 'src/entitites/Weight';
-import { AddWeightButton, ChartContainer, ChartHeader, ChartTitle, TextButton } from './styles';
+import { AddWeightButton, ChartContainer, ChartHeader, ChartTitle, NoDataContainer, NoDataText, TextButton } from './styles';
+import StandardModal from '../StandardModal';
+import { Circle } from 'react-native-svg';
+import { ToolTip } from './ToolTip';
 
 interface WeightChartProps {
   data: Weight[];
@@ -29,61 +32,104 @@ export const WeightChart = ({ data }: WeightChartProps) => {
       return isValid;
     })
     .map(({ value }) => value);
+  
+  
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedWeight, setSelectedWeight] = useState<Weight | null>(null);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, value: 0, visible: false });
 
   if (values.length === 0 || labels.length === 0 || values.length !== labels.length) {
     return (
-      <View style={{ margin: 20, backgroundColor: '#6161A9', padding: 20, borderRadius: 16 }}>
-        <Text style={{ color: '#fff' }}>Sem dados válidos para exibir o gráfico</Text>
-      </View>
+      <NoDataContainer onPress={() => {setIsModalVisible(true)}}>
+        <NoDataText>Clique aqui para adicionar seu peso!</NoDataText>
+          <AddWeightButton >
+            <TextButton>+</TextButton>
+          </AddWeightButton>
+      </NoDataContainer>
     );
   }
 
   return (
-    <ChartContainer>
+    <>    
+      <StandardModal isOpen={isModalVisible} onClose={() => {setIsModalVisible(false)}}>
+        {/* TODO: Forms para adicionar peso */}
+      </StandardModal>
+
+      <ChartContainer>
         <ChartHeader>
-            <ChartTitle>Peso</ChartTitle>
-            <AddWeightButton onPress={() => { console.log("TODO: Modal AddWeight") }}>
-                <TextButton>+</TextButton>
-            </AddWeightButton>
+          <ChartTitle>Peso</ChartTitle>
+          <AddWeightButton onPress={() => {setIsModalVisible(true)}}>
+            <TextButton>+</TextButton>
+          </AddWeightButton>
         </ChartHeader>
-        <LineChart
-        data={{
-            labels,
-            datasets: [
-                {
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setTooltipPos({ x: 0, y: 0, value: 0, visible: false });
+          }}
+        >
+          <View>          
+            <LineChart
+              data={{
+                labels,
+                datasets: [
+                  {
                     data: values,
+                  },
+                ],
+              }}
+              width={screenWidth - 40}
+              height={220}
+              fromZero={true}
+              bezier
+              chartConfig={{
+                decimalPlaces: 1,
+                color: () => '#ffffff',
+                labelColor: () => '#ffffff',
+                propsForLabels: {
+                  fontSize: '12',
+                  fontWeight: 'bold',
                 },
-            ],
-        }}
-        width={screenWidth - 40}
-        height={180}
-        bezier
-        chartConfig={{
-            decimalPlaces: 1,
-            color: () => '#ffffff',
-            propsForLabels: {
-                fontSize: '12',
-                fontWeight: 'bold',
-            },
-            propsForDots: {
-                r: '4',
-                strokeWidth: '2',
-                stroke: '#fff',
-            },
-            backgroundGradientFromOpacity: 0,
-            backgroundGradientToOpacity: 0,
-            propsForBackgroundLines: {
-            strokeWidth: 0,
-            },
-        }}
-        style={{
-            borderRadius: 16,
-            marginRight: 20,
-            alignContent: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}
-        />
-    </ChartContainer>
+                propsForDots: {
+                  r: '4',
+                  strokeWidth: '2',
+                  stroke: '#fff',
+                },
+                backgroundGradientFromOpacity: 0,
+                backgroundGradientToOpacity: 0,
+                propsForBackgroundLines: {
+                  strokeWidth: 0,
+                },
+              }}
+              style={{
+                borderRadius: 16,
+                marginRight: 20,
+                alignContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              renderDotContent={({ x, y, index }) => (
+                <React.Fragment key={`circle-tooltip-${index}`}>
+                  <Circle
+                    cx={x}
+                    cy={y}
+                    r={6}
+                    fill="#fff"
+                    onPress={() => {
+                      setTooltipPos({ x, y, value: values[index], visible: true });
+                    }}
+                  />
+                  <ToolTip
+                    x={x}
+                    y={y}
+                    value={values[index]}
+                    visible={tooltipPos.visible && tooltipPos.x === x}
+                  />
+                </React.Fragment>
+              )}        
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </ChartContainer>
+    </>  
   );
 };
