@@ -83,3 +83,55 @@ export const TooltipText = styled.Text`
   color: #333;
   font-weight: bold;
 `;
+
+export const FormContainer = styled.View`
+  margin-top: -10px;
+`
+
+export const ButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 16px;
+`
+
+export const ModalLabel = styled.Text`
+  font-size: 24px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  margin-left: 5px;
+`
+
+export const ModalInput = styled.TextInput`
+  height: 40px;
+  border-width: 1px;
+  border-color: #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 18px;
+  margin-bottom: -5px;
+`
+
+export const ActionButton = styled.Pressable`
+  flex: 1;
+  background-color: #6161a9;
+  padding: 12px;
+  border-radius: 8px;
+  align-items: center;
+  margin-top: 5px;
+`
+
+export const ActionButtonText = styled.Text`
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+`
+
+export const ErrorMessageContainer = styled.View`
+  height: 30px;
+`;
+
+export const ErrorMessage = styled.Text`
+  color: red;
+  font-size: 14px;
+  padding-top: 15px;
+`;

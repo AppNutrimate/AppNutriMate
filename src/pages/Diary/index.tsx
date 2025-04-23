@@ -126,7 +126,6 @@ const Diary = () => {
   return (
     <Container>
       <DefaultTitle fontSize={20} title="Diary" />
-      <SearchBar />
       <IndicatorContainer>
         <Section>
           <SideTitle>1250</SideTitle>
