@@ -4,9 +4,11 @@ import { Weight } from 'src/entitites/Weight';
 import weightService from 'src/services/weightService';
 import { Container, Title } from './style';
 import { WeightChart } from 'src/components/WeightChart';
+import { NoDataButton } from 'src/components/WeightChart/NoDataButton';
 
 const Performance = () => {
     const [weights, setWeights] = useState<Weight[]>([]);
+    const [userId, setUserId] = useState<string | null>(null);
     
     useEffect(() => {
         const fetchPerformanceData = async () => {
@@ -14,6 +16,7 @@ const Performance = () => {
                 const id = await AsyncStorage.getItem('userId');
                 if (id != null) {
                     const weights = await weightService.getWeightByUserId(id);
+                    setUserId(id);
                     setWeights(weights);
                 }
             } catch (error) {
@@ -24,9 +27,15 @@ const Performance = () => {
     }, []);
 
     return (
+
         <Container>
             <Title>Dashboard</Title>
-            <WeightChart data={weights} />
+            {weights?.length ? (
+                <WeightChart userId={userId} data={weights} />
+            ) : (
+                <NoDataButton />
+            )}
+
         </Container>
     );
 }

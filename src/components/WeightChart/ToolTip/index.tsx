@@ -13,7 +13,7 @@ export const ToolTip = ({ x, y, value, visible }: TooltipProps) => {
 
   return (
     <TooltipContainer style={{ top: y + 10, left: x - 20 }}>
-      <TooltipText>{value} kg</TooltipText>
+      <TooltipText>{value}kg</TooltipText>
     </TooltipContainer>
   );
 };

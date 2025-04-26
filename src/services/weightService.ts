@@ -11,9 +11,13 @@ const weightService = {
         }
     },
 
-    addWeight: async (userId: string, weight: Weight): Promise<Weight> => {
+    addWeight: async (userId: string, weight: number, measuredAt: Date) => {
+        const formattedDate = new Date(measuredAt).toISOString();
         try {
-            const res = await api.post<Weight>(`/users/${userId}/weights`, weight);
+            const res = await api.post<any>(`/users/${userId}/weights`, {
+                value: weight,
+                measuredAt: formattedDate,
+            });
             return res.data;
         } catch (error) {
             throw new Error("Failed to add weight");
