@@ -4,7 +4,9 @@ import {
   TypeIcon,
   CallIcon,
   MainContainer,
-  LogoContainer
+  LogoContainer,
+  SignInContainer,
+  LogInContainer
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
@@ -60,12 +62,11 @@ const Login = () => {
           <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
         </LogoContainer>
         
-        <ButtonContainer style={{height: 400, bottom: 0, position: "absolute", zIndex: 1}}>
+        <ButtonContainer>
           {!showLoginForm && (
-          <Animated.View 
+          <SignInContainer
           entering={SlideInDown.springify().damping(16).delay(100)}
-          exiting={SlideOutDown.duration(500)}
-          style={[ {width: "100%", display: 'flex', alignItems: 'center' }]}>
+          exiting={SlideOutDown.duration(500)}>
             <TypeIcon source={NutrimateIconName} />
             <CallIcon source={CallToActionIcon} />
             <DefaultButton
@@ -73,7 +74,7 @@ const Login = () => {
               text={'Create Account'}
               marginVertical={15}
               buttonHandle={() => {
-                navigation.navigate('CreateAccount')
+                navigation.navigate('CreateAccountPage')
               }}
             />
             <DefaultButton
@@ -82,16 +83,16 @@ const Login = () => {
               marginVertical={8}
               buttonHandle={handleLoginPress}
             />
-        </Animated.View>
+        </SignInContainer>
       )}
 
       {showLoginForm && (
-        <Animated.View style={[{width: "100%" , position: 'absolute', bottom: -15}]}
+        <LogInContainer
          entering={SlideInDown.springify().damping(16)}
          exiting={SlideOutDown.duration(500)}
          >
           <SignIn goback={handleBackPress}></SignIn>
-        </Animated.View>
+        </LogInContainer>
       )}
         </ButtonContainer>
       <Carousel images={images}></Carousel>

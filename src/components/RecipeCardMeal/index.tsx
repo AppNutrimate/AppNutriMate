@@ -42,10 +42,10 @@ export interface RecipeCardProps {
 }
 
 const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
-  const [isModalVisible, setModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const navigation = useNavigation<PropsStack>()
   const toggleModal = () => {
-    setModalVisible(!isModalVisible)
+    setIsModalVisible(!isModalVisible)
   }
 
   const handleDeleteRecipeFromMeal = async () => {
@@ -60,7 +60,7 @@ const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
         props._id ?? ''
       )
       Alert.alert('Sucesso', 'Receita removida com sucesso')
-      setModalVisible(false)
+      setIsModalVisible(false)
       navigation.navigate('Diary')
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível remover a receita')
@@ -68,12 +68,20 @@ const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.85} onPress={props.onPress} onLongPress={toggleModal}>
+    <TouchableOpacity activeOpacity={0.85}
+    onPress={() => {
+      if(isModalVisible)
+      setIsModalVisible(false);
+      else
+      props.onPress?.()
+    }}
+      onLongPress={toggleModal}
+      >
       <Container isLast={props.isLast}>
         <Card height={props.height}>
           <MealPhoto source={props.image} />
           <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <TitleCard>{props.title}</TitleCard>
+            <TitleCard numberOfLines={1} ellipsizeMode="tail">{props.title}</TitleCard>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
               <ContainerMacro>
                 <MacroIcon source={ProteinIcon} />
@@ -89,28 +97,22 @@ const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
               </ContainerMacro>
             </View>
           </View>
-          <View style={{ marginTop: 5, marginLeft: 30 }}>
-            <TouchableOpacity onPress={toggleModal} style={{ paddingTop: 0 }}>
-              <Text style={{ fontSize: 18 }}>☰</Text>
-            </TouchableOpacity>
+          <View style={{ marginTop: 5, marginLeft: 45, position: 'relative' }}>
             {isModalVisible && (
-              <>
-                <ModalOverlay onPress={toggleModal} />
-                <ModalContent
-                  style={{
-                    shadowOffset: {
-                      width: 0,
-                      height: 2
-                    },
-                    shadowOpacity: 0.55,
-                    shadowRadius: 4.65,
-                    elevation: 5
-                  }}
-                >
-                  <MenuItem onPress={handleDeleteRecipeFromMeal}>
-                    <MenuText>Excluir</MenuText>
-                  </MenuItem>
-                </ModalContent>
+                <>
+                  <ModalOverlay onPress={()=> setIsModalVisible(false)} />
+                  <ModalContent
+                    style={{
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.55,
+                      shadowRadius: 4.65,
+                      elevation: 5,
+                    }}
+                  >
+                    <MenuItem onPress={handleDeleteRecipeFromMeal}>
+                      <MenuText>Excluir</MenuText>
+                    </MenuItem>
+                  </ModalContent>
               </>
             )}
           </View>

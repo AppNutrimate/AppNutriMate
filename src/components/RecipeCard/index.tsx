@@ -9,7 +9,7 @@ import {
   TitleCard
 } from './styles'
 import CaloriesIcon from '@icons/fire-p.png'
-import ProteinIcon from '@icons/muscle-p.png'
+import ProteinIcon from '@icons/protein-p-icon.png'
 import TimeIcon from '@icons/time-p.png'
 import { type ImageSourcePropType, TouchableOpacity, View } from 'react-native'
 
@@ -34,14 +34,14 @@ const RecipeCard = (props: Partial<RecipeCardProps>) => {
           <MealPhoto source={props.image} />
           <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <TitleCard>{props.title}</TitleCard>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <View style={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
               <ContainerMacro>
                 <MacroIcon source={ProteinIcon} />
-                <MacroNumber>{props.proteins}g</MacroNumber>
+                <MacroNumber  style={{marginLeft: -4}}>{props.proteins}g</MacroNumber>
               </ContainerMacro>
               <ContainerMacro>
                 <MacroIcon source={CaloriesIcon} />
-                <MacroNumber>{props.calories}</MacroNumber>
+                <MacroNumber>{props.calories}kcal</MacroNumber>
               </ContainerMacro>
               <ContainerMacro>
                 <MacroIcon source={TimeIcon} />

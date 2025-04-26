@@ -56,8 +56,8 @@ export const ContainerShaded = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
   flex: 1;
   justify-content: center;
-  width: 75%;
-  max-height: 240px;
+  width: 85%;
+  max-height: 310px;
   border-radius: 5px;
   margin-top: 20px;
   margin-bottom: 10px;

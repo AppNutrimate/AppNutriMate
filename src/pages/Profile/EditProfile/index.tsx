@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useState } from 'react'
 import {
   MainContainer,
@@ -25,6 +23,7 @@ import { TextInputMask } from 'react-native-masked-text'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { ArrowBackButton, Header } from '../styles'
 
+
 const EditProfile = () => {
   const [user, setUser] = useState<User>({
     id: '',
@@ -35,6 +34,7 @@ const EditProfile = () => {
     birth: '',
     email: '',
     password: '',
+    height: 0,
     createdAt: '',
     updatedAt: ''
   })
@@ -71,6 +71,7 @@ const EditProfile = () => {
           firstName: user.firstName?.trim(),
           lastName: user.lastName?.trim(),
           email: user.email?.trim(),
+          height: Number(user.height),
           phone: user.phone,
           birth: user.birth
         }
@@ -82,10 +83,9 @@ const EditProfile = () => {
           Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
           return;
         }
-        console.log('Updating user:', updatedFields)
         await userService.update(updatedFields)
-        console.log('User updated:', updatedFields)
         Alert.alert('User updated successfully!')
+        navigation.goBack()
         navigation.navigate('Home')
       } else {
         console.error('User ID is null or user is undefined')
@@ -109,7 +109,6 @@ const EditProfile = () => {
       /^(\d{2})(\d{2})(\d{1})(\d{4})(\d{4})$/,
       '+$1 ($2) $3 $4-$5'
     )
-
     return formatted
   }
 
@@ -169,6 +168,14 @@ const EditProfile = () => {
           <Input
             value={user.email}
             onChangeText={(text) => handleInputChange('email', text)}
+          />
+        </FlexContainer>
+        <FlexContainer>
+          <InfoTitle>Height</InfoTitle>
+          <Input
+            value={String(user.height)}
+            onChangeText={(text) => handleInputChange('height', text)}
+            keyboardType="numeric"
           />
         </FlexContainer>
         <FlexContainer>

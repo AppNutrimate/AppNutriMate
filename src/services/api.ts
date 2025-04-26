@@ -2,12 +2,13 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
+import { API_URL } from '@env'
 
-// Create an Axios instance
 const api = axios.create({
   baseURL:
     'http://' +
     Constants.expoConfig?.hostUri?.split(':').shift()?.concat(':3000'),
+  // API_URL,
   headers: {
     'Content-Type': 'application/json'
   }

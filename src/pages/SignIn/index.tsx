@@ -20,7 +20,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import userService from "src/services/userService";
 
-const SignIn = ({ goback }) => {
+interface SignInProps {
+  goback?: () => void;
+}
+
+const SignIn: React.FC<SignInProps> = ({ goback }) => {
   const navigation = useNavigation<PropsStack>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,7 +69,7 @@ const SignIn = ({ goback }) => {
           <TouchableOpacity
             onPress={() => {
               if(showSignIn) {
-                goback();
+                goback?.();
               } else {
                 setShowSignIn(true);
               }

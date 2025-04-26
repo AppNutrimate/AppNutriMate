@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Diary from "src/pages/Diary";
 import DiaryMealRecipes from "src/pages/DiaryMealRecipes";
 import Profile from "src/pages/Profile";
+import Performance from "src/pages/Performance";
 import EditProfile from "src/pages/Profile/EditProfile";
 import RecipePage from "src/pages/RecipePage";
 import Recipes from "src/pages/Recipes";
@@ -21,11 +22,14 @@ import RecipesIcon from "@icons/recipes-icon-p.png";
 import RecipesIconSolid from "@icons/recipes-icon-solid.png";
 import ProfileIcon from "@icons/profile-icon-p.png";
 import ProfileIconSolid from "@icons/profile-icon-solid.png";
+import ExamsIcon from "@icons/exams-icon-p.png";
+import ExamsIconSolid from "@icons/exams-icon-solid.png";
 import { ImageSourcePropType, View, Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const DiaryStack = createNativeStackNavigator();
+const PerformanceStack = createNativeStackNavigator();
 const RecipeStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
@@ -51,6 +55,19 @@ function DiaryStackScreen() {
       <DiaryStack.Screen name="Diary" component={Diary} />
       <DiaryStack.Screen name="DiaryMealRecipes" component={DiaryMealRecipes} />
     </DiaryStack.Navigator>
+  );
+}
+
+function PerformanceStackScreen() {
+  return (
+    <PerformanceStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <PerformanceStack.Screen name="Performance" component={Performance} />
+      <PerformanceStack.Screen name="Success" component={SuccessPage} />
+    </PerformanceStack.Navigator>
   );
 }
 
@@ -114,7 +131,6 @@ export default function TabRoutes() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        //unmountOnBlur: true,
         tabBarStyle: {
           backgroundColor: "#EDF1F7",
           height: '10%'
@@ -134,6 +150,11 @@ export default function TabRoutes() {
         name="diary"
         component={DiaryStackScreen}
         options={{ tabBarIcon: ({focused}) => (<TabIcon icon={focused ? DiaryIconSolid : DiaryIcon} focused={focused} />) }}
+      />
+      <Tab.Screen
+        name="exams"
+        component={PerformanceStackScreen}
+        options={{ tabBarIcon: ({focused}) => <TabIcon icon={focused ? ExamsIconSolid : ExamsIcon} focused={focused} /> }}
       />
       <Tab.Screen
         name="recipes"

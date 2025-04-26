@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated'
 import styled from 'styled-components/native'
 
 export const Background = styled.ImageBackground`
@@ -31,11 +32,23 @@ export const CallIcon = styled.Image.attrs({
   margin-bottom: 20px;
 `
 
+export const SignInContainer = styled(Animated.View)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`
+export const LogInContainer = styled(Animated.View)`
+  width: 100%;
+  position: absolute;
+  bottom: -15px;
+`
 export const ButtonContainer = styled.View`
   bottom: 0; 
-  position: "absolute";
+  position: absolute;
   align-items: center;
   width: 100%;
+  z-index: 1;
+  height: 400px;
 `
 export const LogoContainer = styled.View`
   display: flex;

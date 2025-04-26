@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActionButton,
   ActionButtonText,
@@ -10,6 +10,9 @@ import {
   IndicatorContainer,
   ModalInput,
   ModalLabel,
+  PresetImage,
+  PresetImageCard,
+  PresetImagesContainer,
   Section,
   SideSubTitle,
   SideTitle,
@@ -23,7 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Meal } from "src/entitites/Meal";
 import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
 type RootStackParamList = {
   DiaryMealRecipes: { meal: Meal };
   recipes: { screen: string };
@@ -31,24 +34,31 @@ type RootStackParamList = {
 
 const Diary = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
   const [mealName, setMealName] = useState("");
   const [calories, setCalories] = useState<string | null>("0");
   const [modalOpen, setModalOpen] = useState(false);
+  const [mealImage, setMealImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let id = userId
-        if (!id) {
-          id = await AsyncStorage.getItem('userId')
-          setUserId(id)
-        }
-        if (id) {
-          const response = await mealService.getMealByUserId()
-          setMeals(response ?? [])
-          const mealsWithRecipes = response.filter(
+  const imagesPresets = [
+    "https://cdn-icons-png.flaticon.com/512/3595/3595881.png",
+    "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQgvMuIM2CKAJVlHsoH6n2LKE4VV9KFLQmEz99z1dmMKfCNMrj4",
+    "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQgyDFCvv1fqXLk2GV_evKRTvyeTn4tUhewn6Ik8JzGVwOux12U",
+    "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSZ8rk0SBRi8h-LTDUD7TcaJc9xWYeGnZlMYg74WypMdgL-IU5N",
+    "https://cdn-icons-png.flaticon.com/512/1784/1784216.png",
+    "https://cdn-icons-png.flaticon.com/512/10541/10541174.png"
+  ]
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const id = await AsyncStorage.getItem('userId');
+          const response = await mealService.getMealByUserId();
+          setMeals(response ?? []);
+          if (!id) return;
+            const mealsWithRecipes = response.filter(
             (meal) => meal.recipes.length > 0
           )
           const totalCalories = mealsWithRecipes.reduce(
@@ -63,16 +73,16 @@ const Diary = () => {
             0
           )
           setCalories(totalCalories.toString())
-        } else {
-          setCalories('0')
+        } catch (error) {
+          console.error('Error fetching meals:', error);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-    fetchData()
-  }, [userId])
+      };
+  
+      fetchData();
+    }, [])
+  );
 
+  
   const renderItem = ({ item, index }: { item: Meal; index: number }) => (
     <MealCard
       isLast={index === meals.length - 1}
@@ -95,22 +105,27 @@ const Diary = () => {
         return
       }
       const createdMeal = await mealService.addMeal(
-        'https://cdn-icons-png.flaticon.com/512/3595/3595881.png',
+        mealImage ?? '',
         mealName
       )
       console.log('Meal created:', createdMeal)
       setMeals((prevMeals) => [...prevMeals, createdMeal])
-      setMealName('')
-      setModalOpen(false)
+      handleCloseModal()
     } catch (error) {
       console.error('Error creating meal:', error)
     }
   }
 
+  const handleCloseModal = () => {
+    setModalOpen(false)
+    setMealImage(null)
+    setSelectedImage(null)
+    setMealName('')
+  }
+
   return (
     <Container>
       <DefaultTitle fontSize={20} title="Diary" />
-      <SearchBar />
       <IndicatorContainer>
         <Section>
           <SideTitle>1250</SideTitle>
@@ -136,7 +151,7 @@ const Diary = () => {
       <AddMealModal
         isOpen={modalOpen}
         onClose={() => {
-          setModalOpen(false)
+          handleCloseModal()
         }}
       >
         <FormContainer>
@@ -146,11 +161,33 @@ const Diary = () => {
             value={mealName}
             onChangeText={(text) => setMealName(text)}
           />
+        <PresetImagesContainer>
+          {imagesPresets.map((image) => {
+            const isSelected = selectedImage === image;
+
+            return (
+              <PresetImageCard 
+                key={image} 
+                onPress={() => {
+                  setMealImage(image);
+                  setSelectedImage(image);
+                }}
+                style={{
+                  borderWidth: isSelected ? 4 : 2
+                }}
+              >
+                <PresetImage source={{ uri: image }} />
+              </PresetImageCard>
+            );
+          })}
+        </PresetImagesContainer>
+
         </FormContainer>
         <ButtonContainer>
           <ActionButton
             onPress={() => {
               handleAddMeal()
+              handleCloseModal()
             }}
           >
             <ActionButtonText>Create Meal</ActionButtonText>
@@ -161,8 +198,7 @@ const Diary = () => {
         data={meals}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-      />
-      
+      />      
     </Container>
   )
 }

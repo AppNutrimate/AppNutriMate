@@ -3,6 +3,11 @@ import api from './api'
 import { type User } from 'src/entitites/User'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+interface RegisterResponse {
+  message: string;
+  user: User;
+}
+
 const userService = {
   register: async (
     firstName: string,
@@ -10,21 +15,29 @@ const userService = {
     phone: string,
     birth: string,
     email: string,
-    password: string
+    password: string,
+    height: number,
+    profilePhoto: string
   ) => {
     try {
-      const res = await api.post<User>('/users', {
+      const res = await api.post<RegisterResponse>('/users', {
         firstName,
         lastName,
         phone,
         birth,
         email,
-        password
+        password,
+        height,
+        profilePhoto
       })
       return res.data
-    } catch (error) {
-      console.error('Error registering user:', error)
-      throw error
+    } catch (error: any) {
+      if (error?.response?.status === 409) {
+        throw new Error('Email já cadastrado')
+      } else {
+        console.error('Error registering user:', error)
+        throw error
+      }
     }
   },
 
