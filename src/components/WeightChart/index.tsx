@@ -85,10 +85,7 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
       <TrackWeightModal
         isVisible={isModalVisible}
         onClose={handleCloseModal}
-        weightForm={weightForm}
-        setWeightForm={setWeightForm}
-        handleAddWeight={handleAddWeight}
-        errorMessage={errorMessage}
+        onSave={handleAddWeight}
       />
 
       <ChartContainer>

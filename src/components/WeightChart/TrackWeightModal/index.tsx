@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { FormContainer, ModalLabel, ModalInput, ErrorMessageContainer, ErrorMessage, ButtonContainer, ActionButton, ActionButtonText } from '../styles';
+import { 
+  FormContainer, ModalLabel, ModalInput, 
+  ErrorMessageContainer, ErrorMessage, 
+  ButtonContainer, ActionButton, ActionButtonText 
+} from '../styles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import StandardModal from 'src/components/StandardModal';
 
@@ -12,39 +16,64 @@ interface WeightForm {
 interface TrackWeightModalProps {
   isVisible: boolean;
   onClose: () => void;
-  weightForm: WeightForm;
-  setWeightForm: (form: WeightForm) => void;
-  handleAddWeight: (form: WeightForm) => void;
-  errorMessage?: string;
+  onSave: (form: WeightForm) => void;
 }
 
 export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
   isVisible,
   onClose,
-  weightForm,
-  setWeightForm,
-  handleAddWeight,
-  errorMessage,
+  onSave,
 }) => {
-    const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
-    
-    const formatDateToDisplay = (isoDate: string) => {
-        if (!isoDate) return ''
-        const datePart = isoDate.split('T')[0]
-        const [year, month, day] = datePart.split('-')
-        return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`
+  const [weightForm, setWeightForm] = useState<WeightForm>({
+    value: '0',
+    measuredAt: new Date(),
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+
+  const formatDateToDisplay = (isoDate: string) => {
+    if (!isoDate) return '';
+    const datePart = isoDate.split('T')[0];
+    const [year, month, day] = datePart.split('-');
+    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+  };
+
+  const toggleDatePicker = () => {
+    setIsDatePickerVisible(!isDatePickerVisible);
+  };
+
+  const handleConfirmDate = (date: Date) => {
+    setWeightForm({ ...weightForm, measuredAt: date });
+    setIsDatePickerVisible(false);
+  };
+
+  const handleSave = () => {
+    if (!weightForm.value || weightForm.value === '0') {
+      setErrorMessage('Por favor, insira um valor válido.');
+      return;
+    }
+    if (!weightForm.measuredAt) {
+      setErrorMessage('Por favor, insira uma data válida.');
+      return;
+    }
+    onSave(weightForm);
+    setWeightForm({ value: '0', measuredAt: new Date() });
+    setErrorMessage('');
+  };
+
+  const handleChangeValue = (text: string) => {
+    let formatted = text.replace(',', '.').replace(/[^0-9.]/g, '');
+    const parts = formatted.split('.');
+    if (parts.length > 2) return;
+
+    if (parts.length === 2 && parts[1].length > 3) {
+      parts[1] = parts[1].slice(0, 3);
+      formatted = `${parts[0]}.${parts[1]}`;
     }
 
-    const toggleDatePicker = () => {
-    setIsDatePickerVisible(!isDatePickerVisible);
-    };
+    setWeightForm({ ...weightForm, value: formatted });
+  };
 
-    const handleConfirmDate = (date: Date) => {
-        setWeightForm({ ...weightForm, measuredAt: date });
-        setIsDatePickerVisible(false);
-    };
-
-    
   return (
     <StandardModal isOpen={isVisible} onClose={onClose}>
       <FormContainer>
@@ -53,19 +82,9 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
           placeholder="You're doing a great job..."
           keyboardType="decimal-pad"
           value={weightForm.value === '0' ? '' : weightForm.value.toString()}
-          onChangeText={(text) => {
-            let formatted = text.replace(',', '.').replace(/[^0-9.]/g, '');
-            const parts = formatted.split('.');
-            if (parts.length > 2) return;
-        
-            if (parts.length === 2 && parts[1].length > 3) {
-              parts[1] = parts[1].slice(0, 3);
-              formatted = `${parts[0]}.${parts[1]}`;
-            }
-        
-            setWeightForm({ ...weightForm, value: formatted });
-          }}
+          onChangeText={handleChangeValue}
         />
+
         <ModalLabel style={{ marginTop: 10, fontSize: 20 }}>Measurement Date:</ModalLabel>
         <TouchableOpacity onPress={toggleDatePicker}>
           <ModalInput
@@ -74,6 +93,7 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
             pointerEvents="none"
           />
         </TouchableOpacity>
+
         <DateTimePicker
           isVisible={isDatePickerVisible}
           mode="date"
@@ -81,11 +101,13 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
           onCancel={toggleDatePicker}
         />
       </FormContainer>
+
       <ErrorMessageContainer>
         {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
       </ErrorMessageContainer>
+
       <ButtonContainer>
-        <ActionButton onPress={() => handleAddWeight(weightForm)}>
+        <ActionButton onPress={handleSave}>
           <ActionButtonText>Save Weight</ActionButtonText>
         </ActionButton>
       </ButtonContainer>

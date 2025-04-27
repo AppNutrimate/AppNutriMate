@@ -10,24 +10,24 @@ const Performance = () => {
     const [weights, setWeights] = useState<Weight[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     
-    useEffect(() => {
-        const fetchPerformanceData = async () => {
-            try {
-                const id = await AsyncStorage.getItem('userId');
-                if (id != null) {
-                    const weights = await weightService.getWeightByUserId(id);
-                    setUserId(id);
-                    setWeights(weights);
-                }
-            } catch (error) {
-                console.error("Error fetching performance data:", error);
+    const fetchPerformanceData = async () => {
+        try {
+            const id = await AsyncStorage.getItem('userId');
+            if (id != null) {
+                const weights = await weightService.getWeightByUserId(id);
+                setUserId(id);
+                setWeights(weights);
             }
-        };
+        } catch (error) {
+            console.error("Error fetching performance data:", error);
+        }
+    };
+    
+    useEffect(() => {
         fetchPerformanceData();
     }, []);
 
     return (
-
         <Container>
             <Title>Dashboard</Title>
             {weights?.length ? (
@@ -35,7 +35,6 @@ const Performance = () => {
             ) : (
                 <NoDataButton />
             )}
-
         </Container>
     );
 }
