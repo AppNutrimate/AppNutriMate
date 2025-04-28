@@ -7,6 +7,7 @@ import { Circle } from 'react-native-svg';
 import { ToolTip } from './ToolTip';
 import weightService from 'src/services/weightService';
 import { TrackWeightModal } from './TrackWeightModal';
+import { EditDeleteWeightModal } from './EditDeleteWeightModal';
 
 interface WeightChartProps {
   data: Weight[];
@@ -42,6 +43,7 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
   
   
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedWeight, setSelectedWeight] = useState<Weight | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, value: 0, visible: false });
   const [errorMessage, setErrorMessage] = useState('');
@@ -81,19 +83,38 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
     }
   }
 
+  const handleUpdateWeight = async (weightId: string, value: number, measuredAt: Date) => {
+    if (!userId) return;
+
+    try {
+      await weightService.updateWeight(userId, weightId, value, measuredAt);
+      Alert.alert('Peso atualizado com sucesso');
+    } catch (error) {
+      console.error('Error updating weight:', error);
+      setErrorMessage('Erro ao atualizar peso. Tente novamente.');
+    }
+  };
+
+  const handleDeleteWeight = async (weightId: string) => {
+    if (!userId) return;
+
+    try {
+      await weightService.removeWeight(userId, weightId);
+      Alert.alert('Peso atualizado com sucesso');
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error updating weight:', error);
+      setErrorMessage('Erro ao atualizar peso. Tente novamente.');
+    }
+  };
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
+    setIsEditModalVisible(false);
     setErrorMessage('');
     setWeightForm({ value: '0', measuredAt: new Date() });
   }
 
-  // const handleCloseTooltip = () => {
-  //   if (tooltipPos.visible) {
-  //     setTimeout(() => {
-  //       setTooltipPos({ x: 0, y: 0, value: 0, visible: false });
-  //     }, 2000);
-  //   }
-  // }
 
   const handleCirclePress = (x: number, y: number, value: number) => {
     setTooltipPos({ x, y, value, visible: true });
@@ -109,6 +130,30 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
         isVisible={isModalVisible}
         onClose={handleCloseModal}
         onSave={handleAddWeight}
+      />
+
+      <EditDeleteWeightModal
+        isVisible={isEditModalVisible}
+        onClose={handleCloseModal}
+        onSave={(form) => {
+          if (selectedWeight) {
+            handleUpdateWeight(selectedWeight.id, parseFloat(form.value), new Date(form.measuredAt));
+          }
+        }}
+        onDelete={() => {
+          if (selectedWeight) {
+            handleDeleteWeight(selectedWeight.id);
+          }
+        }}
+        initialData={
+          selectedWeight
+            ? { 
+                ...selectedWeight, 
+                value: String(selectedWeight.value), 
+                measuredAt: new Date(selectedWeight.measuredAt) 
+              }
+            : undefined
+        }
       />
 
       <ChartContainer>
@@ -175,7 +220,7 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
                     }}
                     onLongPress={() => {
                       setSelectedWeight(sortedData[index]);
-                      setIsModalVisible(true);
+                      setIsEditModalVisible(true);
                     }}
                   />
                   <ToolTip

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { 
   FormContainer, ModalLabel, ModalInput, 
@@ -13,29 +13,51 @@ interface WeightForm {
   measuredAt: Date;
 }
 
-interface TrackWeightModalProps {
+interface EditDeleteWeightModalProps {
   isVisible: boolean;
   onClose: () => void;
   onSave: (form: WeightForm) => void;
+  onDelete: () => void;
+  initialData?: WeightForm;
 }
 
-export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
+export const EditDeleteWeightModal: React.FC<EditDeleteWeightModalProps> = ({
   isVisible,
   onClose,
   onSave,
+  onDelete,
+  initialData,
 }) => {
+  const formatDateToSave = (date: Date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
   const [errorMessage, setErrorMessage] = useState('');
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [weightForm, setWeightForm] = useState<WeightForm>({
     value: '0',
-    measuredAt: new Date(),
+    measuredAt: new Date()
   });
 
-  const formatDateToDisplay = (isoDate: string) => {
-    if (!isoDate) return '';
-    const datePart = isoDate.split('T')[0];
-    const [year, month, day] = datePart.split('-');
-    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+  useEffect(() => {
+    if (initialData) {
+      setWeightForm(initialData);
+    }
+  }, [initialData]);
+
+  const formatDateToDisplay = (date: Date) => {
+    if (!date) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   const toggleDatePicker = () => {
@@ -59,30 +81,34 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
       return;
     }
     onSave(weightForm);
+    onClose();
     setWeightForm({ value: '0', measuredAt: new Date() });
     setErrorMessage('');
+  };
+
+  const handleDelete = () => {
+    onDelete();
+    onClose();
   };
 
   const handleChangeValue = (text: string) => {
     let formatted = text.replace(',', '.').replace(/[^0-9.]/g, '');
   
     const parts = formatted.split('.');
-  
     if (parts.length > 2) {
       formatted = parts[0] + '.' + parts[1];
     }
-  
     if (parts[1]?.length > 3) {
       formatted = `${parts[0]}.${parts[1].slice(0, 3)}`;
     }
 
     setWeightForm((prev) => ({ ...prev, value: formatted }));
-  };  
+  };
 
   return (
     <StandardModal isOpen={isVisible} onClose={onClose}>
       <FormContainer>
-        <ModalLabel>Track Your Weight:</ModalLabel>
+        <ModalLabel>Edit Your Weight:</ModalLabel>
         <ModalInput
           placeholder="You're doing a great job..."
           keyboardType="decimal-pad"
@@ -93,7 +119,7 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
         <ModalLabel style={{ marginTop: 10, fontSize: 20 }}>Measurement Date:</ModalLabel>
         <TouchableOpacity onPress={toggleDatePicker}>
           <ModalInput
-            value={formatDateToDisplay(weightForm.measuredAt.toISOString())}
+            value={formatDateToDisplay(new Date(weightForm.measuredAt))}
             editable={false}
             pointerEvents="none"
           />
@@ -111,9 +137,12 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
         {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
       </ErrorMessageContainer>
 
-      <ButtonContainer>
+      <ButtonContainer style={{ gap: 15 }}>
+        <ActionButton onPress={handleDelete} style={{ backgroundColor: 'orange' }}>
+          <ActionButtonText style={{ color: '#fff' }}>Delete Weight</ActionButtonText>
+        </ActionButton>
         <ActionButton onPress={handleSave}>
-          <ActionButtonText>Save Weight</ActionButtonText>
+          <ActionButtonText>Save Changes</ActionButtonText>
         </ActionButton>
       </ButtonContainer>
     </StandardModal>
