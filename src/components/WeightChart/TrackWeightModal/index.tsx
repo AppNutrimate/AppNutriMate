@@ -24,12 +24,12 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
   onClose,
   onSave,
 }) => {
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [weightForm, setWeightForm] = useState<WeightForm>({
     value: '0',
     measuredAt: new Date(),
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const formatDateToDisplay = (isoDate: string) => {
     if (!isoDate) return '';
@@ -48,7 +48,7 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
   };
 
   const handleSave = () => {
-    if (!weightForm.value || weightForm.value === '0') {
+    if (!weightForm.value || weightForm.value === '0' || isNaN(parseFloat(weightForm.value)) || parseFloat(weightForm.value) > 999) {
       setErrorMessage('Por favor, insira um valor válido.');
       return;
     }
@@ -63,16 +63,19 @@ export const TrackWeightModal: React.FC<TrackWeightModalProps> = ({
 
   const handleChangeValue = (text: string) => {
     let formatted = text.replace(',', '.').replace(/[^0-9.]/g, '');
+  
     const parts = formatted.split('.');
-    if (parts.length > 2) return;
-
-    if (parts.length === 2 && parts[1].length > 3) {
-      parts[1] = parts[1].slice(0, 3);
-      formatted = `${parts[0]}.${parts[1]}`;
+  
+    if (parts.length > 2) {
+      formatted = parts[0] + '.' + parts[1];
+    }
+  
+    if (parts[1]?.length > 3) {
+      formatted = `${parts[0]}.${parts[1].slice(0, 3)}`;
     }
 
-    setWeightForm({ ...weightForm, value: formatted });
-  };
+    setWeightForm((prev) => ({ ...prev, value: formatted }));
+  };  
 
   return (
     <StandardModal isOpen={isVisible} onClose={onClose}>

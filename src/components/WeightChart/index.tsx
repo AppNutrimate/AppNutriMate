@@ -60,10 +60,17 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
       return;
     }
 
+    const parsedValue = parseFloat(newWeightForm.value);
+  
+    if (isNaN(parsedValue) || parsedValue <= 0) {
+      setErrorMessage('Por favor, insira um valor numérico válido.');
+      return;
+    }
+
     try {
       await weightService.addWeight(
         userId ?? '',
-        parseFloat(newWeightForm.value),
+        parsedValue,
         newWeightForm.measuredAt
       );
       Alert.alert('Peso adicionado com sucesso');
@@ -79,6 +86,22 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
     setErrorMessage('');
     setWeightForm({ value: '0', measuredAt: new Date() });
   }
+
+  // const handleCloseTooltip = () => {
+  //   if (tooltipPos.visible) {
+  //     setTimeout(() => {
+  //       setTooltipPos({ x: 0, y: 0, value: 0, visible: false });
+  //     }, 2000);
+  //   }
+  // }
+
+  const handleCirclePress = (x: number, y: number, value: number) => {
+    setTooltipPos({ x, y, value, visible: true });
+
+    setTimeout(() => {
+      setTooltipPos({ x: 0, y: 0, value: 0, visible: false });
+    }, 4000);
+  };
 
   return (
     <>    
@@ -111,7 +134,7 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
                 ],
               }}
               width={screenWidth - 40}
-              height={220}
+              height={200}
               fromZero={true}
               bezier
               chartConfig={{
@@ -119,7 +142,7 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
                 color: () => '#ffffff',
                 labelColor: () => '#ffffff',
                 propsForLabels: {
-                  fontSize: '12',
+                  fontSize: '10',
                   fontWeight: 'bold',
                 },
                 propsForDots: {
@@ -148,7 +171,11 @@ export const WeightChart = ({ data, userId }: WeightChartProps) => {
                     r={6}
                     fill="#fff"
                     onPress={() => {
-                      setTooltipPos({ x, y, value: values[index], visible: true });
+                      handleCirclePress(x, y, values[index]);
+                    }}
+                    onLongPress={() => {
+                      setSelectedWeight(sortedData[index]);
+                      setIsModalVisible(true);
                     }}
                   />
                   <ToolTip

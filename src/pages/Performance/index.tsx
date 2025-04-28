@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Weight } from 'src/entitites/Weight';
 import weightService from 'src/services/weightService';
 import { Container, Title } from './style';
 import { WeightChart } from 'src/components/WeightChart';
 import { NoDataButton } from 'src/components/WeightChart/NoDataButton';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Performance = () => {
     const [weights, setWeights] = useState<Weight[]>([]);
@@ -16,16 +17,19 @@ const Performance = () => {
             if (id != null) {
                 const weights = await weightService.getWeightByUserId(id);
                 setUserId(id);
-                setWeights(weights);
+                const limitedWeights = weights.slice(0, 8);
+                setWeights(limitedWeights);
             }
         } catch (error) {
             console.error("Error fetching performance data:", error);
         }
     };
     
-    useEffect(() => {
-        fetchPerformanceData();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchPerformanceData();
+        }, [])
+    );
 
     return (
         <Container>
@@ -33,7 +37,7 @@ const Performance = () => {
             {weights?.length ? (
                 <WeightChart userId={userId} data={weights} />
             ) : (
-                <NoDataButton />
+                <NoDataButton userId={userId}/>
             )}
         </Container>
     );
