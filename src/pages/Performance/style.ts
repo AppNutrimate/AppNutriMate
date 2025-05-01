@@ -8,7 +8,7 @@ export const Title = styled.Text`
   font-size: 26px;
   font-weight: bold;
   color: black;
-  margin-top: 80px;
+  margin-top: 100px;
   margin-left: 20px;
   
 `

@@ -6,6 +6,7 @@ const myTheme: DefaultTheme = {
     darkPurple: '#6161A9',
     lightGray: '#D9D9D9',
     darkGray: '#777777',
+    green: '#b8e903',
     background: '#FFFFFF',
     black: '#000000',
     lightBackground: '#EDF1F7',
