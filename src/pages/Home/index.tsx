@@ -25,7 +25,6 @@ const Home = () => {
   useFocusEffect(
   useCallback(() => {
     StatusBar.setBarStyle('dark-content');
-    StatusBar.setBackgroundColor('black');
     const fetchUserIdAndDetails = async () => {
       try {
         const user = await userService.getUserById()

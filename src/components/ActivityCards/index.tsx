@@ -6,8 +6,11 @@ import CalendarIcon from "@icons/calendar-w.png";
 import TrackIcon from "@icons/chart-w.png";
 import PurpleTextureButton from "@images/purple-dots-texture.png"
 import GreenTextureButton from "@images/green-dots-texture.png"
+import { useNavigation } from "@react-navigation/native";
+import { PropsStack } from "src/routes";
 
 const ActivityCards = () => {
+    const navigation = useNavigation<PropsStack>();
     return(
         <Container>
             <FlexContainer>
@@ -16,9 +19,10 @@ const ActivityCards = () => {
                     <HistoryIcon source={CalendarIcon}/>
                     <Title>History</Title>
                 </MainContainer>            
-                <MainContainer style={{ height: 190 }}>
+                <MainContainer style={{ height: 190 }} onPress={() => navigation.navigate("StatusPage")}>
+                    <BackgroundImage source={PurpleTextureButton}/>
                     <ChartIcon source={TrackIcon} />
-                    <Title>Track Weight</Title>
+                    <Title>Status</Title>
                 </MainContainer>
             </FlexContainer>
             <FlexContainer>
@@ -34,7 +38,7 @@ const ActivityCards = () => {
                     <CircleContainer>
                         <IconCircle source={KettleIcon}/>
                     </CircleContainer>
-                    <Title>HealthSquad™</Title>
+                    <Title>HealthSquad</Title>
                 </MainContainer>
             </FlexContainer>
         </Container>

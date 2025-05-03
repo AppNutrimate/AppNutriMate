@@ -25,6 +25,7 @@ import ProfileIconSolid from "@icons/profile-icon-solid.png";
 import ExamsIcon from "@icons/exams-icon-p.png";
 import ExamsIconSolid from "@icons/exams-icon-solid.png";
 import { ImageSourcePropType, View, Image } from "react-native";
+import StatusPage from "src/pages/StatusPage";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -66,6 +67,7 @@ function PerformanceStackScreen() {
       }}
     >
       <PerformanceStack.Screen name="Performance" component={Performance} />
+      <PerformanceStack.Screen name="StatusPage" component={StatusPage} />
       <PerformanceStack.Screen name="Success" component={SuccessPage} />
     </PerformanceStack.Navigator>
   );

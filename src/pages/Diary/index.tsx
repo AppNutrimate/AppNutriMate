@@ -18,7 +18,6 @@ import {
   SideTitle,
 } from "./styles";
 import DefaultTitle from "../../components/common/DefaultTitle";
-import SearchBar from "src/components/common/SearchBar";
 import { FlatList } from "react-native";
 import MealCard from "src/components/MealCard";
 import mealService from "src/services/mealService";
