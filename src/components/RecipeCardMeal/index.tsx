@@ -54,7 +54,6 @@ const RecipeCardMeal = (props: Partial<RecipeCardProps>) => {
       return
     }
     try {
-      console.log(props.mealId, props._id)
       await mealService.removeRecipeFromMeal(
         props.mealId ?? '',
         props._id ?? ''
