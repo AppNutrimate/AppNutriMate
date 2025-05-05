@@ -28,6 +28,12 @@ export const AlertHeader = styled.View`
     margin-bottom: 10px;
 `;
 
+export const AlertGif = styled.Image`
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+`;
+
 export const AlertText = styled.Text`
     font-size: 20px;
     font-weight: bold;
@@ -35,10 +41,12 @@ export const AlertText = styled.Text`
     color: ${({ theme }) => theme.colors.darkGray};
 `;
 
-export const AlertGif = styled.Image`
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
+export const AlertSecondText = styled.Text`
+    font-size: 16px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.darkGray};
+    margin-top: 5px;
+    padding: 0 20px;
 `;
 
 export const AlertButton = styled.TouchableOpacity`

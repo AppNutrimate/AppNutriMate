@@ -18,11 +18,11 @@ import userService from 'src/services/userService'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from 'src/routes'
 import ArrowBack from '@icons/arrow-back-w.png'
-import { Alert, Modal, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
 import DateTimePicker from 'react-native-modal-datetime-picker'
 import { ArrowBackButton, Header } from '../styles'
-
+import DefaultAlert from 'src/components/common/DefaultAlert'
 
 const EditProfile = () => {
   const [user, setUser] = useState<User>({
@@ -43,6 +43,9 @@ const EditProfile = () => {
   const navigation = useNavigation<PropsStack>()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const [isAlertSuccess, setIsAlertSuccess] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -80,13 +83,19 @@ const EditProfile = () => {
         );
   
         if (isAnyFieldEmpty) {
-          Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+          setAlertMessage('Por favor, preencha todos os campos.')
+          setIsAlertSuccess(false)
+          setIsAlertOpen(true)
           return;
         }
         await userService.update(updatedFields)
-        Alert.alert('User updated successfully!')
-        navigation.goBack()
-        navigation.navigate('Home')
+        setIsAlertSuccess(true)
+        setIsAlertOpen(true)
+        setTimeout(() => {
+          setIsAlertOpen(false)
+          navigation.goBack()
+          navigation.navigate('Home')
+        }, 3000)
       } else {
         console.error('User ID is null or user is undefined')
       }
@@ -146,6 +155,15 @@ const EditProfile = () => {
           <EditTitle>Edit Profile</EditTitle>   
         </EditHeaderContent>
       </Header>
+      <DefaultAlert
+        isOpen={isAlertOpen}
+        isSuccess={isAlertSuccess}
+        secondText={alertMessage}
+        onClose={() => {
+          setAlertMessage('');
+          setIsAlertOpen(false);
+        }}
+      />
       <ContentContainer>
         <NameContainer>
           <FlexContainer style={{ width: '48%' }}>
@@ -216,15 +234,12 @@ const EditProfile = () => {
             />
           </TouchableOpacity>
         </FlexContainer>
-        {/* <Modal visible={openModal} transparent={true}> */}
           <DateTimePicker
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirmDateModal}
             onCancel={handleDateModal}
           />
-        {/* </Modal> */}
-
         <SaveButton onPress={handleSaveChanges}>
           <TextButton>Save Changes</TextButton>
         </SaveButton>

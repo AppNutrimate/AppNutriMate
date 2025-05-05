@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Modal, View } from "react-native";
-import { AlertButton, AlertButtonText, AlertGif, AlertHeader, AlertText, ModalContent, ModalOverlay } from "./styles";
+import { AlertButton, AlertButtonText, AlertGif, AlertHeader, AlertSecondText, AlertText, ModalContent, ModalOverlay } from "./styles";
 import LottieView from "lottie-react-native";
 import SuccessGif from '../../../../assets/gifs/success.json';
 import FailureGif from '../../../../assets/gifs/failure.json';
 interface DefaultAlertProps {
   isOpen: boolean;
   isSuccess: boolean;
+  secondText?: string;
   onClose: () => void;
 }
 
-const DefaultAlert = ({isOpen, isSuccess, onClose}:DefaultAlertProps) => {
+const DefaultAlert = ({isOpen, isSuccess, secondText, onClose}:DefaultAlertProps) => {
   return (
     <Modal visible={isOpen} transparent animationType="fade">
         <ModalOverlay>
@@ -26,6 +27,9 @@ const DefaultAlert = ({isOpen, isSuccess, onClose}:DefaultAlertProps) => {
                         style={{ width: 120, height: 120 }}
                         />
                     <AlertText>{isSuccess ? "Oba! Deu tudo certo!" : "Eita... Algo não está certo."}</AlertText>
+                    {secondText && (
+                        <AlertSecondText>{secondText}</AlertSecondText>
+                    )}
                     <AlertButton onPress={onClose}>
                         <AlertButtonText>OK</AlertButtonText>
                     </AlertButton>
