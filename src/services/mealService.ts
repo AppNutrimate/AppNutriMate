@@ -21,7 +21,7 @@ const mealService = {
       return res.data.recipes;
     } catch (error) {
       console.error(
-        "Error fetching meal recipes by ID:",error
+        "Error fetching meal recipes by ID:", error
       );
       throw error;
     }
@@ -38,15 +38,14 @@ const mealService = {
       return res.data.meal;
     } catch (error) {
       console.error(
-        "Error adding meal:",error
+        "Error adding meal:", error
       );
       throw error;
     }
   },
   removeMeal: async (userId: string, mealId: string): Promise<void> => {
     try {
-      const response = await api.delete(`/users/meals/${mealId}`);
-      console.log("API response:", response.data);
+      await api.delete(`/users/meals/${mealId}`);
     } catch (error) {
       console.error(
         "Error removing meal:", error);
@@ -72,7 +71,7 @@ const mealService = {
       await api.delete(`/users/meals/${mealId}/recipe/${recipeId}`);
     } catch (error) {
       console.error(
-        "Error removing recipe from meal:",  error);
+        "Error removing recipe from meal:", error);
       throw error;
     }
   },
