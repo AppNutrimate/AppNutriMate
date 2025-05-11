@@ -6,6 +6,13 @@ import ActivityDone from "./ActivityDone";
 import workoutService from "src/services/workoutService";
 import { Workout } from "src/entitites/Workout";
 
+interface PaginatedWorkoutResponse {
+  workouts: Workout[];
+  total: number;
+  page: number;
+  lastPage: number;
+}
+
 
 const ActivityTimeline = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -13,8 +20,8 @@ const ActivityTimeline = () => {
 
   const fetchWorkouts = async () => {
     try {
-      const workouts = await workoutService.getWorkoutsByUser();
-      setWorkouts(workouts.slice(0, 5));
+      const fetchedWorkouts = await workoutService.getWorkoutsByUser(1, 5);
+      setWorkouts(fetchedWorkouts);
     } catch (error) {
       console.error("Error fetching workouts:", error);
     }
