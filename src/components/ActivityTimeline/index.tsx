@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, DotsButton, DotsIcon, Title, TitleContainer } from "./styles";
 import Dots from "@icons/dots-w.png";
 import { ScrollView, View } from "react-native";
 import ActivityDone from "./ActivityDone";
+import workoutService from "src/services/workoutService";
+import { Workout } from "src/entitites/Workout";
 
 const activitySimulator = [
   {
@@ -29,6 +31,20 @@ const activitySimulator = [
 ]
 
 const ActivityTimeline = () => {
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      try {
+        const workouts = await workoutService.getWorkoutsByUser();
+        setWorkouts(workouts);
+      } catch (error) {
+        console.error("Error fetching workouts:", error);
+      }
+  }
+    fetchWorkouts();
+  }, [])
+
   return (
     <Container>
         <TitleContainer>
@@ -38,13 +54,13 @@ const ActivityTimeline = () => {
             </DotsButton>
         </TitleContainer>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {activitySimulator.map((activity) => (
+          {workouts.map((activity) => (
             <ActivityDone
-            key={activity.id.toString()}
+            key={activity.id}
             name={activity.name}
-            duration={activity.duration}
+            durationInMin={activity.durationInMin}
             date={activity.date}
-            burnedCalories={activity.burnedCalories.toString()}
+            burnedCalories={activity.caloriesBurned.toString()}
             />
           ))}
         </ScrollView>

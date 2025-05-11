@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, View } from "react-native";
-import { AlertButton, AlertButtonText, AlertGif, AlertHeader, AlertSecondText, AlertText, ModalContent, ModalOverlay } from "./styles";
+import { AlertButton, AlertButtonText, AlertHeader, AlertSecondText, AlertText, ModalContent, ModalOverlay } from "./styles";
 import LottieView from "lottie-react-native";
 import SuccessGif from '../../../../assets/gifs/success.json';
 import FailureGif from '../../../../assets/gifs/failure.json';

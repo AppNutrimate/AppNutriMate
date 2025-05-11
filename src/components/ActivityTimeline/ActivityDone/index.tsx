@@ -2,10 +2,12 @@ import React from "react";
 import { ActivityContainer, ActivityDateContainer, ActivityDateText, ActivityDurationCaloriesContainer, ActivityDurationCaloriesText, ActivityIcon, ActivityIconContainer, ActivityIconsContainer, ActivityText, ActivityTextContainer } from "../styles";
 import DurationIcon from "@icons/hourglass-w.png";
 import CaloriesIcon from "@icons/fire-w.png";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { View } from "react-native";
 export interface ActivityDoneProps {
     id: string;
     name: string;
-    duration: string;
+    durationInMin: number;
     date: string;
     burnedCalories: string;
 }
@@ -14,7 +16,10 @@ const ActivityDone = (props: Partial<ActivityDoneProps>) => {
     return (
         <ActivityContainer>
             <ActivityTextContainer>
-                <ActivityText>{props.name}</ActivityText>
+                <View style={{flexDirection: "row", alignItems: "center"}}>
+                    <MaterialCommunityIcons name="soccer" size={20} color="#6161A9" />
+                    <ActivityText>{props.name}</ActivityText>
+                </View>
                 <ActivityDateContainer>
                     <ActivityDateText>{props.date}</ActivityDateText>                    
                 </ActivityDateContainer>
@@ -25,7 +30,7 @@ const ActivityDone = (props: Partial<ActivityDoneProps>) => {
                         <ActivityIcon source={DurationIcon}/>
                     </ActivityIconContainer>
                     <ActivityDurationCaloriesText>
-                        {props.duration}
+                        {props.durationInMin}min
                     </ActivityDurationCaloriesText>
                 </ActivityDurationCaloriesContainer>
                 <ActivityDurationCaloriesContainer>
