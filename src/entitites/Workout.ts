@@ -1,3 +1,5 @@
+import { Sport } from "./Sport";
+
 export interface Workout {
     id: string;
     name: string;
@@ -7,7 +9,5 @@ export interface Workout {
     user: {
         id: string;
     }
-    sport: {
-        id: string;
-    }
+    sport: Sport
 }

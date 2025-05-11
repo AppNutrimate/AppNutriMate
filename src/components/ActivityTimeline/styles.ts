@@ -35,11 +35,19 @@ export const DotsIcon = styled.Image`
 
 export const ActivityContainer = styled.View`
   margin-top: 15px;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 16px;
   background-color:rgb(237, 227, 255);
   border-radius: 24px;
+`;
+
+export const ActivityTitle = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.darkPurple};
+  margin-left: 10px;
+  margin-bottom: 10px;
 `;
 
 export const ActivityTextContainer = styled.View`
@@ -53,12 +61,16 @@ export const ActivityText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${(props) => props.theme.colors.darkGray};
+  margin-left: 5px;
 `;
 
 export const ActivityDateContainer = styled.View`
   background-color: ${(props) => props.theme.colors.purple};
   border-radius: 24px;
   padding: 8px 10px;
+  align-items: center;
+  width: 115px;
+  flex-shrink: 0;
 `;
 
 export const ActivityDateText = styled.Text`

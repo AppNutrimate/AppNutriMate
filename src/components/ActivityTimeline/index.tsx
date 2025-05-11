@@ -1,47 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Container, DotsButton, DotsIcon, Title, TitleContainer } from "./styles";
 import Dots from "@icons/dots-w.png";
-import { ScrollView, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import ActivityDone from "./ActivityDone";
 import workoutService from "src/services/workoutService";
 import { Workout } from "src/entitites/Workout";
 
-const activitySimulator = [
-  {
-    id: 1,
-    name: "Running",
-    duration: "30min",
-    date: "June 1 - 06:00 AM",
-    burnedCalories: 300,
-  },
-  {
-    id: 2,
-    name: "Cycling",
-    duration: "60min",
-    date: "June 1 - 07:00 AM",
-    burnedCalories: 500,
-  },
-  {
-    id: 3,
-    name: "Swimming",
-    duration: "45min",
-    date: "June 1 - 08:00 AM",
-    burnedCalories: 400,
-  },
-]
 
 const ActivityTimeline = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchWorkouts = async () => {
+    try {
+      const workouts = await workoutService.getWorkoutsByUser();
+      setWorkouts(workouts.slice(0, 5));
+    } catch (error) {
+      console.error("Error fetching workouts:", error);
+    }
+  }
+
+  const onRefresh = async () => {
+    setLoading(true);
+    await fetchWorkouts();
+    setLoading(false);
+  }
 
   useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        const workouts = await workoutService.getWorkoutsByUser();
-        setWorkouts(workouts);
-      } catch (error) {
-        console.error("Error fetching workouts:", error);
-      }
-  }
     fetchWorkouts();
   }, [])
 
@@ -53,14 +38,23 @@ const ActivityTimeline = () => {
                 <DotsIcon source={Dots} />
             </DotsButton>
         </TitleContainer>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           {workouts.map((activity) => (
             <ActivityDone
-            key={activity.id}
-            name={activity.name}
-            durationInMin={activity.durationInMin}
-            date={activity.date}
-            burnedCalories={activity.caloriesBurned.toString()}
+              key={activity.id}
+              name={activity.name}
+              durationInMin={activity.durationInMin}
+              date={activity.date}
+              caloriesBurned={activity.caloriesBurned}
+              sport={activity.sport}
             />
           ))}
         </ScrollView>
