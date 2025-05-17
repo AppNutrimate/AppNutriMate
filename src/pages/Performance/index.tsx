@@ -1,13 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Title } from './style';
 import BackButton from 'src/components/common/BackButton';
 import DefaultButton from 'src/components/common/DefaultButton';
 import ActivityCards from 'src/components/ActivityCards';
 import ActivityTimeline from 'src/components/ActivityTimeline';
 import DefaultAlert from "src/components/common/DefaultAlert";
+import AddWorkoutModal from "../../components/AddWorkoutModal";
 
 const Performance = () => {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isAddWorkoutModalOpen, setIsAddWorkoutModalOpen] = useState(false);
 
     const closeAlert = () => {
         setIsAlertOpen(false);
@@ -17,6 +19,11 @@ const Performance = () => {
         <Container>
             <BackButton />
             <Title>Dashboard</Title>
+            <AddWorkoutModal
+                isOpen={isAddWorkoutModalOpen}
+                onClose={() => {
+                    setIsAddWorkoutModalOpen(false);
+                } }/>
             <ActivityCards/>
             <DefaultAlert
                 isOpen={isAlertOpen}
@@ -28,7 +35,9 @@ const Performance = () => {
                 backgroundColor={'#b8e903'}
                 text={'+ Add Your Workout'}
                 marginVertical={20}
-                buttonHandle={() => setIsAlertOpen(true)}
+                buttonHandle={() => {
+                    setIsAddWorkoutModalOpen(true);
+                }}
             />
             <ActivityTimeline/>
         </Container>
