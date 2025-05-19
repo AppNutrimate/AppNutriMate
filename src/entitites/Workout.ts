@@ -11,3 +11,12 @@ export interface Workout {
     }
     sport: Sport
 }
+
+export interface CreateWorkoutDTO {
+    userId: string;
+    name: string;
+    date: string;
+    durationInMin: number;
+    caloriesBurned: number;
+    sportId: string;
+}

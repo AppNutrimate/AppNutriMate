@@ -1,6 +1,8 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View``
+export const Container = styled.View`
+  margin-bottom: -20px;
+`
 
 export const ModalTitle = styled.Text`
   font-size: 24px;
@@ -89,4 +91,23 @@ export const MinutesInput = styled.TextInput`
   margin-bottom: 10px;
   width: 130px;
   height: 50px;
+`;
+
+export const AddButton = styled.TouchableOpacity`
+  background-color: ${({ theme }) => theme.colors.green};
+  border-radius: 25px;
+  padding: 10px;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 50px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+`;
+
+export const AddButtonText = styled.Text`
+  font-size: 19px;
+  font-weight: bold;
+  color: white;
 `;
