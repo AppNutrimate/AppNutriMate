@@ -33,7 +33,7 @@ const ActivityCards = () => {
                     </CircleContainer>
                     <Title>New Adventures</Title>
                 </MainContainer>            
-                <MainContainer>
+                <MainContainer onPress={() => navigation.navigate("HealthSquad")}>
                     <BackgroundImage source={PurpleTextureButton}/>
                     <CircleContainer>
                         <IconCircle source={KettleIcon}/>

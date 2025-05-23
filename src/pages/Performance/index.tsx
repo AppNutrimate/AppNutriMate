@@ -28,7 +28,7 @@ const Performance = () => {
             <DefaultAlert
                 isOpen={isAlertOpen}
                 isSuccess={false}
-                secondText={'Você ainda não tem atividades registradas!'}
+                secondText={'Complete o cadastro'}
                 onClose={closeAlert}
             />
             <DefaultButton

@@ -26,6 +26,7 @@ import ExamsIcon from "@icons/exams-icon-p.png";
 import ExamsIconSolid from "@icons/exams-icon-solid.png";
 import { ImageSourcePropType, View, Image } from "react-native";
 import StatusPage from "src/pages/StatusPage";
+import HealthSquad from "src/pages/HealthSquad";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -67,6 +68,7 @@ function PerformanceStackScreen() {
       }}
     >
       <PerformanceStack.Screen name="Performance" component={Performance} />
+      <PerformanceStack.Screen name="HealthSquad" component={HealthSquad} />
       <PerformanceStack.Screen name="StatusPage" component={StatusPage} />
       <PerformanceStack.Screen name="Success" component={SuccessPage} />
     </PerformanceStack.Navigator>
@@ -154,7 +156,7 @@ export default function TabRoutes() {
         options={{ tabBarIcon: ({focused}) => (<TabIcon icon={focused ? DiaryIconSolid : DiaryIcon} focused={focused} />) }}
       />
       <Tab.Screen
-        name="exams"
+        name="performance"
         component={PerformanceStackScreen}
         options={{ tabBarIcon: ({focused}) => <TabIcon icon={focused ? ExamsIconSolid : ExamsIcon} focused={focused} /> }}
       />

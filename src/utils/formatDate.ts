@@ -4,8 +4,6 @@ export function formatWorkoutDate(isoString: string): string {
     const datePart = date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
-        year: "numeric",
-        timeZone: "America/Sao_Paulo"
     });
 
     const timePart = date.toLocaleTimeString("pt-BR", {

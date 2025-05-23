@@ -4,10 +4,11 @@ import { AddButton, AddButtonText, ArrowDown, Container, FlexContainer, Label, M
 import sportService from 'src/services/sportService'
 import RNPickerSelect from 'react-native-picker-select'
 import { View } from 'react-native'
-import { CreateWorkoutDTO, Workout } from 'src/entitites/Workout'
+import { CreateWorkoutDTO } from 'src/entitites/Workout'
 import DefaultAlert from '../common/DefaultAlert'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import workoutService from 'src/services/workoutService'
+import { calculateWorkoutCalories } from 'src/utils/calculateWorkoutCalories'
 
 interface AddWorkoutModalProps {
   isOpen: boolean
@@ -25,7 +26,7 @@ const AddWorkoutModal = ({ isOpen, onClose }: AddWorkoutModalProps) => {
       name: '' ,
       date: new Date().toISOString(),
       durationInMin: 0,
-      caloriesBurned: 10,
+      caloriesBurned: 0,
       userId: '',
       sportId: '',
     }
@@ -73,16 +74,23 @@ const AddWorkoutModal = ({ isOpen, onClose }: AddWorkoutModalProps) => {
         setIsAlertVisible(true)
         return
       }
-
+      
       const workoutData = {
         ...workoutForm,
         sportId: selectedSport,
         userId: userId,
       }
 
-      console.log(workoutData)
-      await workoutService.addWorkout(workoutData)
-      setAlertMessage('Treino registrado com sucesso!')
+      const caloriesBurned = await calculateWorkoutCalories(workoutData, selectedSport)
+      
+      const updatedWorkoutData = {
+        ...workoutForm,
+        sportId: selectedSport,
+        userId: userId,
+        caloriesBurned: caloriesBurned,
+      }
+      await workoutService.addWorkout(updatedWorkoutData)
+      setAlertMessage('Treino registrado com sucesso!' + `\nCalorias queimadas: ${caloriesBurned}kcal`)
       setAlertType(true)
       setIsAlertVisible(true)
       handleCleanForm()

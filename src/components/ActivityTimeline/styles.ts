@@ -74,7 +74,7 @@ export const ActivityDateContainer = styled.View`
 `;
 
 export const ActivityDateText = styled.Text`
-  font-size: 10px;
+  font-size: 12px;
   color: white;
 `;
 
