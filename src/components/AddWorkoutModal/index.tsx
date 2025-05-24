@@ -93,6 +93,10 @@ const AddWorkoutModal = ({ isOpen, onClose }: AddWorkoutModalProps) => {
       setAlertMessage('Treino registrado com sucesso!' + `\nCalorias queimadas: ${caloriesBurned}kcal`)
       setAlertType(true)
       setIsAlertVisible(true)
+      setTimeout(() => {
+        setIsAlertVisible(false)
+        onClose()
+      }, 3000)
       handleCleanForm()
     } catch (error) {
       
