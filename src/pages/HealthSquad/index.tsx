@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BackButton from "src/components/common/BackButton";
 import { Container, Header, PageTitle } from "./styles";
 import Divider from "src/components/common/Divider";
+import WorkoutTimeline from "src/components/WorkoutTimeline";
 
 const HealthSquad = () => {
     return (
@@ -10,8 +11,8 @@ const HealthSquad = () => {
                 <BackButton/>
                 <PageTitle>HealthSquad</PageTitle>
             </Header>
-            <PageTitle style={{color: "red"}}>HealthSquad</PageTitle>
             <Divider/>
+            <WorkoutTimeline/>            
         </Container>
     );
 }

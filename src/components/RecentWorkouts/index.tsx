@@ -14,7 +14,7 @@ interface PaginatedWorkoutResponse {
 }
 
 
-const ActivityTimeline = () => {
+const RecentWorkouts = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -69,4 +69,4 @@ const ActivityTimeline = () => {
   );
 }
 
-export default ActivityTimeline;
+export default RecentWorkouts;

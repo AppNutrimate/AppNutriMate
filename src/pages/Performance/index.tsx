@@ -3,9 +3,9 @@ import { Container, Title } from './style';
 import BackButton from 'src/components/common/BackButton';
 import DefaultButton from 'src/components/common/DefaultButton';
 import ActivityCards from 'src/components/ActivityCards';
-import ActivityTimeline from 'src/components/ActivityTimeline';
 import DefaultAlert from "src/components/common/DefaultAlert";
 import AddWorkoutModal from "../../components/AddWorkoutModal";
+import RecentWorkouts from "src/components/RecentWorkouts";
 
 const Performance = () => {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -39,7 +39,7 @@ const Performance = () => {
                     setIsAddWorkoutModalOpen(true);
                 }}
             />
-            <ActivityTimeline/>
+            <RecentWorkouts/>
         </Container>
     );
 }

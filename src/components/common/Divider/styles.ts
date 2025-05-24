@@ -7,8 +7,8 @@ export const DividerContainer = styled.View`
 `
 export const DividerBar = styled.View`
   height: 1px;
-  background-color:rgb(159, 159, 159);
+  background-color:rgb(202, 202, 202);
   width: 90%;
-  margin: 20px 0;
+  margin: 10px 0;
 `;
 
