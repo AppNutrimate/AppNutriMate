@@ -93,13 +93,11 @@ const AddWorkoutModal = ({ isOpen, onClose }: AddWorkoutModalProps) => {
       setAlertMessage('Treino registrado com sucesso!' + `\nCalorias queimadas: ${caloriesBurned}kcal`)
       setAlertType(true)
       setIsAlertVisible(true)
-      setTimeout(() => {
-        setIsAlertVisible(false)
-        onClose()
-      }, 3000)
       handleCleanForm()
     } catch (error) {
-      
+        setAlertMessage('Erro ao registrar treino.');
+        setAlertType(false);
+        setIsAlertVisible(true);
     }
   }
 
@@ -125,54 +123,59 @@ const AddWorkoutModal = ({ isOpen, onClose }: AddWorkoutModalProps) => {
 
   return (
     <StandardModal isOpen={isOpen} onClose={handleOnClose}>
-      <DefaultAlert
-        isOpen={isAlertVisible}
-        isSuccess={alertType}
-        secondText={alertMessage}
-        onClose={()=>setIsAlertVisible(false)}
-      />
-      <Container>
-        <ModalTitle>Registro de Treino</ModalTitle>
-        <FlexContainer>
-          <Label>Identifique o Treino:</Label>
-          <TitleInput
-            placeholder='E aí, como foi?'
-            value={workoutForm.name}
-            onChangeText={(text) => setWorkoutForm((prev) => ({ ...prev, name: text }))}/>
-        </FlexContainer>
-        <RowContainer>
-          <FlexContainer>          
-            <Label>Esporte:</Label>
-            <View>
-              <RNPickerSelect
-                  onValueChange={(value) => setSelectedSport(value)}
-                  value={selectedSport}
-                  placeholder={{ label: 'Treino do dia', value: '' }}
-                  items={dropdownItems}
-                  style={pickerSelectStyles}
-                  Icon={() => {
-                    return (
-                      <ArrowDown>▼</ArrowDown>
-                    );
-                  }}
-              />
-            </View>
-          </FlexContainer>
-          <FlexContainer>
-            <Label>Duração:</Label>
-            <MinutesInput
-              placeholder='Em minutos'
-              keyboardType='numeric'
-              maxLength={3}
-              value={workoutForm.durationInMin?.toString()}
-              onChangeText={(text) => setWorkoutForm((prev) => ({ ...prev, durationInMin: Number(text) }))}
-            />
-          </FlexContainer>
-        </RowContainer>
-      </Container>
-      <AddButton onPress={handleAddWorkout}>        
-        <AddButtonText>Registrar Treino</AddButtonText>
-      </AddButton>
+      {isAlertVisible ? (
+          <DefaultAlert
+            isOpen={true}
+            isSuccess={alertType}
+            secondText={alertMessage}
+            onClose={handleOnClose}
+          />
+        ) : (
+          <>
+            <Container>
+              <ModalTitle>Registro de Treino</ModalTitle>
+              <FlexContainer>
+                <Label>Identifique o Treino:</Label>
+                <TitleInput
+                  placeholder='E aí, como foi?'
+                  value={workoutForm.name}
+                  onChangeText={(text) => setWorkoutForm((prev) => ({ ...prev, name: text }))}/>
+              </FlexContainer>
+              <RowContainer>
+                <FlexContainer>          
+                  <Label>Esporte:</Label>
+                  <View>
+                    <RNPickerSelect
+                        onValueChange={(value) => setSelectedSport(value)}
+                        value={selectedSport}
+                        placeholder={{ label: 'Treino do dia', value: '' }}
+                        items={dropdownItems}
+                        style={pickerSelectStyles}
+                        Icon={() => {
+                          return (
+                            <ArrowDown>▼</ArrowDown>
+                          );
+                        }}
+                    />
+                  </View>
+                </FlexContainer>
+                <FlexContainer>
+                  <Label>Duração:</Label>
+                  <MinutesInput
+                    placeholder='Em minutos'
+                    keyboardType='numeric'
+                    maxLength={3}
+                    value={workoutForm.durationInMin?.toString()}
+                    onChangeText={(text) => setWorkoutForm((prev) => ({ ...prev, durationInMin: Number(text) }))}
+                  />
+                </FlexContainer>
+              </RowContainer>
+            </Container>
+            <AddButton onPress={handleAddWorkout}>        
+              <AddButtonText>Registrar Treino</AddButtonText>
+            </AddButton>
+          </>
+        )}
     </StandardModal>
   )
 }
