@@ -78,6 +78,24 @@ export const ActivityDateText = styled.Text`
   color: white;
 `;
 
+export const TitleAndDotsContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+export const DropdownContainer = styled.View`
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 100px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 999;
+`;
+
 export const ActivityIconsContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -120,4 +138,20 @@ export const ActivityDurationCaloriesText = styled.Text`
   color: ${(props) => props.theme.colors.darkGray};
   font-weight: bold;
   margin-top: 5px;
+`;
+
+export const Dropdown = styled.View`
+  background-color: white;
+  border-radius: 8px;
+  padding: 0 5px;
+`;
+
+export const Option = styled.TouchableOpacity`
+  padding: 8px;
+`;
+
+export const OptionText = styled.Text`
+  font-size: 16px;
+  color: ${(props) => props.theme.colors.darkPurple};
+  font-weight: 600;
 `;

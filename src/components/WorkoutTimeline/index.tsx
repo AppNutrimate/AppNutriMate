@@ -11,17 +11,18 @@ interface WorkoutTimelineProps {
 const WorkoutTimeline = ({ workouts }: WorkoutTimelineProps) => {
   return (
     <Container>
-        {workouts.map((workout) => (
-          <ActivityDone
-            key={workout.id}
-            name={workout.name}
-            durationInMin={workout.durationInMin}
-            date={workout.date}
-            caloriesBurned={workout.caloriesBurned}
-            sport={workout.sport}
-          />
-        ))}
-        <View style={{ height: 20 }} />
+      {workouts.map((workout) => (
+        <ActivityDone
+          key={workout.id}
+          id={workout.id}
+          name={workout.name}
+          durationInMin={workout.durationInMin}
+          date={workout.date}
+          caloriesBurned={workout.caloriesBurned}
+          sport={workout.sport}
+        />
+      ))}
+      <View style={{ height: 20 }} />
     </Container>
   );
 };

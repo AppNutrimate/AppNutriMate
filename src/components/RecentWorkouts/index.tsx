@@ -39,32 +39,33 @@ const RecentWorkouts = () => {
 
   return (
     <Container>
-        <TitleContainer>
-            <Title>Latest Workouts</Title>
-            <DotsButton>
-                <DotsIcon source={Dots} />
-            </DotsButton>
-        </TitleContainer>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={loading}
-              onRefresh={onRefresh}
-            />
-          }
-        >
-          {workouts.map((activity) => (
-            <ActivityDone
-              key={activity.id}
-              name={activity.name}
-              durationInMin={activity.durationInMin}
-              date={activity.date}
-              caloriesBurned={activity.caloriesBurned}
-              sport={activity.sport}
-            />
-          ))}
-        </ScrollView>
+      <TitleContainer>
+        <Title>Latest Workouts</Title>
+        <DotsButton>
+          <DotsIcon source={Dots} />
+        </DotsButton>
+      </TitleContainer>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={onRefresh}
+          />
+        }
+      >
+        {workouts.map((activity) => (
+          <ActivityDone
+            key={activity.id}
+            id={activity.id}
+            name={activity.name}
+            durationInMin={activity.durationInMin}
+            date={activity.date}
+            caloriesBurned={activity.caloriesBurned}
+            sport={activity.sport}
+          />
+        ))}
+      </ScrollView>
     </Container>
   );
 }
