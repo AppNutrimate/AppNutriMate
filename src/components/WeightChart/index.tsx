@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Dimensions, TouchableWithoutFeedback, View, Text, TouchableOpacity } from 'react-native';
+import { Dimensions, TouchableWithoutFeedback, View, Alert } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { Weight } from 'src/entitites/Weight';
-import { ActionButton, ActionButtonText, AddWeightButton, ButtonContainer, ChartContainer, ChartHeader, ChartTitle, ErrorMessage, ErrorMessageContainer, FormContainer, ModalInput, ModalLabel, NoDataContainer, NoDataText, TextButton } from './styles';
-import StandardModal from '../StandardModal';
+import { AddWeightButton, ChartContainer, ChartHeader, ChartTitle, TextButton } from './styles';
 import { Circle } from 'react-native-svg';
 import { ToolTip } from './ToolTip';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import weightService from 'src/services/weightService';
+import { TrackWeightModal } from './TrackWeightModal';
+import { EditDeleteWeightModal } from './EditDeleteWeightModal';
 
 interface WeightChartProps {
   data: Weight[];
+  userId?: string | null;
 }
 
 interface NewWeightForm {
@@ -19,7 +21,7 @@ interface NewWeightForm {
 
 const screenWidth = Dimensions.get('window').width;
 
-export const WeightChart = ({ data }: WeightChartProps) => {
+export const WeightChart = ({ data, userId }: WeightChartProps) => {
   const sortedData = [...data].sort((a, b) =>
     new Date(a.measuredAt).getTime() - new Date(b.measuredAt).getTime()
   );
@@ -41,114 +43,118 @@ export const WeightChart = ({ data }: WeightChartProps) => {
   
   
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedWeight, setSelectedWeight] = useState<Weight | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, value: 0, visible: false });
-  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [weightForm, setWeightForm] = useState<NewWeightForm>({
     value: '0',
     measuredAt: new Date(),
   });
 
-
-  if (values.length === 0 || labels.length === 0 || values.length !== labels.length) {
-    return (
-      <NoDataContainer onPress={() => {setIsModalVisible(true)}}>
-        <NoDataText>Clique aqui para adicionar seu peso!</NoDataText>
-          <AddWeightButton >
-            <TextButton>+</TextButton>
-          </AddWeightButton>
-      </NoDataContainer>
-    );
-  }
-
-  const handleAddWeight = (newWeightForm: NewWeightForm) => {
+  const handleAddWeight = async (newWeightForm: NewWeightForm) => {
     if (!newWeightForm.value || newWeightForm.value === '0') {
       setErrorMessage('Por favor, insira um valor válido.');
       return;
     }
-    setIsModalVisible(false);
-    handleCloseModal();
+    if (!newWeightForm.measuredAt) {
+      setErrorMessage('Por favor, insira uma data válida.');
+      return;
+    }
+
+    const parsedValue = parseFloat(newWeightForm.value);
+  
+    if (isNaN(parsedValue) || parsedValue <= 0) {
+      setErrorMessage('Por favor, insira um valor numérico válido.');
+      return;
+    }
+
+    try {
+      await weightService.addWeight(
+        userId ?? '',
+        parsedValue,
+        newWeightForm.measuredAt
+      );
+      Alert.alert('Peso adicionado com sucesso');
+      setIsModalVisible(false)
+    } catch (error) {
+      console.error('Error adding weight:', error);
+      setErrorMessage('Erro ao adicionar peso. Tente novamente.');
+    }
   }
 
-  const toggleDatePicker = () => {
-    setIsDatePickerVisible(!isDatePickerVisible);
+  const handleUpdateWeight = async (weightId: string, value: number, measuredAt: Date) => {
+    if (!userId) return;
+
+    try {
+      await weightService.updateWeight(userId, weightId, value, measuredAt);
+      Alert.alert('Peso atualizado com sucesso');
+    } catch (error) {
+      console.error('Error updating weight:', error);
+      setErrorMessage('Erro ao atualizar peso. Tente novamente.');
+    }
   };
-  
-  const handleConfirmDate = (date: Date) => {
-    setWeightForm({ ...weightForm, measuredAt: date });
-    setIsDatePickerVisible(false);
+
+  const handleDeleteWeight = async (weightId: string) => {
+    if (!userId) return;
+
+    try {
+      await weightService.removeWeight(userId, weightId);
+      Alert.alert('Peso atualizado com sucesso');
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error updating weight:', error);
+      setErrorMessage('Erro ao atualizar peso. Tente novamente.');
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
+    setIsEditModalVisible(false);
     setErrorMessage('');
     setWeightForm({ value: '0', measuredAt: new Date() });
   }
 
-  const formatDateToDisplay = (isoDate: string) => {
-    if (!isoDate) return ''
-    const datePart = isoDate.split('T')[0]
-    const [year, month, day] = datePart.split('-')
-    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`
-  }
+
+  const handleCirclePress = (x: number, y: number, value: number) => {
+    setTooltipPos({ x, y, value, visible: true });
+
+    setTimeout(() => {
+      setTooltipPos({ x: 0, y: 0, value: 0, visible: false });
+    }, 4000);
+  };
 
   return (
     <>    
-      <StandardModal
-        isOpen={isModalVisible}
+      <TrackWeightModal
+        isVisible={isModalVisible}
         onClose={handleCloseModal}
-      >
-        <FormContainer>
-          <ModalLabel>Track Your Weight:</ModalLabel>
-          <ModalInput
-            placeholder="You're doing a great jobs..."
-            keyboardType="decimal-pad"
-            value={weightForm.value === '0' ? '' : weightForm.value.toString()}
-            onChangeText={(text) => {
-              let formatted = text.replace(',', '.').replace(/[^0-9.]/g, '');
-              const parts = formatted.split('.');
-              if (parts.length > 2) return;
-          
-              if (parts.length === 2 && parts[1].length > 3) {
-                parts[1] = parts[1].slice(0, 3);
-                formatted = `${parts[0]}.${parts[1]}`;
+        onSave={handleAddWeight}
+      />
+
+      <EditDeleteWeightModal
+        isVisible={isEditModalVisible}
+        onClose={handleCloseModal}
+        onSave={(form) => {
+          if (selectedWeight) {
+            handleUpdateWeight(selectedWeight.id, parseFloat(form.value), new Date(form.measuredAt));
+          }
+        }}
+        onDelete={() => {
+          if (selectedWeight) {
+            handleDeleteWeight(selectedWeight.id);
+          }
+        }}
+        initialData={
+          selectedWeight
+            ? { 
+                ...selectedWeight, 
+                value: String(selectedWeight.value), 
+                measuredAt: new Date(selectedWeight.measuredAt) 
               }
-          
-              setWeightForm({ ...weightForm, value: formatted });
-            }}
-          />
-          <ModalLabel style={{marginTop: 10, fontSize: 20}}>Measurement Date:</ModalLabel>
-          <TouchableOpacity onPress={toggleDatePicker}>
-            <ModalInput
-              value={formatDateToDisplay(weightForm.measuredAt.toISOString())}
-              editable={false}
-              pointerEvents="none"
-            />
-          </TouchableOpacity>
-          <DateTimePicker
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirmDate}
-            onCancel={toggleDatePicker}
-          />
-        </FormContainer>
-        <ErrorMessageContainer>
-          {errorMessage ? (
-            <ErrorMessage>{errorMessage}</ErrorMessage>
-          ) : null}
-        </ErrorMessageContainer>
-        <ButtonContainer>
-          <ActionButton
-            onPress={() => {
-              console.log('Weight added:', weightForm);
-              handleAddWeight(weightForm)
-            }}
-          >
-            <ActionButtonText>Save Weight</ActionButtonText>
-          </ActionButton>
-          </ButtonContainer>  
-      </StandardModal>
+            : undefined
+        }
+      />
 
       <ChartContainer>
         <ChartHeader>
@@ -173,7 +179,7 @@ export const WeightChart = ({ data }: WeightChartProps) => {
                 ],
               }}
               width={screenWidth - 40}
-              height={220}
+              height={200}
               fromZero={true}
               bezier
               chartConfig={{
@@ -181,7 +187,7 @@ export const WeightChart = ({ data }: WeightChartProps) => {
                 color: () => '#ffffff',
                 labelColor: () => '#ffffff',
                 propsForLabels: {
-                  fontSize: '12',
+                  fontSize: '10',
                   fontWeight: 'bold',
                 },
                 propsForDots: {
@@ -210,7 +216,11 @@ export const WeightChart = ({ data }: WeightChartProps) => {
                     r={6}
                     fill="#fff"
                     onPress={() => {
-                      setTooltipPos({ x, y, value: values[index], visible: true });
+                      handleCirclePress(x, y, values[index]);
+                    }}
+                    onLongPress={() => {
+                      setSelectedWeight(sortedData[index]);
+                      setIsEditModalVisible(true);
                     }}
                   />
                   <ToolTip

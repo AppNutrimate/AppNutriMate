@@ -11,18 +11,26 @@ const weightService = {
         }
     },
 
-    addWeight: async (userId: string, weight: Weight): Promise<Weight> => {
+    addWeight: async (userId: string, weight: number, measuredAt: Date) => {
+        const formattedDate = new Date(measuredAt).toISOString();
         try {
-            const res = await api.post<Weight>(`/users/${userId}/weights`, weight);
+            const res = await api.post<any>(`/users/${userId}/weights`, {
+                value: weight,
+                measuredAt: formattedDate,
+            });
             return res.data;
         } catch (error) {
             throw new Error("Failed to add weight");
         }
     },
 
-    updateWeight: async (userId: string, weightId: string, value: number): Promise<Weight> => {
+    updateWeight: async (userId: string, weightId: string, value: number, measuredAt: Date): Promise<Weight> => {
+        const formattedDate = new Date(measuredAt).toISOString();
         try {
-            const res = await api.put<Weight>(`/users/${userId}/weights/${weightId}`, value);
+            const res = await api.patch<Weight>(`/users/${userId}/weights/${weightId}`, {
+                value: value,
+                measuredAt: formattedDate
+            });
             return res.data;
         } catch (error) {
             throw new Error("Failed to update weight");

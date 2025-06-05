@@ -1,32 +1,45 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { useEffect, useState } from "react";
-import { Weight } from 'src/entitites/Weight';
-import weightService from 'src/services/weightService';
+import React, { useState } from "react";
 import { Container, Title } from './style';
-import { WeightChart } from 'src/components/WeightChart';
+import BackButton from 'src/components/common/BackButton';
+import DefaultButton from 'src/components/common/DefaultButton';
+import ActivityCards from 'src/components/ActivityCards';
+import DefaultAlert from "src/components/common/DefaultAlert";
+import AddWorkoutModal from "../../components/AddWorkoutModal";
+import RecentWorkouts from "src/components/RecentWorkouts";
 
 const Performance = () => {
-    const [weights, setWeights] = useState<Weight[]>([]);
-    
-    useEffect(() => {
-        const fetchPerformanceData = async () => {
-            try {
-                const id = await AsyncStorage.getItem('userId');
-                if (id != null) {
-                    const weights = await weightService.getWeightByUserId(id);
-                    setWeights(weights);
-                }
-            } catch (error) {
-                console.error("Error fetching performance data:", error);
-            }
-        };
-        fetchPerformanceData();
-    }, []);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isAddWorkoutModalOpen, setIsAddWorkoutModalOpen] = useState(false);
+
+    const closeAlert = () => {
+        setIsAlertOpen(false);
+    };
 
     return (
         <Container>
+            <BackButton />
             <Title>Dashboard</Title>
-            <WeightChart data={weights} />
+            <AddWorkoutModal
+                isOpen={isAddWorkoutModalOpen}
+                onClose={() => {
+                    setIsAddWorkoutModalOpen(false);
+                } }/>
+            <ActivityCards/>
+            <DefaultAlert
+                isOpen={isAlertOpen}
+                isSuccess={false}
+                secondText={'Complete o cadastro'}
+                onClose={closeAlert}
+            />
+            <DefaultButton
+                backgroundColor={'#b8e903'}
+                text={'+ Add Your Workout'}
+                marginVertical={20}
+                buttonHandle={() => {
+                    setIsAddWorkoutModalOpen(true);
+                }}
+            />
+            <RecentWorkouts/>
         </Container>
     );
 }

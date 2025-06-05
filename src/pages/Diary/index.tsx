@@ -18,7 +18,6 @@ import {
   SideTitle,
 } from "./styles";
 import DefaultTitle from "../../components/common/DefaultTitle";
-import SearchBar from "src/components/common/SearchBar";
 import { FlatList } from "react-native";
 import MealCard from "src/components/MealCard";
 import mealService from "src/services/mealService";
@@ -27,6 +26,7 @@ import { type Meal } from "src/entitites/Meal";
 import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
 import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
+import DefaultAlert from "src/components/common/DefaultAlert";
 type RootStackParamList = {
   DiaryMealRecipes: { meal: Meal };
   recipes: { screen: string };
@@ -39,6 +39,7 @@ const Diary = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [mealImage, setMealImage] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const imagesPresets = [
@@ -105,10 +106,10 @@ const Diary = () => {
         return
       }
       const createdMeal = await mealService.addMeal(
-        mealImage ?? '',
+        mealImage ?? 'https://cdn-icons-png.flaticon.com/512/3595/3595881.png',
         mealName
       )
-      console.log('Meal created:', createdMeal)
+      setIsAlertVisible(true)
       setMeals((prevMeals) => [...prevMeals, createdMeal])
       handleCloseModal()
     } catch (error) {
@@ -126,6 +127,11 @@ const Diary = () => {
   return (
     <Container>
       <DefaultTitle fontSize={20} title="Diary" />
+      <DefaultAlert
+        isOpen={isAlertVisible}
+        isSuccess={true}
+        onClose={()=>setIsAlertVisible(false)}
+      />
       <IndicatorContainer>
         <Section>
           <SideTitle>1250</SideTitle>

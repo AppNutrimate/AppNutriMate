@@ -45,7 +45,7 @@ const StandardModal = ({
           borderRadius: 25,
         }}
       >
-        <Pressable onPress={onClose}>
+        <Pressable onPress={onClose} style={{ margin: 5 }}>
           <Text style={{ textAlign: "right", marginEnd: 5 }}>Close</Text>
         </Pressable>
         {children}

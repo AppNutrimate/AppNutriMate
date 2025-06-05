@@ -11,9 +11,14 @@ import RecipeCardMeal from 'src/components/RecipeCardMeal'
 import DefaultButton from 'src/components/common/DefaultButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BackButton from 'src/components/common/BackButton'
+import DefaultAlert from 'src/components/common/DefaultAlert'
+import { set } from 'date-fns'
 
 const DiaryMealRecipes = () => {
   const [recipes, setRecipes] = useState<Recipe[] | []>([])
+  const [isAlertVisible, setIsAlertVisible] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(true)
+  const [alertMessage, setAlertMessage] = useState('')
   const route = useRoute<RouteProp<PropsNavigationStack, 'DiaryMealRecipes'>>()
   const { meal } = route.params
 
@@ -38,9 +43,12 @@ const DiaryMealRecipes = () => {
       }
 
       await mealService.removeMeal(userId, mealId)
-      navigation.navigate('Home')
-      console.log('Meal deleted successfully')
+      setAlertMessage('Meal deleted successfully')
+      setIsSuccess(true)
+      setIsAlertVisible(true)
     } catch (error) {
+      setIsSuccess(false)
+      setIsAlertVisible(true)
       console.error('Error deleting meal:', error)
     }
   }
@@ -56,6 +64,16 @@ const DiaryMealRecipes = () => {
     }
     void fetchData()
   }, [])
+
+    useEffect(() => {
+    if (isAlertVisible && isSuccess) {
+      navigation.navigate('Home');
+      setTimeout(() => {
+        navigation.navigate('Diary');
+      }, 2000)      
+    }
+  }, [isAlertVisible, isSuccess]);
+
 
   const renderItem = ({ item }: { item: Recipe }) => (
     <RecipeCardMeal
@@ -81,6 +99,11 @@ const DiaryMealRecipes = () => {
       <BackButton/>
       <DefaultTitle fontSize={20} title={`${meal.name}`} />
       <SearchBar />
+      <DefaultAlert
+        isOpen={isAlertVisible}
+        isSuccess={isSuccess}
+        secondText={alertMessage}
+        onClose={()=>setIsAlertVisible(false)} />
       <FlatList
         data={recipes}
         keyExtractor={(item: Recipe) => item.id}
