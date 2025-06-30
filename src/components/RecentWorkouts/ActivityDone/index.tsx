@@ -60,7 +60,7 @@ const ActivityDone = (props: Partial<ActivityDoneProps>) => {
                 <TitleAndDotsContainer>
                     <ActivityTitle>{props.name}</ActivityTitle>
                     <TouchableOpacity onPress={() => setButtonVisible(!buttonVisible)}>
-                        <MaterialCommunityIcons name="dots-vertical" size={24} color="#6161A9" />
+                        <MaterialCommunityIcons name="dots-vertical" size={24} color="#4a2382" />
                     </TouchableOpacity>
                     {buttonVisible && (
                         <DropdownContainer>
@@ -76,7 +76,7 @@ const ActivityDone = (props: Partial<ActivityDoneProps>) => {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <ActivityTextContainer>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <MaterialCommunityIcons name={props.sport?.icon as any} size={16} color="#6161A9" />
+                            <MaterialCommunityIcons name={props.sport?.icon as any} size={16} color="#4a2382" />
                             <ActivityText>{props.sport?.title}</ActivityText>
                         </View>
                         <ActivityDateContainer>

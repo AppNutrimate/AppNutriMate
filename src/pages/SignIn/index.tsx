@@ -68,92 +68,92 @@ const SignIn: React.FC<SignInProps> = ({ goback }) => {
         <FormHeaderContainer>
           <TouchableOpacity
             onPress={() => {
-              if(showSignIn) {
+              if (showSignIn) {
                 goback?.();
               } else {
                 setShowSignIn(true);
               }
             }}
-            style={{...styles.button, ...styles.buttonLeft}}
+            style={{ ...styles.button, ...styles.buttonLeft }}
           >
             <Entypo name="chevron-thin-left" size={25} color="white" />
           </TouchableOpacity>
-          <FormHeaderTitle>{showSignIn ? 'Sign In' :  'Connect with us'}</FormHeaderTitle>
+          <FormHeaderTitle>{showSignIn ? 'Sign In' : 'Connect with us'}</FormHeaderTitle>
         </FormHeaderContainer>
-        { !showSignIn &&
+        {!showSignIn &&
           (
             <KeyboardAvoidingView behavior="padding">
-              <Animated.View 
-            entering={SlideInLeft.springify().damping(16)}
-            exiting={SlideOutRight.springify().damping(16)}
-            >
-            <ErrorMessageText>{errorMessage}</ErrorMessageText>
-            <InputContainer>
-              <Input
-                placeholder="Email Address"
-                placeholderTextColor="#C0C0C1"
-                value={email}
-                onChangeText={setEmail}
-              />
-            </InputContainer>
-            <InputContainer>
-              <Input
-                placeholder="Password"
-                placeholderTextColor="#C0C0C1"
-                secureTextEntry={showPassword}
-                value={password}
-                onChangeText={setPassword}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  setShowPassword(!showPassword);
-                }}
-                style={styles.button}
+              <Animated.View
+                entering={SlideInLeft.springify().damping(16)}
+                exiting={SlideOutRight.springify().damping(16)}
               >
-                <Ionicons
-                  name={showPassword ? "eye-outline" : "eye-off-outline"}
-                  size={25}
-                  color="#7265E3"
-                />
-              </TouchableOpacity>
-            </InputContainer>
-            <View style={{ paddingBottom: 10 }}>
-              <TouchableOpacity
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                }}
-              >
-                <Text
-                  style={{ paddingVertical: 10, color: "#ffff", fontSize: 12 }}
-                >
-                  Forgot your password?
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <LoginButton onPress={handleLogin}>
-              <Title>Login</Title>
-            </LoginButton>
-            </Animated.View>
+                <ErrorMessageText>{errorMessage}</ErrorMessageText>
+                <InputContainer>
+                  <Input
+                    placeholder="Email Address"
+                    placeholderTextColor="#C0C0C1"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                </InputContainer>
+                <InputContainer>
+                  <Input
+                    placeholder="Password"
+                    placeholderTextColor="#C0C0C1"
+                    secureTextEntry={showPassword}
+                    value={password}
+                    onChangeText={setPassword}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowPassword(!showPassword);
+                    }}
+                    style={styles.button}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-outline" : "eye-off-outline"}
+                      size={25}
+                      color="#be87ff"
+                    />
+                  </TouchableOpacity>
+                </InputContainer>
+                <View style={{ paddingBottom: 10 }}>
+                  <TouchableOpacity
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-end",
+                    }}
+                  >
+                    <Text
+                      style={{ paddingVertical: 10, color: "#ffff", fontSize: 12 }}
+                    >
+                      Forgot your password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <LoginButton onPress={handleLogin}>
+                  <Title>Login</Title>
+                </LoginButton>
+              </Animated.View>
             </KeyboardAvoidingView>
           )
         }
-        { showSignIn &&
+        {showSignIn &&
           (
-            <Animated.View 
-            entering={SlideInLeft.springify().damping(16)}
-            style={{paddingTop: 10}}
+            <Animated.View
+              entering={SlideInLeft.springify().damping(16)}
+              style={{ paddingTop: 10 }}
             >
-            <LoginButton style={{backgroundColor: "white"}} onPress={() => setShowSignIn(false)}>
-              <MaterialCommunityIcons name="email-outline" size={30} color="black" />
-              <Title style={{color: 'black', paddingLeft: 10}}>Continue with Email</Title>
-            </LoginButton>
-            <LoginButton style={{backgroundColor: "white", marginTop: 15}} onPress={() => setShowSignIn(false)}>
-              <Ionicons name="logo-google" size={30} color="black" />
-              <Title style={{color: 'black', paddingLeft: 10}}>Continue with Google</Title>
-            </LoginButton>
-         </Animated.View>
-            
+              <LoginButton style={{ backgroundColor: "white" }} onPress={() => setShowSignIn(false)}>
+                <MaterialCommunityIcons name="email-outline" size={30} color="black" />
+                <Title style={{ color: 'black', paddingLeft: 10 }}>Continue with Email</Title>
+              </LoginButton>
+              <LoginButton style={{ backgroundColor: "white", marginTop: 15 }} onPress={() => setShowSignIn(false)}>
+                <Ionicons name="logo-google" size={30} color="black" />
+                <Title style={{ color: 'black', paddingLeft: 10 }}>Continue with Google</Title>
+              </LoginButton>
+            </Animated.View>
+
           )
         }
       </ButtonContainer>

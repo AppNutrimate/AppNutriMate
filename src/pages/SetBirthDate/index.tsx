@@ -81,7 +81,7 @@ const SetBirthDatePage = () => {
         />
       </Container>
       <DefaultButton
-        backgroundColor={'#6161A9'}
+        backgroundColor={'#4a2382'}
         text={'Next'}
         marginVertical={0}
         buttonHandle={handleSetBirthDate}

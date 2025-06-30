@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 export const ChartContainer = styled.View`
     align-items: center;
     margin: 20px;
-    background-color: #6161a9;
+    background-color: #4a2382;
     padding: 20px;
     border-radius: 16px;
     justify-content: center;
@@ -48,7 +48,7 @@ export const TextButton = styled.Text`
 export const NoDataContainer = styled.TouchableOpacity`
     flex-direction: row;
     margin: 20px;
-    background-color: #6161a9;
+    background-color: #4a2382;
     padding: 20px;
     border-radius: 16px;
     justify-content: center;
@@ -112,7 +112,7 @@ export const ModalInput = styled.TextInput`
 
 export const ActionButton = styled.Pressable`
   flex: 1;
-  background-color: #6161a9;
+  background-color: #4a2382;
   padding: 12px;
   border-radius: 8px;
   align-items: center;

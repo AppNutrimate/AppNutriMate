@@ -45,7 +45,7 @@ export const ActivityContainer = styled.View`
 export const ActivityTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${(props) => props.theme.colors.darkPurple};
+  color: ${(props) => props.theme.colors.black};
   margin-left: 10px;
   margin-bottom: 10px;
 `;

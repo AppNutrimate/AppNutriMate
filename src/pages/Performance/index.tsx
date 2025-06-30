@@ -23,8 +23,8 @@ const Performance = () => {
                 isOpen={isAddWorkoutModalOpen}
                 onClose={() => {
                     setIsAddWorkoutModalOpen(false);
-                } }/>
-            <ActivityCards/>
+                }} />
+            <ActivityCards />
             <DefaultAlert
                 isOpen={isAlertOpen}
                 isSuccess={false}
@@ -39,7 +39,7 @@ const Performance = () => {
                     setIsAddWorkoutModalOpen(true);
                 }}
             />
-            <RecentWorkouts/>
+            <RecentWorkouts />
         </Container>
     );
 }

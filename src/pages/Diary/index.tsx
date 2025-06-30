@@ -59,7 +59,7 @@ const Diary = () => {
           const response = await mealService.getMealByUserId();
           setMeals(response ?? []);
           if (!id) return;
-            const mealsWithRecipes = response.filter(
+          const mealsWithRecipes = response.filter(
             (meal) => meal.recipes.length > 0
           )
           const totalCalories = mealsWithRecipes.reduce(
@@ -78,12 +78,12 @@ const Diary = () => {
           console.error('Error fetching meals:', error);
         }
       };
-  
+
       fetchData();
     }, [])
   );
 
-  
+
   const renderItem = ({ item, index }: { item: Meal; index: number }) => (
     <MealCard
       isLast={index === meals.length - 1}
@@ -94,7 +94,7 @@ const Diary = () => {
         navigation.navigate('DiaryMealRecipes', { meal: item })
       }}
       onPressAdd={() => {
-        navigation.navigate('recipes', {screen: "Recipes"});
+        navigation.navigate('recipes', { screen: "Recipes" });
       }}
     />
   )
@@ -130,7 +130,7 @@ const Diary = () => {
       <DefaultAlert
         isOpen={isAlertVisible}
         isSuccess={true}
-        onClose={()=>setIsAlertVisible(false)}
+        onClose={() => setIsAlertVisible(false)}
       />
       <IndicatorContainer>
         <Section>
@@ -147,7 +147,7 @@ const Diary = () => {
         </Section>
       </IndicatorContainer>
       <DefaultButton
-        backgroundColor={'#6161A9'}
+        backgroundColor={'#4a2382'}
         text={'Add New Meal'}
         marginVertical={20}
         buttonHandle={() => {
@@ -167,26 +167,26 @@ const Diary = () => {
             value={mealName}
             onChangeText={(text) => setMealName(text)}
           />
-        <PresetImagesContainer>
-          {imagesPresets.map((image) => {
-            const isSelected = selectedImage === image;
+          <PresetImagesContainer>
+            {imagesPresets.map((image) => {
+              const isSelected = selectedImage === image;
 
-            return (
-              <PresetImageCard 
-                key={image} 
-                onPress={() => {
-                  setMealImage(image);
-                  setSelectedImage(image);
-                }}
-                style={{
-                  borderWidth: isSelected ? 4 : 2
-                }}
-              >
-                <PresetImage source={{ uri: image }} />
-              </PresetImageCard>
-            );
-          })}
-        </PresetImagesContainer>
+              return (
+                <PresetImageCard
+                  key={image}
+                  onPress={() => {
+                    setMealImage(image);
+                    setSelectedImage(image);
+                  }}
+                  style={{
+                    borderWidth: isSelected ? 4 : 2
+                  }}
+                >
+                  <PresetImage source={{ uri: image }} />
+                </PresetImageCard>
+              );
+            })}
+          </PresetImagesContainer>
 
         </FormContainer>
         <ButtonContainer>
@@ -204,7 +204,7 @@ const Diary = () => {
         data={meals}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-      />      
+      />
     </Container>
   )
 }

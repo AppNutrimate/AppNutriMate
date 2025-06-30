@@ -61,7 +61,7 @@ export const ModalInput = styled.TextInput`
 `
 export const ActionButton = styled.Pressable`
   flex: 1;
-  background-color: #6161a9;
+  background-color: #4a2382;
   padding: 12px;
   border-radius: 8px;
   align-items: center;

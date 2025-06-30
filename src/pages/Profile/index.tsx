@@ -48,7 +48,7 @@ const Profile = () => {
             setUser(user)
 
             const weight = await weightService.getWeightByUserId(id)
-            
+
             if (weight) {
               setWeight(weight[0])
             } else {
@@ -76,12 +76,12 @@ const Profile = () => {
     <Container>
       <Header>
         <HeaderContent>
-        <TouchableOpacity onPress={
+          <TouchableOpacity onPress={
             () => {
               navigation.goBack()
             }
           }>
-          <ArrowBackButton source={ArrowBack}/>
+            <ArrowBackButton source={ArrowBack} />
           </TouchableOpacity>
           <ProfileTitle>Profile</ProfileTitle>
           <TouchableOpacity onPress={
@@ -89,7 +89,7 @@ const Profile = () => {
               navigation.navigate('EditProfile')
             }
           }>
-          <EditIcon source={PencilIcon}/>
+            <EditIcon source={PencilIcon} />
           </TouchableOpacity>
         </HeaderContent>
       </Header>
@@ -102,7 +102,7 @@ const Profile = () => {
       <ContainerShaded>
         <ContainerInfo>
           <ContainerTitle>
-          <SectionTitle>Main Information</SectionTitle>
+            <SectionTitle>Main Information</SectionTitle>
           </ContainerTitle>
           <BarLimit>
           </BarLimit>
@@ -136,12 +136,12 @@ const Profile = () => {
           </UserDetail>
         </ContainerInfo>
       </ContainerShaded>
-        <DefaultButton
-          backgroundColor={'#6161A9'}
-          text={'Sign Out'}
-          marginVertical={0}
-          buttonHandle={handleSignOut}
-        />
+      <DefaultButton
+        backgroundColor={'#4a2382'}
+        text={'Sign Out'}
+        marginVertical={0}
+        buttonHandle={handleSignOut}
+      />
     </Container>
   )
 }
