@@ -54,11 +54,23 @@ export const LogoContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   z-index: 1;
-  width: 100%;
-  top: 20%;
+  top: 30%;
 `
+export const ImageLogo = styled.Image.attrs({
+  resizeMode: 'contain'
+})`
+  width: 200px;
+  height: 200px;
+`;
+
+export const ImageInline = styled.Image.attrs({
+  resizeMode: 'cover'
+})`
+  width: 400px;
+  height: 400px;
+  top: -25%;
+`;
 
 export const MainContainer = styled.View`
   flex: 1;

@@ -6,18 +6,21 @@ import {
   MainContainer,
   LogoContainer,
   SignInContainer,
-  LogInContainer
+  LogInContainer,
+  ImageLogo,
+  ImageInline
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
 import NutrimateIconName from '@icons/nutrimate-type.png'
-import NutrimateLogoName from '@icons/nutrimate-logo-name.png'
-import NutrimateLogo from '@icons/nutrimate-logo-p.png'
+
+import NutrimateLogoName from '@icons/NT - MARCA 5 DARK PURPLE.png'
+import NutrimateLogo from '@icons/NT - MARCA DARK PURPLE.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { BackHandler, Image } from 'react-native';
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import { BackHandler } from 'react-native';
+import { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import SignIn from '../SignIn'
 
 
@@ -59,7 +62,10 @@ const Login = () => {
   return (
     <MainContainer>
       <LogoContainer>
-        <Image source={showLoginForm ? NutrimateLogoName : NutrimateLogo} />
+        {showLoginForm ?
+          <ImageInline source={NutrimateLogoName} />
+          : <ImageLogo source={NutrimateLogo} />
+        }
       </LogoContainer>
 
       <ButtonContainer>
