@@ -43,7 +43,7 @@ export const CircleContainer = styled.View`
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.darkPurple};
+    background-color: ${({ theme }) => theme.colors.darkPurple}99;
     margin-bottom: 10px;
     display: flex;
     justify-content: center;

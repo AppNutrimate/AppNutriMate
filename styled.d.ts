@@ -8,6 +8,11 @@ declare module 'styled-components' {
       lightGray: string
       darkGray: string
       green: string
+      mediumGreen: string
+      darkGreen: string
+      yellow: string
+      orange: string
+      rose: string
       background: string
       black: string
       lightBackground: string

@@ -10,16 +10,16 @@ export const InputContainer = styled.View`
   height: 51px;
   border: 2px solid ${({ theme }) => theme.colors.darkPurple};
   ${Platform.select({
-    ios: `
+  ios: `
       shadow-color: rgba(0, 0, 0, 0.25);
       shadow-offset: { width: 0, height: 4 };
       shadow-opacity: 0.25;
       shadow-radius: 4px;
     `,
-    android: `
+  android: `
       elevation: 7;
     `,
-  })}
+})}
   background-color: #FFFFFFE6;
   border-radius: 50px;
   margin: 10px auto;
@@ -85,7 +85,8 @@ export const CallIcon = styled.Image.attrs({
 `
 
 export const LoginButton = styled.TouchableOpacity`
-  background-color: rgba(65, 55, 154, 0.8);
+
+  border: 2px solid #fff;
   width: 100%;
   height: 51px;
   flex-direction: row;
@@ -93,16 +94,16 @@ export const LoginButton = styled.TouchableOpacity`
   align-items: center;
   border-radius: 50px;
   ${Platform.select({
-    ios: `
+  ios: `
       shadow-color: rgba(0, 0, 0, 0.25);
       shadow-offset: { width: 0, height: 4 };
       shadow-opacity: 0.25;
       shadow-radius: 4px;
     `,
-    android: `
+  android: `
       elevation: 7;
     `,
-  })}
+})}
 `
 
 export const FormHeaderContainer = styled.View`
@@ -124,7 +125,7 @@ export const FormHeaderTitle = styled.Text`
 export const SignInContainer = styled.View`
   display: flex;
   justify-content: center;
-  background-color: rgba(114, 101, 227, 0.9);;
+  background-color: ${({ theme }) => theme.colors.darkPurple}CC;
   height: 400px;
   width: 100%;
   align-items: center;

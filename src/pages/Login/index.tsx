@@ -6,18 +6,21 @@ import {
   MainContainer,
   LogoContainer,
   SignInContainer,
-  LogInContainer
+  LogInContainer,
+  ImageLogo,
+  ImageInline
 } from './styles'
 import DefaultButton from '../../components/common/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import { type PropsStack } from '../../routes'
 import NutrimateIconName from '@icons/nutrimate-type.png'
-import NutrimateLogoName  from '@icons/nutrimate-logo-name.png'
-import NutrimateLogo from '@icons/nutrimate-logo-p.png'
+
+import NutrimateLogoName from '@icons/NT - MARCA 5 DARK PURPLE.png'
+import NutrimateLogo from '@icons/NT - MARCA DARK PURPLE.png'
 import CallToActionIcon from '@icons/motto-text.png'
 import Carousel from 'src/components/CarouselLogin'
-import { BackHandler, Image } from 'react-native';
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import { BackHandler } from 'react-native';
+import { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import SignIn from '../SignIn'
 
 
@@ -47,7 +50,7 @@ const Login = () => {
       setshowLoginForm(false);
       return true;
     }
-    
+
     return false;
   };
 
@@ -58,15 +61,18 @@ const Login = () => {
 
   return (
     <MainContainer>
-        <LogoContainer>
-          <Image source={ showLoginForm ? NutrimateLogoName : NutrimateLogo}/>
-        </LogoContainer>
-        
-        <ButtonContainer>
-          {!showLoginForm && (
+      <LogoContainer>
+        {showLoginForm ?
+          <ImageInline source={NutrimateLogoName} />
+          : <ImageLogo source={NutrimateLogo} />
+        }
+      </LogoContainer>
+
+      <ButtonContainer>
+        {!showLoginForm && (
           <SignInContainer
-          entering={SlideInDown.springify().damping(16).delay(100)}
-          exiting={SlideOutDown.duration(500)}>
+            entering={SlideInDown.springify().damping(16).delay(100)}
+            exiting={SlideOutDown.duration(500)}>
             <TypeIcon source={NutrimateIconName} />
             <CallIcon source={CallToActionIcon} />
             <DefaultButton
@@ -78,23 +84,23 @@ const Login = () => {
               }}
             />
             <DefaultButton
-              backgroundColor={'#7265E3'}
+              backgroundColor={'#4a2382'}
               text={'Sign In'}
               marginVertical={8}
               buttonHandle={handleLoginPress}
             />
-        </SignInContainer>
-      )}
+          </SignInContainer>
+        )}
 
-      {showLoginForm && (
-        <LogInContainer
-         entering={SlideInDown.springify().damping(16)}
-         exiting={SlideOutDown.duration(500)}
-         >
-          <SignIn goback={handleBackPress}></SignIn>
-        </LogInContainer>
-      )}
-        </ButtonContainer>
+        {showLoginForm && (
+          <LogInContainer
+            entering={SlideInDown.springify().damping(16)}
+            exiting={SlideOutDown.duration(500)}
+          >
+            <SignIn goback={handleBackPress}></SignIn>
+          </LogInContainer>
+        )}
+      </ButtonContainer>
       <Carousel images={images}></Carousel>
     </MainContainer>
   );

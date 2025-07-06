@@ -7,7 +7,7 @@ export const Container = styled.View`
 `
 
 export const Header = styled.View`
-  background-color: ${({ theme }) => theme.colors.purple};
+  background-color: ${({ theme }) => theme.colors.darkPurple};
   width: 100%;
   height: 15%;
   justify-content: center;
@@ -37,7 +37,7 @@ export const ProfileImage = styled.Image.attrs({ resize: 'cover' })`
 `
 export const ProfileName = styled.Text`
   font-size: 25px;
-  color: ${({ theme }) => theme.colors.purple};
+  color: ${({ theme }) => theme.colors.darkPurple};
   font-weight: bold;
   margin-top: 5px;
   margin-bottom: -10px;

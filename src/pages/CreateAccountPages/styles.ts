@@ -23,18 +23,20 @@ export const AnimatedSlideContainer = Animatable.createAnimatableComponent(style
 export const Image = styled.Image.attrs({
   resizeMode: 'contain',
 })`
-  width: 260px;
-  height: 260px;
+  margin-top: -120px;
+  width: 700px;
+  height: 700px;
 `;
 
 export const ContainerPhrases = styled.View`
+  margin-top: -180px;
   align-items: center;
   justify-content: center;
 `;
 
 export const Phrase = styled.Text`
   font-size: 32px;
-  color: #333;
+  color: ${({ theme }) => theme.colors.black};
   text-align: center;
   font-weight: bold;
   line-height: 32px;

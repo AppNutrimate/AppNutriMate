@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StatusBar, Image, Touchable, TouchableOpacity } from 'react-native';
+import { StatusBar } from 'react-native';
 import BackButton from 'src/components/common/BackButton';
-import { AnimatedSlideContainer, CallToAction, ContainerPhrases, MainContainer, Phrase, SkipAllButton, SkipAllText, SkipButton } from './styles';
-import Onboarding1 from '@images/Petting.png'
-import Onboarding2 from '@images/Plant.png'
-import Onboarding3 from '@images/Rolling.png'
+import { AnimatedSlideContainer, CallToAction, ContainerPhrases, MainContainer, Phrase, SkipAllButton, SkipAllText, SkipButton, Image } from './styles';
+import Onboarding1 from '@images/TELA 1.png'
+import Onboarding2 from '@images/TELA 2.png'
+import Onboarding3 from '@images/TELA 3.png'
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const slideShow = [
@@ -25,7 +25,7 @@ const slideShow = [
         callToAction: 'Começar agora!',
         image: Onboarding3,
         delay: 2000,
-    }, 
+    },
 ];
 
 const CreateAccountPage = () => {
@@ -34,19 +34,19 @@ const CreateAccountPage = () => {
     StatusBar.setBarStyle('dark-content');
     StatusBar.setBarStyle('dark-content');
     StatusBar.setBackgroundColor('black');
-    
+
     return (
         <MainContainer>
-            <BackButton/>
+            <BackButton />
             <AnimatedSlideContainer
                 animation={'fadeIn'}
                 duration={1000}
                 delay={300}
                 key={currentSlide}>
-                <Image source={slideShow[currentSlide].image}/>
+                <Image source={slideShow[currentSlide].image} />
                 <ContainerPhrases>
-                    <Phrase>{slideShow[currentSlide].phrase}</Phrase>                    
-                </ContainerPhrases>           
+                    <Phrase>{slideShow[currentSlide].phrase}</Phrase>
+                </ContainerPhrases>
                 <SkipButton
                     animation={'fadeIn'}
                     duration={1800}
@@ -66,7 +66,7 @@ const CreateAccountPage = () => {
                     <SkipAllText>
                         Pular tudo
                     </SkipAllText>
-                </SkipAllButton>              
+                </SkipAllButton>
             </AnimatedSlideContainer>
         </MainContainer>
     );
