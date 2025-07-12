@@ -20,9 +20,8 @@ import SetBirthDatePage from 'src/pages/SetBirthDate'
 import SignIn from 'src/pages/SignIn'
 import { type Meal } from 'src/entitites/Meal'
 import DiaryMealRecipes from 'src/pages/DiaryMealRecipes'
-import StatusPage from 'src/pages/StatusPage'
-import HealthSquad from 'src/pages/HealthSquad'
 import TabRoutes from './TabRoutes'
+import HistoryPage from 'src/pages/HistoryPage'
 
 export type PropsNavigationStack = {
   Login: undefined
@@ -42,6 +41,7 @@ export type PropsNavigationStack = {
   SuccessPage: undefined
   StatusPage: undefined
   HealthSquad: undefined
+  HistoryPage: undefined
 }
 
 const Stack = createNativeStackNavigator<PropsNavigationStack>()
@@ -69,6 +69,7 @@ const Routes = () => {
         <Stack.Screen name="RecipePage" component={RecipePage} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="HistoryPage" component={HistoryPage} />
         <Stack.Screen name="TabRoutes" component={TabRoutes} />
       </Stack.Navigator>
     </NavigationContainer>

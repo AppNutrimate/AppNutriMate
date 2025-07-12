@@ -27,6 +27,7 @@ import ExamsIconSolid from "@icons/exams-icon-solid.png";
 import { ImageSourcePropType, View, Image } from "react-native";
 import StatusPage from "src/pages/StatusPage";
 import HealthSquad from "src/pages/HealthSquad";
+import HistoryPage from "src/pages/HistoryPage";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -70,6 +71,7 @@ function PerformanceStackScreen() {
       <PerformanceStack.Screen name="Performance" component={Performance} />
       <PerformanceStack.Screen name="HealthSquad" component={HealthSquad} />
       <PerformanceStack.Screen name="StatusPage" component={StatusPage} />
+      <PerformanceStack.Screen name="HistoryPage" component={HistoryPage} />
       <PerformanceStack.Screen name="Success" component={SuccessPage} />
     </PerformanceStack.Navigator>
   );
@@ -113,7 +115,7 @@ type TabIconProps = {
   focused: boolean
 }
 
-const TabIcon = ({focused, icon}: TabIconProps) => {
+const TabIcon = ({ focused, icon }: TabIconProps) => {
   return (
     <View style={{
       borderTopWidth: focused ? 2 : 0,
@@ -123,11 +125,11 @@ const TabIcon = ({focused, icon}: TabIconProps) => {
       alignItems: 'center',
       width: '80%',
     }}>
-      <Image source={icon} resizeMode="contain" style={{width: '70%', height: '70%'}} />
+      <Image source={icon} resizeMode="contain" style={{ width: '70%', height: '70%' }} />
     </View>
   )
 }
-  
+
 
 export default function TabRoutes() {
   const heightSize = Platform.OS === "ios" ? 90 : 60;
@@ -138,7 +140,7 @@ export default function TabRoutes() {
         tabBarStyle: {
           backgroundColor: "#EDF1F7",
           height: '10%'
-         },
+        },
         tabBarInactiveTintColor: "#7265E3",
         tabBarActiveTintColor: "#41379A",
         tabBarShowLabel: false,
@@ -148,27 +150,27 @@ export default function TabRoutes() {
       <Tab.Screen
         name="home"
         component={HomeStackScreen}
-        options={{ tabBarIcon: ({focused}) => <TabIcon icon={ focused ? HomeIconSolid : HomeIcon } focused={focused} /> }}
+        options={{ tabBarIcon: ({ focused }) => <TabIcon icon={focused ? HomeIconSolid : HomeIcon} focused={focused} /> }}
       />
       <Tab.Screen
         name="diary"
         component={DiaryStackScreen}
-        options={{ tabBarIcon: ({focused}) => (<TabIcon icon={focused ? DiaryIconSolid : DiaryIcon} focused={focused} />) }}
+        options={{ tabBarIcon: ({ focused }) => (<TabIcon icon={focused ? DiaryIconSolid : DiaryIcon} focused={focused} />) }}
       />
       <Tab.Screen
         name="performance"
         component={PerformanceStackScreen}
-        options={{ tabBarIcon: ({focused}) => <TabIcon icon={focused ? ExamsIconSolid : ExamsIcon} focused={focused} /> }}
+        options={{ tabBarIcon: ({ focused }) => <TabIcon icon={focused ? ExamsIconSolid : ExamsIcon} focused={focused} /> }}
       />
       <Tab.Screen
         name="recipes"
         component={RecipeStackScreen}
-        options={{ tabBarIcon: ({focused}) => <TabIcon icon={focused ? RecipesIconSolid : RecipesIcon} focused={focused} /> }}
+        options={{ tabBarIcon: ({ focused }) => <TabIcon icon={focused ? RecipesIconSolid : RecipesIcon} focused={focused} /> }}
       />
       <Tab.Screen
         name="profile"
         component={ProfileStackScreen}
-        options={{ tabBarIcon: ({focused}) => <TabIcon icon={focused ? ProfileIconSolid : ProfileIcon} focused={focused} /> }}
+        options={{ tabBarIcon: ({ focused }) => <TabIcon icon={focused ? ProfileIconSolid : ProfileIcon} focused={focused} /> }}
       />
     </Tab.Navigator>
   );

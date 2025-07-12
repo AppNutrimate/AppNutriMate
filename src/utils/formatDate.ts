@@ -1,3 +1,16 @@
+export function formatDateLocal(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.getFullYear() + '/' +
+        String(date.getMonth() + 1).padStart(2, '0') + '/' +
+        String(date.getDate()).padStart(2, '0');
+};
+
+export function formatDateMonthAndYear(dateStr: string): string {
+    const date = new Date(dateStr);
+    return String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+}
+
+
 export function formatWorkoutDate(isoString: string): string {
     const date = new Date(isoString);
 
