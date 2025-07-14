@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { HistoryContainer, PlansContainer, Title } from "./styles"
+import { Header, HistoryContainer, PlansContainer, Title } from "./styles"
 import BackButton from "src/components/common/BackButton"
 import { DietPlanResponse } from "src/entitites/DietPlan"
 import dietPlanService from "src/services/dietPlanService"
@@ -20,11 +20,13 @@ const HistoryPage = () => {
     }, [])
     return (
         <HistoryContainer>
-            <BackButton />
-            <Title>History</Title>
+            <Header>
+                <BackButton />
+                <Title>History</Title>
+            </Header>
             <PlansContainer>
                 {dietPlans.map((plan) =>
-                    <DietPlanCard diets={plan} />
+                    <DietPlanCard key={plan.id} diets={plan} />
                 )}
             </PlansContainer>
         </HistoryContainer>

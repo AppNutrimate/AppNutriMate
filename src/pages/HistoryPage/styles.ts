@@ -7,18 +7,25 @@ export const HistoryContainer = styled.View`
     flex-direction: column;
 `;
 
+export const Header = styled.View`
+  background-color: ${({ theme }) => theme.colors.purple};
+  width: 100%;
+  height: 15%;
+  justify-content: center;
+  align-items: center;
+`
+
 export const Title = styled.Text`
   font-size: 28px;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.black};
-  margin-top: 110px;
-  margin-left: 30px;  
+  color: #fff;
+  margin-top: 35px;  
 `
 
 export const PlansContainer = styled.View`
     display: flex;
     flex-direction: column;
     margin: 20px;
-    margin-top: 10px;
+    margin-top: 40px;
     align-items: center;
 `;
