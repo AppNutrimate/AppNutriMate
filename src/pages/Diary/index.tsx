@@ -27,6 +27,7 @@ import DefaultButton from "src/components/common/DefaultButton";
 import AddMealModal from "src/components/StandardModal";
 import { useNavigation, NavigationProp, useFocusEffect } from "@react-navigation/native";
 import DefaultAlert from "src/components/common/DefaultAlert";
+import dietPlanService from "src/services/dietPlanService";
 type RootStackParamList = {
   DiaryMealRecipes: { meal: Meal };
   recipes: { screen: string };
@@ -56,24 +57,26 @@ const Diary = () => {
       const fetchData = async () => {
         try {
           const id = await AsyncStorage.getItem('userId');
-          const response = await mealService.getMealByUserId();
-          setMeals(response ?? []);
+          if (id !== null) {
+            const response = await dietPlanService.getDietPlansByUser(id);
+            setMeals(response[0]?.meals || []);
+          }
           if (!id) return;
-          const mealsWithRecipes = response.filter(
-            (meal) => meal.recipes.length > 0
-          )
-          const totalCalories = mealsWithRecipes.reduce(
-            (acc, meal) =>
-              acc +
-              meal.recipes
-                .map((recipe) => recipe.calories)
-                .reduce(
-                  (acc, recipe) => acc + parseFloat(recipe.toString()),
-                  0
-                ),
-            0
-          )
-          setCalories(totalCalories.toString())
+          // const mealsWithRecipes = response.filter(
+          //   (meal) => meal.recipes.length > 0
+          // )
+          // const totalCalories = mealsWithRecipes.reduce(
+          //   (acc, meal) =>
+          //     acc +
+          //     meal.recipes
+          //       .map((recipe) => recipe.calories)
+          //       .reduce(
+          //         (acc, recipe) => acc + parseFloat(recipe.toString()),
+          //         0
+          //       ),
+          //   0
+          // )
+          // setCalories(totalCalories.toString())
         } catch (error) {
           console.error('Error fetching meals:', error);
         }
