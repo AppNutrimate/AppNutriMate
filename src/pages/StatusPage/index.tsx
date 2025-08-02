@@ -11,7 +11,7 @@ import { NoDataButton } from "src/components/WeightChart/NoDataButton";
 const StatusPage = () => {
     const [weights, setWeights] = useState<Weight[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
-    
+
     const fetchPerformanceData = async () => {
         try {
             const id = await AsyncStorage.getItem('userId');
@@ -25,23 +25,23 @@ const StatusPage = () => {
             console.error("Error fetching performance data:", error);
         }
     };
-    
+
     useFocusEffect(
         useCallback(() => {
             fetchPerformanceData();
         }, [])
     );
-  return (
-    <Container>
-      <BackButton/>
-      <Title>Track Your Gains</Title>
-      {weights?.length ? (
-        <WeightChart userId={userId} data={weights} />
-        ) : (
-        <NoDataButton userId={userId}/>
-        )}
-        {/* TODO: Esporte quantidade treinos, esporte preferido, calorias gastas na ultima semana */}
-    </Container>
-  );
+    return (
+        <Container>
+            <BackButton />
+            <Title>Track Your Gains</Title>
+            {weights?.length ? (
+                <WeightChart userId={userId} data={weights} />
+            ) : (
+                <NoDataButton userId={userId} />
+            )}
+            {/* TODO: Esporte quantidade treinos, esporte preferido, calorias gastas na ultima semana */}
+        </Container>
+    );
 }
 export default StatusPage;

@@ -11,32 +11,35 @@ import { PropsStack } from "src/routes";
 
 const ActivityCards = () => {
     const navigation = useNavigation<PropsStack>();
-    return(
+    return (
         <Container>
             <FlexContainer>
-                <MainContainer style={{ flexDirection: "row", backgroundColor: "#b8e903", height: 70 }}>
-                    <BackgroundImage source={GreenTextureButton}/>
-                    <HistoryIcon source={CalendarIcon}/>
+                <MainContainer
+                    style={{ flexDirection: "row", backgroundColor: "#b8e903", height: 70 }}
+                    onPress={() => navigation.navigate("HistoryPage")}
+                >
+                    <BackgroundImage source={GreenTextureButton} />
+                    <HistoryIcon source={CalendarIcon} />
                     <Title>History</Title>
-                </MainContainer>            
+                </MainContainer>
                 <MainContainer style={{ height: 190 }} onPress={() => navigation.navigate("StatusPage")}>
-                    <BackgroundImage source={PurpleTextureButton}/>
+                    <BackgroundImage source={PurpleTextureButton} />
                     <ChartIcon source={TrackIcon} />
                     <Title>Status</Title>
                 </MainContainer>
             </FlexContainer>
             <FlexContainer>
                 <MainContainer>
-                    <BackgroundImage source={PurpleTextureButton}/>
+                    <BackgroundImage source={PurpleTextureButton} />
                     <CircleContainer>
-                        <IconCircle source={CompassIcon}/>
+                        <IconCircle source={CompassIcon} />
                     </CircleContainer>
                     <Title>New Adventures</Title>
-                </MainContainer>            
+                </MainContainer>
                 <MainContainer onPress={() => navigation.navigate("HealthSquad")}>
-                    <BackgroundImage source={PurpleTextureButton}/>
+                    <BackgroundImage source={PurpleTextureButton} />
                     <CircleContainer>
-                        <IconCircle source={KettleIcon}/>
+                        <IconCircle source={KettleIcon} />
                     </CircleContainer>
                     <Title>HealthSquad</Title>
                 </MainContainer>
