@@ -52,6 +52,10 @@ const Diary = () => {
     "https://cdn-icons-png.flaticon.com/512/10541/10541174.png"
   ]
 
+  // TODO: inserir gráficos para visualizar melhor essas questões de dados,
+  // entender qual melhor lib para o processo. Não deve haver necessidade de mod
+  // no backend.
+
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
